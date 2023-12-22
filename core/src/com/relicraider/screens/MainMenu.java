@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -38,6 +39,14 @@ public class MainMenu implements Screen {
     private TextureRegionDrawable creditsDrawable;
     private ImageButton credits;
 
+    private Texture quitTexture;
+    private TextureRegion quitTextureRegion;
+    private TextureRegionDrawable quitDrawable;
+    private ImageButton quit;
+
+    private Texture backdropTexture;
+    private Image backdrop;
+
     private Music menuSong;
 
     //frame counter
@@ -63,6 +72,8 @@ public class MainMenu implements Screen {
         settingsTexture = manager.assetManager.get(manager.settingsButton, Texture.class);
         creditsTexture = manager.assetManager.get(manager.creditsButton, Texture.class);
         playTexture = manager.assetManager.get(manager.playButton, Texture.class);
+        quitTexture = manager.assetManager.get(manager.quitButton, Texture.class);
+        backdropTexture = manager.assetManager.get(manager.menuBackdrop, Texture.class);
         menuSong = manager.assetManager.get(manager.mainMenuSong1, Music.class);
 
         camera = new OrthographicCamera();
@@ -125,9 +136,27 @@ public class MainMenu implements Screen {
             }
         });
 
+        origin_x = (Gdx.graphics.getWidth() - quitTexture.getWidth()) / 2;
+        origin_y = ((Gdx.graphics.getHeight() - quitTexture.getHeight()) / 2) - 100;
+        quitTextureRegion = new TextureRegion(quitTexture);
+        quitDrawable = new TextureRegionDrawable(quitTextureRegion);
+        quit = new ImageButton(quitDrawable);
+        quit.setPosition(origin_x, origin_y);
+
+        quit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+
+        backdrop = new Image(backdropTexture);
+
+        stage.addActor(backdrop);
         stage.addActor(play);
         stage.addActor(settings);
         stage.addActor(credits);
+        stage.addActor(quit);
         menuSong.setVolume((float)0.4);
         menuSong.play();
 
@@ -146,11 +175,7 @@ public class MainMenu implements Screen {
 
         //music
         if (!menuSong.isPlaying() && countSec > 300) {
-            if(menuSong.toString().equals("com.badlogic.gdx.backends.lwjgl3.audio.Mp3$Music@691a7f8f")) {
-                menuSong = manager.assetManager.get(manager.mainMenuSong2, Music.class);
-            } else {
-                menuSong = manager.assetManager.get(manager.mainMenuSong1, Music.class);
-            }
+            menuSong = manager.assetManager.get(manager.mainMenuSong1, Music.class);
             menuSong.play();
             countSec = 0;
         }
@@ -183,6 +208,9 @@ public class MainMenu implements Screen {
         playTexture.dispose();
         creditsTexture.dispose();
         settingsTexture.dispose();
+        quitTexture.dispose();
+        backdropTexture.dispose();
+        menuSong.dispose();
         manager.assetManager.dispose();
     }
 }
