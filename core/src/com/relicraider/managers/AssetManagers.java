@@ -23,4 +23,8 @@ public class AssetManagers {
         assetManager.load(menuBackdrop, Texture.class);
         assetManager.finishLoading();
     }
+
+    public void gameScreen1Assets() {
+
+    }
 }

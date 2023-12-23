@@ -1,5 +1,6 @@
 package com.relicraider.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.managers.AssetManagers;
@@ -54,7 +55,7 @@ public class MainMenu implements Screen {
 
     //camera
     private OrthographicCamera camera;
-    private ExtendViewport viewport;
+    private FitViewport viewport;
 
     private RelicRaider game;
     public AssetManagers manager = new AssetManagers();
@@ -77,7 +78,7 @@ public class MainMenu implements Screen {
         menuSong = manager.assetManager.get(manager.mainMenuSong1, Music.class);
 
         camera = new OrthographicCamera();
-        viewport = new ExtendViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
+        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
 
         int origin_x = (Gdx.graphics.getWidth() - playTexture.getWidth()) / 2;
         int origin_y = (Gdx.graphics.getHeight() - playTexture.getHeight()) / 2;
@@ -93,7 +94,7 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                //((Game)Gdx.app.getApplicationListener()).setScreen(new playScreen(game));
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen1(game));
                 if (menuSong.isPlaying()) {
                     menuSong.stop();
                 }
@@ -111,7 +112,7 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                //((Game)Gdx.app.getApplicationListener()).setScreen(new playScreen(game));
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new Credits(game));
                 if (menuSong.isPlaying()) {
                     menuSong.stop();
                 }
@@ -129,7 +130,7 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                //((Game)Gdx.app.getApplicationListener()).setScreen(new playScreen(game));
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new Settings(game));
                 if (menuSong.isPlaying()) {
                     menuSong.stop();
                 }
