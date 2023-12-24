@@ -14,11 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.managers.AssetManagers;
 import com.badlogic.gdx.graphics.GL20;
-import com.relicraider.variables.SetupVariables;
+import com.relicraider.SetupVariables;
 
 public class MainMenu implements Screen {
 
@@ -65,10 +64,6 @@ public class MainMenu implements Screen {
      * This method contains any code that is run before the Main Menu is shown to the user
      */
     public void show() {
-        //stage for game resources
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
-
         //resource instances
         //all reasources are loaded by the asset manager all at the beginning of the new screen
         manager.mainMenuAssets();
@@ -87,38 +82,16 @@ public class MainMenu implements Screen {
         viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
 
         //create stage object for placing graphics on
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
-        //temp variables for placing graphics at disorder locations
-        int origin_x = (Gdx.graphics.getWidth() - playTexture.getWidth()) / 2;
-        int origin_y = (Gdx.graphics.getHeight() - playTexture.getHeight()) / 2;
-        //code for creating the play image button and placing it at the desired location
-        playTextureRegion = new TextureRegion(playTexture);
-        playDrawable = new TextureRegionDrawable(playTextureRegion);
-        play = new ImageButton(playDrawable);
-        play.setPosition(origin_x, origin_y);
-
-        //click listener to find when the user wants to switch to the first game screen
-        play.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen1(game));
-                //stop the music if it is playing
-                if (menuSong.isPlaying()) {
-                    menuSong.stop();
-                }
-            }
-        });
-
         //code for creating the credits image button and placing it at the desired location
-        origin_x = (Gdx.graphics.getWidth() - creditsTexture.getWidth()) / 2;
-        origin_y = ((Gdx.graphics.getHeight() - creditsTexture.getHeight()) / 2) + 50;
+        int origin_x = (Gdx.graphics.getWidth() - creditsTexture.getWidth()) / 2;
+        int origin_y = ((Gdx.graphics.getHeight() - creditsTexture.getHeight()) / 2) + 100;
         creditsTextureRegion = new TextureRegion(creditsTexture);
         creditsDrawable = new TextureRegionDrawable(creditsTextureRegion);
         credits = new ImageButton(creditsDrawable);
-        credits.setPosition(origin_x, origin_y);
+        credits.setPosition(origin_x - 50, origin_y);
 
         //click listener to find when the user wants to switch to the credits screen
         credits.addListener(new ClickListener(){
@@ -135,11 +108,11 @@ public class MainMenu implements Screen {
 
         //code for creating the settings image button and placing it at the desired location
         origin_x = (Gdx.graphics.getWidth() - settingsTexture.getWidth()) / 2;
-        origin_y = ((Gdx.graphics.getHeight() - settingsTexture.getHeight()) / 2) - 50;
+        origin_y = (Gdx.graphics.getHeight() - settingsTexture.getHeight()) / 2;
         settingsTextureRegion = new TextureRegion(settingsTexture);
         settingsDrawable = new TextureRegionDrawable(settingsTextureRegion);
         settings = new ImageButton(settingsDrawable);
-        settings.setPosition(origin_x, origin_y);
+        settings.setPosition(origin_x - 50, origin_y);
 
         //click listener to find when the user wants to switch to the settings screen
         settings.addListener(new ClickListener(){
@@ -149,18 +122,18 @@ public class MainMenu implements Screen {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new Settings(game));
                 //stop the music if it is playing
                 if (menuSong.isPlaying()) {
-                    menuSong.stop();
+                    menuSong.pause();
                 }
             }
         });
 
         //code for creating the quit image button and placing it at the desired location
         origin_x = (Gdx.graphics.getWidth() - quitTexture.getWidth()) / 2;
-        origin_y = ((Gdx.graphics.getHeight() - quitTexture.getHeight()) / 2) - 100;
+        origin_y = ((Gdx.graphics.getHeight() - quitTexture.getHeight()) / 2) - 50;
         quitTextureRegion = new TextureRegion(quitTexture);
         quitDrawable = new TextureRegionDrawable(quitTextureRegion);
         quit = new ImageButton(quitDrawable);
-        quit.setPosition(origin_x, origin_y);
+        quit.setPosition(origin_x - 50, origin_y);
 
         //click listener to find when the user wants to exit
         quit.addListener(new ClickListener(){
@@ -170,14 +143,36 @@ public class MainMenu implements Screen {
             }
         });
 
+        //temp variables for placing graphics at disorder locations
+        origin_x = (Gdx.graphics.getWidth() - playTexture.getWidth()) / 2;
+        origin_y = ((Gdx.graphics.getHeight() - playTexture.getHeight()) / 2) + 50;
+        //code for creating the play image button and placing it at the desired location
+        playTextureRegion = new TextureRegion(playTexture);
+        playDrawable = new TextureRegionDrawable(playTextureRegion);
+        play = new ImageButton(playDrawable);
+        play.setPosition(origin_x - 50, origin_y);
+
+        //click listener to find when the user wants to switch to the first game screen
+        play.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen1(game));
+                //stop the music if it is playing
+                if (menuSong.isPlaying()) {
+                    menuSong.pause();
+                }
+            }
+        });
+
         backdrop = new Image(backdropTexture);
 
         //add all graphics and music to the stage
         stage.addActor(backdrop);
+        stage.addActor(quit);
         stage.addActor(play);
         stage.addActor(settings);
         stage.addActor(credits);
-        stage.addActor(quit);
         menuSong.setVolume((float)0.4);
         menuSong.play();
 
@@ -209,7 +204,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        stage.getViewport().update(width, height,true);
     }
 
     @Override

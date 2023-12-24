@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="1" nextlayerid="8" nextobjectid="2">
- <tileset firstgid="1" source="../../../../../Tiled/Walls.tsx"/>
- <tileset firstgid="118" source="../../../../../Tiled/DoubleDoor.tsx"/>
- <tileset firstgid="126" source="../../../../../Tiled/Decor.tsx"/>
- <tileset firstgid="207" source="../../../../../../Floor.tsx"/>
- <tileset firstgid="211" source="../../../../../Tiled/Torch.tsx"/>
+ <tileset firstgid="1" source="Walls.tsx"/>
+ <tileset firstgid="118" source="DoubleDoor.tsx"/>
+ <tileset firstgid="126" source="Decor.tsx"/>
+ <tileset firstgid="207" source="Floor.tsx"/>
+ <tileset firstgid="211" source="Torch.tsx"/>
  <layer id="3" name="Tile Layer 3" width="30" height="20">
   <data encoding="csv">
    <chunk x="-16" y="-32" width="16" height="16">
