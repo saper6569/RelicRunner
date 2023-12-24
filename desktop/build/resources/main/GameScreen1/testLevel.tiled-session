@@ -1,0 +1,86 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "C:/Users/Admin/Desktop/Tiled/Decor.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Desktop/Tiled/DoubleDoor.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Desktop/Tiled/Torch.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Desktop/Tiled/Walls.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Admin/Desktop/Tiled/level1.tmx": {
+            "expandedObjectLayers": [
+                9
+            ],
+            "scale": 1.5,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 155.33333333333331,
+                "y": 222.66666666666663
+            }
+        },
+        "C:/Users/Admin/Floor.tsx": {
+            "scaleInDock": 1
+        },
+        "Decor.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "DoubleDoor.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Floor.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Walls.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "space.tsx": {
+            "scaleInDock": 1
+        },
+        "spaceShip.tmx": {
+            "scale": 0.5165624999999999,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 797.5801572897763,
+                "y": 1068.6025408348457
+            }
+        }
+    },
+    "last.exportedFilePath": "C:/Users/Admin/Desktop/java/RelicRunner/assets/GameScreen1",
+    "map.lastUsedExportFilter": "All Files (*)",
+    "openFiles": [
+        "Decor.tsx",
+        "DoubleDoor.tsx",
+        "Floor.tsx",
+        "Walls.tsx",
+        "C:/Users/Admin/Desktop/Tiled/level1.tmx",
+        "spaceShip.tmx"
+    ],
+    "project": "testLevel.tiled-project",
+    "recentFiles": [
+        "spaceShip.tmx",
+        "C:/Users/Admin/Desktop/Tiled/level1.tmx",
+        "Walls.tsx",
+        "Floor.tsx",
+        "DoubleDoor.tsx",
+        "Decor.tsx"
+    ],
+    "resizeMap.removeObjects": false
+}

@@ -53,6 +53,7 @@ public class GameScreen1 implements Screen {
         viewport = new FitViewport(SetupVariables.WIDTH / SetupVariables.PPM, SetupVariables.HEIGHT / SetupVariables.PPM, camera);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
+        camera.zoom -= 0.7f;
 
         //B2D setup
         world = new World(new Vector2(0, 0), true);
@@ -65,7 +66,7 @@ public class GameScreen1 implements Screen {
         Body body;
 
         //walls
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
+        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set((rectangle.getX() + rectangle.getWidth() / 2) / SetupVariables.PPM, (rectangle.getY() + rectangle.getHeight() /  2) / SetupVariables.PPM);
@@ -77,7 +78,6 @@ public class GameScreen1 implements Screen {
         }
 
         player = new Knight(world, this);
-
     }
 
     private void stepWorld() {
@@ -120,7 +120,7 @@ public class GameScreen1 implements Screen {
 
         mapRenderer.setView(camera);
         mapRenderer.render();
-        debugRenderer.render(world, camera.combined);
+        //debugRenderer.render(world, camera.combined);
 
         game.spriteBatch.setProjectionMatrix(camera.combined);
         game.spriteBatch.begin();
