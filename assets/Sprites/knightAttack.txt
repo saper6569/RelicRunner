@@ -1,30 +1,30 @@
-knight.png
-size: 640, 32
+knightAttack.png
+size: 384, 32
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-defaultForward
+forward
   rotate: false
   xy: 0, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-defaultRight
+right
   rotate: false
   xy: 32, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-defaultBackward
+backward
   rotate: false
   xy: 64, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-defaultLeft
+left
   rotate: false
   xy: 96, 0
   size: 32, 32
@@ -83,62 +83,6 @@ backward
 left
   rotate: false
   xy: 352, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-forward
-  rotate: false
-  xy: 384, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-right
-  rotate: false
-  xy: 416, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-backward
-  rotate: false
-  xy: 448, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-left
-  rotate: false
-  xy: 480, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-forward
-  rotate: false
-  xy: 512, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-right
-  rotate: false
-  xy: 544, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-backward
-  rotate: false
-  xy: 576, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-left
-  rotate: false
-  xy: 608, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

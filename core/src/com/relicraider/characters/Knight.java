@@ -22,18 +22,24 @@ public class Knight extends Sprite implements Character {
     private boolean isAlive;
 
     private float elapsed_time = 0.0f;
-    private final static float FRAME_DURATION = 0.55f;
+    private final static float WALK_FRAME_DURATION = 0.55f;
+    private final static float ATTACK_FRAME_DURATION = 0.30f;
 
     TextureRegion region = null;
     private final TextureRegion defForward;
     private final TextureRegion defBackward;
     private final TextureRegion defLeft;
     private final TextureRegion defRight;
-    private final TextureAtlas textureAtlas;
+    private final TextureAtlas walkAtlas;
+    private final TextureAtlas attackAtlas;
     private final Animation<TextureRegion> forward;
     private final Animation<TextureRegion> backward;
     private final Animation<TextureRegion> left;
     private final Animation<TextureRegion> right;
+    private final Animation<TextureRegion> forwardAttack;
+    private final Animation<TextureRegion> backwardAttack;
+    private final Animation<TextureRegion> leftAttack;
+    private final Animation<TextureRegion> rightAttack;
 
     public World world;
     public Body b2dBody;
@@ -41,29 +47,46 @@ public class Knight extends Sprite implements Character {
     private String lastPressed;
 
     public Knight(World world, GameScreen1 screen) {
+        inventory = new ArrayList<>();
+        health = 100;
+        speed = 0.2f;
+        strength = 10;
+        isAlive = true;
+
         this.world = world;
         definePlayer();
-
-        textureAtlas = new TextureAtlas("Sprites/knight.txt");
-
-        defForward = new TextureRegion(textureAtlas.findRegion("defaultForward"));
-        defBackward = new TextureRegion(textureAtlas.findRegion("defaultBackward"));
-        defLeft = new TextureRegion(textureAtlas.findRegion("defaultLeft"));
-        defRight = new TextureRegion(textureAtlas.findRegion("defaultRight"));
         setBounds(0, 0, 32 / SetupVariables.PPM, 32 / SetupVariables.PPM);
-        setRegion(defForward);
 
-        Array<TextureAtlas.AtlasRegion> forwardFrames = textureAtlas.findRegions("backward");
-        Array<TextureAtlas.AtlasRegion> backwardFrames = textureAtlas.findRegions("forward");
-        Array<TextureAtlas.AtlasRegion> rightFrames = textureAtlas.findRegions("right");
-        Array<TextureAtlas.AtlasRegion> leftFrames = textureAtlas.findRegions("left");
+        walkAtlas = new TextureAtlas("Sprites/knightWalk.txt");
+        attackAtlas = new TextureAtlas("Sprites/knightAttack.txt");
 
-        forward = new Animation<TextureRegion>(FRAME_DURATION, forwardFrames, Animation.PlayMode.LOOP);
-        backward = new Animation<TextureRegion>(FRAME_DURATION, backwardFrames, Animation.PlayMode.LOOP);
-        left = new Animation<TextureRegion>(FRAME_DURATION, rightFrames, Animation.PlayMode.LOOP);
-        right = new Animation<TextureRegion>(FRAME_DURATION, leftFrames, Animation.PlayMode.LOOP);
+        defForward = new TextureRegion(walkAtlas.findRegion("defaultBackward"));
+        defBackward = new TextureRegion(walkAtlas.findRegion("defaultForward"));
+        defLeft = new TextureRegion(walkAtlas.findRegion("defaultLeft"));
+        defRight = new TextureRegion(walkAtlas.findRegion("defaultRight"));
+        setRegion(defBackward);
 
-        lastPressed = "w";
+        Array<TextureAtlas.AtlasRegion> forwardFrames = walkAtlas.findRegions("backward");
+        Array<TextureAtlas.AtlasRegion> backwardFrames = walkAtlas.findRegions("forward");
+        Array<TextureAtlas.AtlasRegion> rightFrames = walkAtlas.findRegions("right");
+        Array<TextureAtlas.AtlasRegion> leftFrames = walkAtlas.findRegions("left");
+
+        forward = new Animation<TextureRegion>(WALK_FRAME_DURATION, forwardFrames, Animation.PlayMode.LOOP);
+        backward = new Animation<TextureRegion>(WALK_FRAME_DURATION, backwardFrames, Animation.PlayMode.LOOP);
+        left = new Animation<TextureRegion>(WALK_FRAME_DURATION, rightFrames, Animation.PlayMode.LOOP);
+        right = new Animation<TextureRegion>(WALK_FRAME_DURATION, leftFrames, Animation.PlayMode.LOOP);
+
+        Array<TextureAtlas.AtlasRegion> forwardAttackFrames = attackAtlas.findRegions("backward");
+        Array<TextureAtlas.AtlasRegion> backwardAttackFrames = attackAtlas.findRegions("forward");
+        Array<TextureAtlas.AtlasRegion> rightAttackFrames = attackAtlas.findRegions("right");
+        Array<TextureAtlas.AtlasRegion> leftAttackFrames = attackAtlas.findRegions("left");
+
+        forwardAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, forwardAttackFrames, Animation.PlayMode.LOOP);
+        backwardAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, backwardAttackFrames, Animation.PlayMode.LOOP);
+        leftAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, leftAttackFrames, Animation.PlayMode.LOOP);
+        rightAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, rightAttackFrames, Animation.PlayMode.LOOP);
+
+        lastPressed = "s";
     }
 
     public void definePlayer() {
@@ -74,7 +97,7 @@ public class Knight extends Sprite implements Character {
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(6 / SetupVariables.PPM, 9 / SetupVariables.PPM);
+        polygonShape.setAsBox(6 / SetupVariables.PPM, 10 / SetupVariables.PPM);
 
         fixtureDef.shape = polygonShape;
         b2dBody.createFixture(fixtureDef);
@@ -89,44 +112,60 @@ public class Knight extends Sprite implements Character {
     }
 
     public TextureRegion playerMovement(float dt) {
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            lastPressed = "s";
-            b2dBody.setLinearVelocity(0,-speed);
-            elapsed_time += Gdx.graphics.getDeltaTime();
-            region = backward.getKeyFrame(elapsed_time, true);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            lastPressed = "w";
-            b2dBody.setLinearVelocity(0,speed);
-            elapsed_time += Gdx.graphics.getDeltaTime();
-            region = forward.getKeyFrame(elapsed_time, true);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            lastPressed = "a";
-            b2dBody.setLinearVelocity(-speed,0);
-            elapsed_time += Gdx.graphics.getDeltaTime();
-            region = right.getKeyFrame(elapsed_time, true);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            lastPressed = "d";
-            b2dBody.setLinearVelocity(speed,0);
-            elapsed_time += Gdx.graphics.getDeltaTime();
-            region = left.getKeyFrame(elapsed_time, true);
-        }
-        if (!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.D)){
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             b2dBody.setLinearVelocity(0, 0);
             elapsed_time += Gdx.graphics.getDeltaTime();
-            if (lastPressed.equals("w")) {
-                region = defForward;
-            } else if (lastPressed.equals("s")) {
-                region = defBackward;
-            } else if (lastPressed.equals("d")) {
-                region = defRight;
-            } else {
-                region = defLeft;
-            }
 
+            if (lastPressed.equals("w")) {
+                region = forwardAttack.getKeyFrame(elapsed_time, false);
+            } else if (lastPressed.equals("s")) {
+                region = backwardAttack.getKeyFrame(elapsed_time, false);
+            } else if (lastPressed.equals("d")) {
+                region = rightAttack.getKeyFrame(elapsed_time, false);
+            } else {
+                region = leftAttack.getKeyFrame(elapsed_time, false);
+            }
+        } else {
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                lastPressed = "s";
+                b2dBody.setLinearVelocity(0,-speed);
+                elapsed_time += Gdx.graphics.getDeltaTime();
+                region = backward.getKeyFrame(elapsed_time, true);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                lastPressed = "w";
+                b2dBody.setLinearVelocity(0,speed);
+                elapsed_time += Gdx.graphics.getDeltaTime();
+                region = forward.getKeyFrame(elapsed_time, true);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                lastPressed = "a";
+                b2dBody.setLinearVelocity(-speed,0);
+                elapsed_time += Gdx.graphics.getDeltaTime();
+                region = right.getKeyFrame(elapsed_time, true);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                lastPressed = "d";
+                b2dBody.setLinearVelocity(speed,0);
+                elapsed_time += Gdx.graphics.getDeltaTime();
+                region = left.getKeyFrame(elapsed_time, true);
+            }
+            if (!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.D)){
+                b2dBody.setLinearVelocity(0, 0);
+                elapsed_time += Gdx.graphics.getDeltaTime();
+                if (lastPressed.equals("w")) {
+                    region = defForward;
+                } else if (lastPressed.equals("s")) {
+                    region = defBackward;
+                } else if (lastPressed.equals("d")) {
+                    region = defRight;
+                } else {
+                    region = defLeft;
+                }
+
+            }
         }
+
         return region;
     }
 
