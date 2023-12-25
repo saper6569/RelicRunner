@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.relicraider.SetupVariables;
 import com.relicraider.screens.GameScreen1;
 
-public class Goblin extends Sprite implements Character {
+public class Goblin extends Sprite implements CharacterInterface {
     //character attributes
     private int health;
     private float speed = 0.2f;
