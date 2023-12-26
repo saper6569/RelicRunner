@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 abstract class Character extends Sprite {
@@ -13,7 +15,7 @@ abstract class Character extends Sprite {
     protected boolean isAlive;
 
     protected float elapsed_time;
-    private final static float WALK_FRAME_DURATION = 0.55f;
+    private final static float WALK_FRAME_DURATION = 0.30f;
     private final static float ATTACK_FRAME_DURATION = 0.30f;
 
     protected TextureRegion region;
@@ -32,6 +34,9 @@ abstract class Character extends Sprite {
     protected Animation<TextureRegion> backwardAttack;
     protected Animation<TextureRegion> leftAttack;
     protected Animation<TextureRegion> rightAttack;
+
+    protected World world;
+    protected Body b2dBody;
 
     public Character(int health, float speed, int strength) {
         this.health = 100;
@@ -52,14 +57,14 @@ abstract class Character extends Sprite {
         walkAtlas = new TextureAtlas(walkAtlasFile);
         attackAtlas = new TextureAtlas(attackAtlasFile);
 
-        defForward = new TextureRegion(walkAtlas.findRegion("defaultBackward"));
-        defBackward = new TextureRegion(walkAtlas.findRegion("defaultForward"));
+        defForward = new TextureRegion(walkAtlas.findRegion("defaultForward"));
+        defBackward = new TextureRegion(walkAtlas.findRegion("defaultBackward"));
         defLeft = new TextureRegion(walkAtlas.findRegion("defaultLeft"));
         defRight = new TextureRegion(walkAtlas.findRegion("defaultRight"));
-        setRegion(defBackward);
+        setRegion(defForward);
 
-        Array<TextureAtlas.AtlasRegion> forwardFrames = walkAtlas.findRegions("backward");
-        Array<TextureAtlas.AtlasRegion> backwardFrames = walkAtlas.findRegions("forward");
+        Array<TextureAtlas.AtlasRegion> forwardFrames = walkAtlas.findRegions("forward");
+        Array<TextureAtlas.AtlasRegion> backwardFrames = walkAtlas.findRegions("backward");
         Array<TextureAtlas.AtlasRegion> rightFrames = walkAtlas.findRegions("right");
         Array<TextureAtlas.AtlasRegion> leftFrames = walkAtlas.findRegions("left");
 
@@ -68,8 +73,8 @@ abstract class Character extends Sprite {
         left = new Animation<TextureRegion>(WALK_FRAME_DURATION, rightFrames, Animation.PlayMode.LOOP);
         right = new Animation<TextureRegion>(WALK_FRAME_DURATION, leftFrames, Animation.PlayMode.LOOP);
 
-        Array<TextureAtlas.AtlasRegion> forwardAttackFrames = attackAtlas.findRegions("backward");
-        Array<TextureAtlas.AtlasRegion> backwardAttackFrames = attackAtlas.findRegions("forward");
+        Array<TextureAtlas.AtlasRegion> forwardAttackFrames = attackAtlas.findRegions("forward");
+        Array<TextureAtlas.AtlasRegion> backwardAttackFrames = attackAtlas.findRegions("backward");
         Array<TextureAtlas.AtlasRegion> rightAttackFrames = attackAtlas.findRegions("right");
         Array<TextureAtlas.AtlasRegion> leftAttackFrames = attackAtlas.findRegions("left");
 
@@ -81,7 +86,7 @@ abstract class Character extends Sprite {
 
     public abstract void updateSprite(float dt);
 
-    public abstract void defineBody();
+    public abstract void defineBody(float xPos, float yPos);
 
     public int getHealth() {
         return health;
@@ -119,8 +124,20 @@ abstract class Character extends Sprite {
         health -= damage;
     }
 
+    public float getElapsed_time() {
+        return elapsed_time;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public Body getB2dBody() {
+        return b2dBody;
+    }
+
     public String toString() {
-        return "Knight{" +
+        return "Character{" +
                 ", health=" + health +
                 ", speed=" + speed +
                 ", strength=" + strength +

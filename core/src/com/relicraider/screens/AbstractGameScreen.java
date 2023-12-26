@@ -37,7 +37,7 @@ abstract class AbstractGameScreen implements Screen {
 
     protected final RelicRaider game;
 
-    public AbstractGameScreen(RelicRaider game, String mapLocation) {
+    public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer) {
         this.game = game;
 
         mapLoader = new TmxMapLoader();
@@ -62,7 +62,7 @@ abstract class AbstractGameScreen implements Screen {
         Body body;
 
         //walls
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+        for (MapObject object : map.getLayers().get(objectLayer).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             bodyDef.type = BodyDef.BodyType.StaticBody;
             bodyDef.position.set((rectangle.getX() + rectangle.getWidth() / 2) / SetupVariables.PPM, (rectangle.getY() + rectangle.getHeight() /  2) / SetupVariables.PPM);
@@ -86,8 +86,6 @@ abstract class AbstractGameScreen implements Screen {
             world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
         }
     }
-
-
 
     @Override
     public void show() {
@@ -122,5 +120,33 @@ abstract class AbstractGameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public TmxMapLoader getMapLoader() {
+        return mapLoader;
+    }
+
+    public TiledMap getMap() {
+        return map;
+    }
+
+    public OrthogonalTiledMapRenderer getMapRenderer() {
+        return mapRenderer;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public FitViewport getViewport() {
+        return viewport;
+    }
+
+    public Box2DDebugRenderer getDebugRenderer() {
+        return debugRenderer;
+    }
+
+    public BodyDef getBodyDef() {
+        return bodyDef;
     }
 }

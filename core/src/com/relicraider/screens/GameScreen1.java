@@ -3,24 +3,28 @@ package com.relicraider.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.relicraider.RelicRaider;
+import com.relicraider.characters.Goblin;
 import com.relicraider.characters.Knight;
 
 public class GameScreen1 extends AbstractGameScreen {
     private final Knight player;
+    private final Goblin goblin;
 
     public GameScreen1 (RelicRaider game) {
-        super(game, "GameScreen1/map.tmx");
+        super(game, "GameScreen1/map.tmx", 4);
 
-        player = new Knight(world, this);
+        player = new Knight(world, 200, 300);
+        goblin = new Goblin(world, 200, 300);
     }
 
     public void update(float dt){
         camera.update();
 
-        camera.position.x = player.b2dBody.getPosition().x;
-        camera.position.y = player.b2dBody.getPosition().y;
+        camera.position.x = player.getB2dBody().getPosition().x;
+        camera.position.y = player.getB2dBody().getPosition().y;
 
         player.updateSprite(dt);
+        goblin.updateSprite(dt);
 
         stepWorld();
     }
@@ -36,7 +40,7 @@ public class GameScreen1 extends AbstractGameScreen {
 
         mapRenderer.setView(camera);
         mapRenderer.render();
-        //debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
 
         game.spriteBatch.setProjectionMatrix(camera.combined);
         game.spriteBatch.begin();
@@ -44,6 +48,7 @@ public class GameScreen1 extends AbstractGameScreen {
         //player movement
         player.playerMovement(delta);
         player.draw(game.spriteBatch);
+        goblin.draw(game.spriteBatch);
         game.spriteBatch.end();
 
         stepWorld();
