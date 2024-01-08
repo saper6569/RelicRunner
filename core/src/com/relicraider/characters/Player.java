@@ -4,24 +4,46 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.relicraider.Items.Item;
 import com.relicraider.SetupVariables;
 
 import java.util.ArrayList;
 
-public class Knight extends Character {
-    //character attributes
-    private ArrayList<Object> inventory;
+public class Player extends GameCharacter {
+    public static String room;
+    private boolean canAttack;
+    private ArrayList<GameCharacter> collisons;
+    private float attackCooldown;
+    private ArrayList<Item> inventory;
 
     private String lastPressed;
 
-    public Knight(World world, float xPos, float yPos) {
+    public Player(World world, float xPos, float yPos, int health) {
+        super(health, 0.2f, 20, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+
+        this.world = world;
+        defineBody(xPos, yPos);
+        b2dBody.setLinearDamping(20f);
+        setBounds(0, 0, 32 / SetupVariables.PPM, 32 / SetupVariables.PPM);
+
+        lastPressed = "s";
+        inventory = new ArrayList<Item>();
+        collisons = new ArrayList<GameCharacter>();
+        canAttack = true;
+    }
+
+    public Player(World world, float xPos, float yPos) {
         super(100, 0.2f, 10, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
 
         this.world = world;
         defineBody(xPos, yPos);
+        b2dBody.setLinearDamping(20f);
         setBounds(0, 0, 32 / SetupVariables.PPM, 32 / SetupVariables.PPM);
 
         lastPressed = "s";
+        inventory = new ArrayList<Item>();
+        collisons = new ArrayList<GameCharacter>();
+        canAttack = true;
     }
 
     public void defineBody(float xPos, float yPos) {
@@ -32,10 +54,12 @@ public class Knight extends Character {
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(6 / SetupVariables.PPM, 10 / SetupVariables.PPM);
+        polygonShape.setAsBox(6 / SetupVariables.PPM, 8 / SetupVariables.PPM);
 
         fixtureDef.shape = polygonShape;
-        b2dBody.createFixture(fixtureDef);
+        fixtureDef.filter.categoryBits = SetupVariables.BIT_PLAYER;
+        fixtureDef.filter.maskBits = SetupVariables.BIT_ITEM | SetupVariables.BIT_WORLD;
+        b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 
     public void updateSprite(float dt) {
@@ -46,8 +70,20 @@ public class Knight extends Character {
 
     public TextureRegion playerMovement(float dt) {
         elapsed_time += Gdx.graphics.getDeltaTime();
+        attackCooldown += dt;
+        if (attackCooldown > 1) {
+            canAttack = true;
+        }
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            if (canAttack) {
+                for (GameCharacter character : collisons) {
+                    attack(character);
+                }
+                canAttack = false;
+                attackCooldown = 0;
+            }
             b2dBody.setLinearVelocity(0, 0);
+            System.out.println(b2dBody.getPosition().x + " , " + b2dBody.getPosition().y);
 
             if (lastPressed.equals("w")) {
                 region = backwardAttack.getKeyFrame(elapsed_time, false);
@@ -94,5 +130,66 @@ public class Knight extends Character {
         }
 
         return region;
+    }
+
+    public void attack(GameCharacter character) {
+        character.takeDamage(strength);
+    }
+
+    public static String getRoom() {
+        return room;
+    }
+
+    public static void setRoom(String room) {
+        Player.room = room;
+    }
+
+    public boolean isCanAttack() {
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
+    }
+
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(ArrayList<Item> inventory) {
+        this.inventory = inventory;
+    }
+
+    public String getLastPressed() {
+        return lastPressed;
+    }
+
+    public void setLastPressed(String lastPressed) {
+        this.lastPressed = lastPressed;
+    }
+
+    public ArrayList<GameCharacter> getCollisons() {
+        return collisons;
+    }
+
+    public void removeCollision(int characterID) {
+        for (int i = 0; i < collisons.size(); i++) {
+            if (collisons.get(i).getCharacterID() == characterID) {
+                collisons.remove(i);
+                break;
+            }
+        }
+    }
+
+    public void setCollisons(ArrayList<GameCharacter> collisons) {
+        this.collisons = collisons;
+    }
+
+    public float getAttackCooldown() {
+        return attackCooldown;
+    }
+
+    public void setAttackCooldown(float attackCooldown) {
+        this.attackCooldown = attackCooldown;
     }
 }

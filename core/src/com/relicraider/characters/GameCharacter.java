@@ -7,21 +7,26 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.relicraider.SetupVariables;
 
-abstract class Character extends Sprite {
+public abstract class GameCharacter extends Sprite {
+    //attributes
+    private static int characterCounter = 0;
+    private final int characterID;
     protected int health;
     protected float speed;
     protected int strength;
     protected boolean isAlive;
 
+    //counters and constants for animations
     protected float elapsed_time;
     private final static float WALK_FRAME_DURATION = 0.30f;
     private final static float ATTACK_FRAME_DURATION = 0.30f;
 
+    //texture objects for storing frames
     protected TextureRegion region;
     protected TextureAtlas walkAtlas;
     protected TextureAtlas attackAtlas;
-    
     protected TextureRegion defForward;
     protected TextureRegion defBackward;
     protected TextureRegion defLeft;
@@ -35,17 +40,21 @@ abstract class Character extends Sprite {
     protected Animation<TextureRegion> leftAttack;
     protected Animation<TextureRegion> rightAttack;
 
+    //physics objects
     protected World world;
     protected Body b2dBody;
 
-    public Character(int health, float speed, int strength) {
-        this.health = 100;
-        this.speed = 0.2f;
-        this.strength = 10;
-        isAlive = true;
-    }
-
-    public Character(int health, float speed, int strength, String walkAtlasFile, String attackAtlasFile) {
+    /**
+     * constructor for character with attack and walk animations
+     * @param health - health of the character
+     * @param speed - speed of the character
+     * @param strength - amount of damage dealt per blow
+     * @param walkAtlasFile - file location of the information for the walk animation
+     * @param attackAtlasFile - file location of the information for the attack animations
+     */
+    public GameCharacter(int health, float speed, int strength, String walkAtlasFile, String attackAtlasFile) {
+        characterCounter++;
+        characterID = characterCounter;
         this.health = health;
         this.speed = speed;
         this.strength = strength;
@@ -54,6 +63,7 @@ abstract class Character extends Sprite {
         elapsed_time = 0.0f;
         region = null;
 
+        //set all the textures using the given texture atlas'
         walkAtlas = new TextureAtlas(walkAtlasFile);
         attackAtlas = new TextureAtlas(attackAtlasFile);
 
@@ -82,6 +92,40 @@ abstract class Character extends Sprite {
         backwardAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, backwardAttackFrames, Animation.PlayMode.LOOP);
         leftAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, leftAttackFrames, Animation.PlayMode.LOOP);
         rightAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, rightAttackFrames, Animation.PlayMode.LOOP);
+    }
+
+    /**
+     * method for checking whether the character is alive or not
+     */
+    public void checkHealth() {
+        //if the health is less than or equal to 0 kill the character
+        if (health <= 0) {
+            isAlive = false;
+            kill();
+        }
+    }
+
+    /**
+     * method for removing the character after iut is killed
+     */
+    public void kill() {
+        //remove the character's physics object and its textures
+        world.destroyBody(b2dBody);
+        getTexture().dispose();
+    }
+
+    /**
+     * method for getting the distance between 2 characters (used for pathfinding and agro)
+     * @param sprite1
+     * @param sprite2
+     * @return
+     */
+    public double getDistance(Sprite sprite1, Sprite sprite2) {
+        return Math.sqrt(Math.pow(sprite1.getX() - sprite2.getX(), 2) + Math.pow(sprite1.getY() - sprite2.getY(), 2)) * SetupVariables.PPM;
+    }
+
+    public void takeDamage(int damage) {
+        health -= damage;
     }
 
     public abstract void updateSprite(float dt);
@@ -120,10 +164,6 @@ abstract class Character extends Sprite {
         isAlive = alive;
     }
 
-    public void dealDamage(int damage) {
-        health -= damage;
-    }
-
     public float getElapsed_time() {
         return elapsed_time;
     }
@@ -132,12 +172,20 @@ abstract class Character extends Sprite {
         return world;
     }
 
+    public static int getCharacterCounter() {
+        return characterCounter;
+    }
+
+    public int getCharacterID() {
+        return characterID;
+    }
+
     public Body getB2dBody() {
         return b2dBody;
     }
 
     public String toString() {
-        return "Character{" +
+        return "GameCharacter{" +
                 ", health=" + health +
                 ", speed=" + speed +
                 ", strength=" + strength +

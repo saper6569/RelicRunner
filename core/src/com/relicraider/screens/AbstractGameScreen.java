@@ -12,10 +12,18 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.relicraider.Items.Item;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
+import com.relicraider.characters.GameCharacter;
+import com.relicraider.characters.Player;
 
-abstract class AbstractGameScreen implements Screen {
+import java.util.ArrayList;
+
+public abstract class AbstractGameScreen implements Screen {
+    public static Player player;
+    protected ArrayList<GameCharacter> characters;
+    protected ArrayList<Item> items;
     protected final TmxMapLoader mapLoader;
     protected final TiledMap map;
     protected final OrthogonalTiledMapRenderer mapRenderer;
@@ -40,6 +48,9 @@ abstract class AbstractGameScreen implements Screen {
     public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer) {
         this.game = game;
 
+        characters = new ArrayList<>();
+        items = new ArrayList<>();
+
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(mapLocation);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / SetupVariables.PPM);
@@ -55,17 +66,22 @@ abstract class AbstractGameScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
 
+        player = new Player(world, 200, 300);
+        characters.add(player);
+
         bodyDef = new BodyDef();
         bodyDef.position.set(new Vector2(0, 10));
         PolygonShape shape = new PolygonShape();
         FixtureDef fDef = new FixtureDef();
+        fDef.filter.categoryBits = SetupVariables.BIT_WORLD;
+        fDef.filter.maskBits = SetupVariables.BIT_PLAYER | SetupVariables.BIT_WORLD;
         Body body;
 
         //walls
         for (MapObject object : map.getLayers().get(objectLayer).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set((rectangle.getX() + rectangle.getWidth() / 2) / SetupVariables.PPM, (rectangle.getY() + rectangle.getHeight() /  2) / SetupVariables.PPM);
+            bodyDef.position.set((rectangle.getX() + rectangle.getWidth() / 2) / SetupVariables.PPM, (rectangle.getY() + rectangle.getHeight() / 2) / SetupVariables.PPM);
 
             body = world.createBody(bodyDef);
             shape.setAsBox(rectangle.getWidth() / 2 / SetupVariables.PPM, rectangle.getHeight() / 2 / SetupVariables.PPM);
@@ -119,7 +135,10 @@ abstract class AbstractGameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        world.dispose();
+        map.dispose();
+        mapRenderer.dispose();
+        debugRenderer.dispose();
     }
 
     public TmxMapLoader getMapLoader() {
