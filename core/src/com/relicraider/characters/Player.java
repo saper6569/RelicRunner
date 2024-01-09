@@ -2,6 +2,7 @@ package com.relicraider.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 import com.relicraider.Items.Item;
@@ -15,8 +16,14 @@ public class Player extends GameCharacter {
     private ArrayList<GameCharacter> collisons;
     private float attackCooldown;
     private ArrayList<Item> inventory;
-
     private String lastPressed;
+    private boolean isBlocking;
+
+    private TextureAtlas blockAtlas;
+    private TextureRegion blockForward;
+    private TextureRegion blockBackward;
+    private TextureRegion blockLeft;
+    private TextureRegion blockRight;
 
     public Player(World world, float xPos, float yPos, int health) {
         super(health, 0.2f, 20, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
@@ -30,6 +37,13 @@ public class Player extends GameCharacter {
         inventory = new ArrayList<Item>();
         collisons = new ArrayList<GameCharacter>();
         canAttack = true;
+        isBlocking = false;
+
+        blockAtlas = new TextureAtlas("Sprites/knightBlock.txt");
+        blockForward = new TextureRegion(blockAtlas.findRegion("forward"));
+        blockBackward = new TextureRegion(blockAtlas.findRegion("backward"));
+        blockLeft = new TextureRegion(blockAtlas.findRegion("left"));
+        blockRight = new TextureRegion(blockAtlas.findRegion("right"));
     }
 
     public Player(World world, float xPos, float yPos) {
@@ -44,6 +58,13 @@ public class Player extends GameCharacter {
         inventory = new ArrayList<Item>();
         collisons = new ArrayList<GameCharacter>();
         canAttack = true;
+        isBlocking = false;
+
+        blockAtlas = new TextureAtlas("Sprites/knightBlock.txt");
+        blockForward = new TextureRegion(blockAtlas.findRegion("forward"));
+        blockBackward = new TextureRegion(blockAtlas.findRegion("backward"));
+        blockLeft = new TextureRegion(blockAtlas.findRegion("left"));
+        blockRight = new TextureRegion(blockAtlas.findRegion("right"));
     }
 
     public void defineBody(float xPos, float yPos) {
@@ -74,6 +95,11 @@ public class Player extends GameCharacter {
         if (attackCooldown > 1) {
             canAttack = true;
         }
+
+        if (!Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+            isBlocking = false;
+        }
+
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             if (canAttack) {
                 for (GameCharacter character : collisons) {
@@ -93,6 +119,18 @@ public class Player extends GameCharacter {
                 region = rightAttack.getKeyFrame(elapsed_time, false);
             } else {
                 region = leftAttack.getKeyFrame(elapsed_time, false);
+            }
+        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+            isBlocking = true;
+
+            if (lastPressed.equals("w")) {
+                region = blockBackward;
+            } else if (lastPressed.equals("s")) {
+                region = blockForward;
+            } else if (lastPressed.equals("d")) {
+                region = blockRight;
+            } else {
+                region = blockLeft;
             }
         } else {
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -130,6 +168,12 @@ public class Player extends GameCharacter {
         }
 
         return region;
+    }
+
+    public void takeDamage(int damage) {
+        if (!isBlocking) {
+            health -= damage;
+        }
     }
 
     public void attack(GameCharacter character) {
@@ -191,5 +235,53 @@ public class Player extends GameCharacter {
 
     public void setAttackCooldown(float attackCooldown) {
         this.attackCooldown = attackCooldown;
+    }
+
+    public boolean isBlocking() {
+        return isBlocking;
+    }
+
+    public void setBlocking(boolean blocking) {
+        isBlocking = blocking;
+    }
+
+    public TextureAtlas getBlockAtlas() {
+        return blockAtlas;
+    }
+
+    public void setBlockAtlas(TextureAtlas blockAtlas) {
+        this.blockAtlas = blockAtlas;
+    }
+
+    public TextureRegion getBlockForward() {
+        return blockForward;
+    }
+
+    public void setBlockForward(TextureRegion blockForward) {
+        this.blockForward = blockForward;
+    }
+
+    public TextureRegion getBlockBackward() {
+        return blockBackward;
+    }
+
+    public void setBlockBackward(TextureRegion blockBackward) {
+        this.blockBackward = blockBackward;
+    }
+
+    public TextureRegion getBlockLeft() {
+        return blockLeft;
+    }
+
+    public void setBlockLeft(TextureRegion blockLeft) {
+        this.blockLeft = blockLeft;
+    }
+
+    public TextureRegion getBlockRight() {
+        return blockRight;
+    }
+
+    public void setBlockRight(TextureRegion blockRight) {
+        this.blockRight = blockRight;
     }
 }
