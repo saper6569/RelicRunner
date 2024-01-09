@@ -18,6 +18,7 @@ public class Settings implements Screen {
     private final RelicRaider game;
 
     private final static float FRAME_DURATION = 0.30f;
+    private float elapsedTime;
 
     private TextureAtlas atlasPlayer;
     private Animation<TextureRegion> animationPlayer;
@@ -34,6 +35,7 @@ public class Settings implements Screen {
 
     public Settings (RelicRaider game) {
         this.game = game;
+        elapsedTime = 0;
 
         backdrop = new Texture(Gdx.files.internal("HowToPlay/HowToPlay.png"));
         backdrop.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -49,7 +51,7 @@ public class Settings implements Screen {
         atlasGoblin = new TextureAtlas(Gdx.files.internal("Sprites/goblinWalk.txt"));
         animationGoblin = new Animation<TextureRegion>(FRAME_DURATION, atlasGoblin.findRegions("forward"));
 
-        atlasHealPotion = new TextureAtlas(Gdx.files.internal("Sprites/knightWalk.txt"));
+        atlasHealPotion = new TextureAtlas(Gdx.files.internal("Sprites/healPotion.txt"));
         animationHealPotion = new Animation<TextureRegion>(FRAME_DURATION, atlasHealPotion.getRegions());
     }
 
@@ -59,12 +61,18 @@ public class Settings implements Screen {
     }
 
     public void update(float dt) {
+        elapsedTime += dt;
+
+        game.spriteBatch.draw(animationPlayer.getKeyFrame(elapsedTime, true), 550 / SetupVariables.PPM, 270 / SetupVariables.PPM, 100 / SetupVariables.PPM, 100 / SetupVariables.PPM);
+        game.spriteBatch.draw(animationGoblin.getKeyFrame(elapsedTime, true), 550 / SetupVariables.PPM, 220 / SetupVariables.PPM, 100 / SetupVariables.PPM, 100 / SetupVariables.PPM);
+        game.spriteBatch.draw(animationHealPotion.getKeyFrame(elapsedTime, true), 575 / SetupVariables.PPM, 190 / SetupVariables.PPM, 50 / SetupVariables.PPM, 50 / SetupVariables.PPM);
 
     }
 
     @Override
     public void render(float delta) {
-        update(delta);
+        camera.update();
+        elapsedTime += delta;
 
         //Clear the game screen with Black
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -75,6 +83,8 @@ public class Settings implements Screen {
         game.spriteBatch.begin();
 
         game.spriteBatch.draw(backdrop, 0, 0, SetupVariables.WIDTH / SetupVariables.PPM, SetupVariables.HEIGHT / SetupVariables.PPM);
+
+        update(delta);
 
         game.spriteBatch.end();
     }
