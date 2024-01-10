@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Relic Raider");
 		config.setWindowPosition(650,250);
-		config.setWindowIcon(Files.FileType.Internal,"Sprites/knightWalk.png");
+		config.setWindowIcon(Files.FileType.Internal,"Other/fullHeart.png");
 		new Lwjgl3Application(new RelicRaider(), config);
 	}
 }
