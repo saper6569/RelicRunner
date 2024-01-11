@@ -19,6 +19,7 @@ public class Button {
     private TextureRegionDrawable drawable;
     private ImageButton button;
 
+    private Label buttonLabel;
     private FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
 
     public Button(String text, float x, float y) {
@@ -35,7 +36,7 @@ public class Button {
         drawable = new TextureRegionDrawable(textureRegion);
         button = new ImageButton(drawable);
         button.setPosition(x, y);
-        Label buttonLabel = new Label(text, labelStyle);
+        buttonLabel = new Label(text, labelStyle);
         buttonLabel.setPosition(x,y);
 
     }
@@ -73,6 +74,14 @@ public class Button {
     }
     public void setFontSize(int size){
         fontParameter.size = size;
+    }
+
+    public Label getButtonLabel() {
+        return buttonLabel;
+    }
+
+    public void setButtonLabel(Label buttonLabel) {
+        this.buttonLabel = buttonLabel;
     }
 }
 

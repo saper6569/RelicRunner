@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -64,7 +65,7 @@ public class MainMenu implements Screen {
         //code for creating the play button and placing it at the desired location
         int origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
         int origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
-        Button playButton = new Button("PLAY",origin_x - 200 ,origin_y - 100);
+        Button playButton = new Button("PLAY",origin_x - 150 ,origin_y - 70);
 
         //click listener to find when the user wants to switch to the credits screen
         playButton.getButton().addListener(new ClickListener(){
@@ -83,7 +84,7 @@ public class MainMenu implements Screen {
         //code for creating the credits button and placing it at the desired location
         origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
         origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
-        Button creditsButton = new Button("CREDITS",origin_x - 200,origin_y - 200);
+        Button creditsButton = new Button("CREDITS",origin_x - 150,origin_y - 125);
 
         //click listener to find when the user wants to switch to the credits screen
         creditsButton.getButton().addListener(new ClickListener(){
@@ -102,7 +103,7 @@ public class MainMenu implements Screen {
     //code for creating the settings button and placing it at the desired location
     origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
     origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
-    Button howToPlayButton = new Button("HOW TO PLAY",origin_x - 200,origin_y - 300);
+    Button howToPlayButton = new Button("HOW TO PLAY",origin_x - 150,origin_y - 180);
 
     //click listener to find when the user wants to switch to the credits screen
     howToPlayButton.getButton().addListener(new ClickListener(){
@@ -121,7 +122,7 @@ public class MainMenu implements Screen {
         //code for creating the Quit Game button and placing it at the desired location
         origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
         origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
-        Button quitButton = new Button("QUIT",origin_x - 100,origin_y - 100);
+        Button quitButton = new Button("QUIT",origin_x - 150,origin_y - 235);
 
         //Click listener to find when the user wants to exit program
         quitButton.getButton().addListener(new ClickListener(){
