@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 
-public class Settings implements Screen {
+public class HowToPlay implements Screen {
     private final RelicRaider game;
+    public Stage stage;
 
     private final static float FRAME_DURATION = 0.30f;
     private float elapsedTime;
@@ -33,7 +33,7 @@ public class Settings implements Screen {
     private final OrthographicCamera camera;
     private final FitViewport viewport;
 
-    public Settings (RelicRaider game) {
+    public HowToPlay(RelicRaider game) {
         this.game = game;
         elapsedTime = 0;
 
@@ -111,6 +111,9 @@ public class Settings implements Screen {
 
     @Override
     public void dispose() {
-
+        atlasGoblin.dispose();
+        atlasPlayer.dispose();
+        backdrop.dispose();
+        stage.dispose();
     }
 }

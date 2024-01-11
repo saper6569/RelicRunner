@@ -43,8 +43,9 @@ public class HUD implements Disposable {
         viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
         stage = new Stage(viewport, spriteBatch);
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("KenPixel Mini.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("PixelifySans-Bold.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.magFilter = Texture.TextureFilter.MipMapNearestNearest;
         fontParameter.size = 18;
 
         BitmapFont font = generator.generateFont(fontParameter);

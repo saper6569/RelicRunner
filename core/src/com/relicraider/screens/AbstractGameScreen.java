@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.Items.Item;
 import com.relicraider.RelicRaider;
@@ -44,9 +45,18 @@ public abstract class AbstractGameScreen implements Screen {
     protected final BodyDef bodyDef;
 
     protected final RelicRaider game;
+    protected final Stage stage;
 
     public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer) {
         this.game = game;
+        //camera
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(SetupVariables.WIDTH / SetupVariables.PPM, SetupVariables.HEIGHT / SetupVariables.PPM, camera);
+
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
+        camera.zoom -= 0.7f;
+
+        stage = new Stage(viewport, this.game.spriteBatch);
 
         characters = new ArrayList<>();
         items = new ArrayList<>();
@@ -54,13 +64,6 @@ public abstract class AbstractGameScreen implements Screen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(mapLocation);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / SetupVariables.PPM);
-
-        //camera
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(SetupVariables.WIDTH / SetupVariables.PPM, SetupVariables.HEIGHT / SetupVariables.PPM, camera);
-
-        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
-        camera.zoom -= 0.7f;
 
         //B2D setup
         world = new World(new Vector2(0, 0), true);
@@ -167,5 +170,9 @@ public abstract class AbstractGameScreen implements Screen {
 
     public BodyDef getBodyDef() {
         return bodyDef;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

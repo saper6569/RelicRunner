@@ -3,6 +3,7 @@ package com.relicraider;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.relicraider.screens.GameScreen1;
+import com.relicraider.screens.GameStory;
 import com.relicraider.screens.MainMenu;
 
 public class RelicRaider extends Game {
@@ -12,8 +13,9 @@ public class RelicRaider extends Game {
 	@Override
 	public void create() {
 		spriteBatch = new SpriteBatch();
-		setScreen(new MainMenu());
+		//setScreen(new MainMenu());
 		//setScreen(new GameScreen1(this));
+		setScreen(new GameStory(this));
 	}
 
 	@Override

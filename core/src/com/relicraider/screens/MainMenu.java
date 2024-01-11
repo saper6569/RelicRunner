@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
-import com.relicraider.managers.AssetManagers;
 import com.badlogic.gdx.graphics.GL20;
 import com.relicraider.SetupVariables;
 
@@ -57,25 +56,19 @@ public class MainMenu implements Screen {
     private FitViewport viewport;
 
     private RelicRaider game;
-    public AssetManagers manager = new AssetManagers();
 
     @Override
     /**
      * This method contains any code that is run before the Main Menu is shown to the user
      */
     public void show() {
-        //resource instances
-        //all reasources are loaded by the asset manager all at the beginning of the new screen
-        manager.mainMenuAssets();
-        manager.assetManager.finishLoading();
-
         //load resources from disk
-        settingsTexture = manager.assetManager.get(manager.settingsButton, Texture.class);
-        creditsTexture = manager.assetManager.get(manager.creditsButton, Texture.class);
-        playTexture = manager.assetManager.get(manager.playButton, Texture.class);
-        quitTexture = manager.assetManager.get(manager.quitButton, Texture.class);
-        backdropTexture = manager.assetManager.get(manager.menuBackdrop, Texture.class);
-        menuSong = manager.assetManager.get(manager.mainMenuSong1, Music.class);
+        settingsTexture = new Texture(Gdx.files.internal("MainMenu/settingsButton.png"));
+        creditsTexture = new Texture(Gdx.files.internal("MainMenu/creditsButton.png"));
+        playTexture = new Texture(Gdx.files.internal("MainMenu/playButton.png"));
+        quitTexture = new Texture(Gdx.files.internal("MainMenu/quitButton.png"));
+        backdropTexture = new Texture(Gdx.files.internal("MainMenu/backdrop.png"));
+        menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));
 
         //camera objects for creating view of game for user
         camera = new OrthographicCamera();
@@ -119,7 +112,7 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new Settings(game));
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlay(game));
                 //stop the music if it is playing
                 if (menuSong.isPlaying()) {
                     menuSong.pause();
@@ -195,7 +188,6 @@ public class MainMenu implements Screen {
 
         //loop through the menu song with a 300-second break between each repetition
         if (!menuSong.isPlaying() && countSec > 300) {
-            menuSong = manager.assetManager.get(manager.mainMenuSong1, Music.class);
             menuSong.play();
             countSec = 0;
         }
@@ -232,6 +224,5 @@ public class MainMenu implements Screen {
         quitTexture.dispose();
         backdropTexture.dispose();
         menuSong.dispose();
-        manager.assetManager.dispose();
     }
 }
