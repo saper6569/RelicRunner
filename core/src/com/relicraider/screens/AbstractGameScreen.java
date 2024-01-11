@@ -51,7 +51,7 @@ public abstract class AbstractGameScreen implements Screen {
         this.game = game;
         //camera
         camera = new OrthographicCamera();
-        viewport = new FitViewport(SetupVariables.WIDTH / SetupVariables.PPM, SetupVariables.HEIGHT / SetupVariables.PPM, camera);
+        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
         camera.zoom -= 0.7f;
@@ -63,7 +63,7 @@ public abstract class AbstractGameScreen implements Screen {
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(mapLocation);
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / SetupVariables.PPM);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
 
         //B2D setup
         world = new World(new Vector2(0, 0), true);
@@ -84,10 +84,10 @@ public abstract class AbstractGameScreen implements Screen {
         for (MapObject object : map.getLayers().get(objectLayer).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set((rectangle.getX() + rectangle.getWidth() / 2) / SetupVariables.PPM, (rectangle.getY() + rectangle.getHeight() / 2) / SetupVariables.PPM);
+            bodyDef.position.set((rectangle.getX() + rectangle.getWidth() / 2), (rectangle.getY() + rectangle.getHeight() / 2));
 
             body = world.createBody(bodyDef);
-            shape.setAsBox(rectangle.getWidth() / 2 / SetupVariables.PPM, rectangle.getHeight() / 2 / SetupVariables.PPM);
+            shape.setAsBox(rectangle.getWidth() / 2, rectangle.getHeight() / 2);
             fDef.shape = shape;
             body.createFixture(fDef);
         }

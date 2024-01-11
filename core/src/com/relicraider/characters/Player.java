@@ -31,7 +31,7 @@ public class Player extends GameCharacter {
         this.world = world;
         defineBody(xPos, yPos);
         b2dBody.setLinearDamping(20f);
-        setBounds(0, 0, 32 / SetupVariables.PPM, 32 / SetupVariables.PPM);
+        setBounds(0, 0, 32, 32);
 
         lastPressed = "s";
         inventory = new ArrayList<Item>();
@@ -52,7 +52,7 @@ public class Player extends GameCharacter {
         this.world = world;
         defineBody(xPos, yPos);
         b2dBody.setLinearDamping(20f);
-        setBounds(0, 0, 32 / SetupVariables.PPM, 32 / SetupVariables.PPM);
+        setBounds(0, 0, 32, 32);
 
         lastPressed = "s";
         inventory = new ArrayList<Item>();
@@ -69,13 +69,13 @@ public class Player extends GameCharacter {
 
     public void defineBody(float xPos, float yPos) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(xPos / SetupVariables.PPM, yPos / SetupVariables.PPM);
+        bodyDef.position.set(xPos, yPos);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         b2dBody = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(6 / SetupVariables.PPM, 8 / SetupVariables.PPM);
+        polygonShape.setAsBox(6, 8);
 
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = SetupVariables.BIT_PLAYER;
@@ -84,7 +84,7 @@ public class Player extends GameCharacter {
     }
 
     public void updateSprite(float dt) {
-        setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3 / SetupVariables.PPM);
+        setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
         TextureRegion frame = playerMovement(dt);
         setRegion(frame);
     }
@@ -94,10 +94,6 @@ public class Player extends GameCharacter {
         attackCooldown += dt;
         if (attackCooldown > 1) {
             canAttack = true;
-        }
-
-        if (!Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-            isBlocking = false;
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
@@ -133,6 +129,8 @@ public class Player extends GameCharacter {
                 region = blockLeft;
             }
         } else {
+            isBlocking = false;
+
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 lastPressed = "s";
                 b2dBody.setLinearVelocity(0,-speed);

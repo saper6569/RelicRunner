@@ -28,7 +28,7 @@ public class GameStory implements Screen {
 
         //camera
         camera = new OrthographicCamera();
-        viewport = new FitViewport(SetupVariables.WIDTH / SetupVariables.PPM, SetupVariables.HEIGHT / SetupVariables.PPM, camera);
+        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 
         stage = new Stage(viewport, game.spriteBatch);
@@ -54,7 +54,7 @@ public class GameStory implements Screen {
 
         game.spriteBatch.setProjectionMatrix(camera.combined);
         game.spriteBatch.begin();
-        game.spriteBatch.draw(backdrop1, 0, 0, SetupVariables.WIDTH / SetupVariables.PPM, SetupVariables.HEIGHT / SetupVariables.PPM);
+        game.spriteBatch.draw(backdrop1, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
         game.spriteBatch.end();
         stage.draw();
     }

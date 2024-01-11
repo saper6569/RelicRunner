@@ -56,7 +56,7 @@ public abstract class GameCharacter extends Sprite {
         characterCounter++;
         characterID = characterCounter;
         this.health = health;
-        this.speed = speed;
+        this.speed = speed * SetupVariables.PPM;
         this.strength = strength;
         isAlive = true;
 
@@ -121,7 +121,7 @@ public abstract class GameCharacter extends Sprite {
      * @return
      */
     public double getDistance(Sprite sprite1, Sprite sprite2) {
-        return Math.sqrt(Math.pow(sprite1.getX() - sprite2.getX(), 2) + Math.pow(sprite1.getY() - sprite2.getY(), 2)) * SetupVariables.PPM;
+        return Math.sqrt(Math.pow(sprite1.getX() - sprite2.getX(), 2) + Math.pow(sprite1.getY() - sprite2.getY(), 2));
     }
 
     public void takeDamage(int damage) {

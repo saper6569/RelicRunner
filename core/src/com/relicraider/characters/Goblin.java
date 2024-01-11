@@ -26,7 +26,7 @@ public class Goblin extends GameCharacter {
         this.world = world;
         defineBody(xPos, yPos);
         b2dBody.setLinearDamping(10f);
-        setBounds(0, 0, 32 / SetupVariables.PPM, 32 / SetupVariables.PPM);
+        setBounds(0, 0, 32, 32);
 
         direction = "forward";
         isAggravated = false;
@@ -42,7 +42,7 @@ public class Goblin extends GameCharacter {
         this.world = world;
         defineBody(xPos, yPos);
         b2dBody.setLinearDamping(10f);
-        setBounds(0, 0, 32 / SetupVariables.PPM, 32 / SetupVariables.PPM);
+        setBounds(0, 0, 32, 32);
 
         direction = "forward";
         isAggravated = false;
@@ -54,7 +54,7 @@ public class Goblin extends GameCharacter {
 
     @Override
     public void updateSprite(float dt) {
-        setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3 / SetupVariables.PPM);
+        setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
         if (getDistance(this, AbstractGameScreen.player) < 60) {
             isAggravated = true;
         } else {
@@ -77,13 +77,13 @@ public class Goblin extends GameCharacter {
     @Override
     public void defineBody(float xPos, float yPos) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(xPos / SetupVariables.PPM, yPos / SetupVariables.PPM);
+        bodyDef.position.set(xPos, yPos);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         b2dBody = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(4 / SetupVariables.PPM, 6 / SetupVariables.PPM);
+        polygonShape.setAsBox(4, 6);
 
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = SetupVariables.BIT_WORLD;
@@ -165,7 +165,7 @@ public class Goblin extends GameCharacter {
     }
 
     public void walkToPlayer () {
-        if (AbstractGameScreen.player.b2dBody.getPosition().x - 2 / SetupVariables.PPM > b2dBody.getPosition().x) {
+        if (AbstractGameScreen.player.b2dBody.getPosition().x - 2 > b2dBody.getPosition().x) {
             direction = "right";
             setVelocity();
         } else if (AbstractGameScreen.player.b2dBody.getPosition().x < b2dBody.getPosition().x) {
@@ -173,7 +173,7 @@ public class Goblin extends GameCharacter {
             setVelocity();
         }
 
-        if (AbstractGameScreen.player.b2dBody.getPosition().y - 2 / SetupVariables.PPM > b2dBody.getPosition().y) {
+        if (AbstractGameScreen.player.b2dBody.getPosition().y - 2 > b2dBody.getPosition().y) {
             direction = "backward";
             setVelocity();
         } else if (AbstractGameScreen.player.b2dBody.getPosition().y < b2dBody.getPosition().y) {
@@ -184,7 +184,7 @@ public class Goblin extends GameCharacter {
         String originalDirection = direction;
 
         if (isCollided && (originalDirection.equals("forward") || originalDirection.equals("backward"))) {
-            if (AbstractGameScreen.player.b2dBody.getPosition().x - 2 / SetupVariables.PPM > b2dBody.getPosition().x) {
+            if (AbstractGameScreen.player.b2dBody.getPosition().x - 2 > b2dBody.getPosition().x) {
                 direction = "right";
                 setVelocity();
             } else if (AbstractGameScreen.player.b2dBody.getPosition().x < b2dBody.getPosition().x) {
@@ -192,7 +192,7 @@ public class Goblin extends GameCharacter {
                 setVelocity();
             }
         } else if (isCollided && (originalDirection.equals("left") || originalDirection.equals("right"))) {
-            if (AbstractGameScreen.player.b2dBody.getPosition().y - 2 / SetupVariables.PPM > b2dBody.getPosition().y) {
+            if (AbstractGameScreen.player.b2dBody.getPosition().y - 2 > b2dBody.getPosition().y) {
                 direction = "backward";
                 setVelocity();
             } else if (AbstractGameScreen.player.b2dBody.getPosition().y < b2dBody.getPosition().y) {

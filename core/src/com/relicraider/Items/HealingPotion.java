@@ -14,7 +14,7 @@ public class HealingPotion extends Item {
 
         this.world = world;
         defineBody(xPos, yPos);
-        setBounds(0, 0, 16 / SetupVariables.PPM, 16 / SetupVariables.PPM);
+        setBounds(0, 0, 16, 16);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class HealingPotion extends Item {
 
     @Override
     public void update(float dt) {
-        setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3 / SetupVariables.PPM);
+        setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
         setRegion(getFrame(dt));
         if (isPickedUp) {
             removeItem();
@@ -35,13 +35,13 @@ public class HealingPotion extends Item {
     @Override
     public void defineBody(float xPos, float yPos) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(xPos / SetupVariables.PPM, yPos / SetupVariables.PPM);
+        bodyDef.position.set(xPos, yPos);
         bodyDef.type = BodyDef.BodyType.StaticBody;
         b2dBody = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(4 / SetupVariables.PPM, 4 / SetupVariables.PPM);
+        polygonShape.setAsBox(4, 4);
 
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.maskBits = SetupVariables.BIT_PLAYER;

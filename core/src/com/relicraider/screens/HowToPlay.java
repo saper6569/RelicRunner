@@ -42,7 +42,7 @@ public class HowToPlay implements Screen {
 
         //camera
         camera = new OrthographicCamera();
-        viewport = new FitViewport(SetupVariables.WIDTH / SetupVariables.PPM, SetupVariables.HEIGHT / SetupVariables.PPM, camera);
+        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 
         atlasPlayer = new TextureAtlas(Gdx.files.internal("Sprites/knightWalk.txt"));
@@ -63,9 +63,9 @@ public class HowToPlay implements Screen {
     public void update(float dt) {
         elapsedTime += dt;
 
-        game.spriteBatch.draw(animationPlayer.getKeyFrame(elapsedTime, true), 550 / SetupVariables.PPM, 270 / SetupVariables.PPM, 100 / SetupVariables.PPM, 100 / SetupVariables.PPM);
-        game.spriteBatch.draw(animationGoblin.getKeyFrame(elapsedTime, true), 550 / SetupVariables.PPM, 220 / SetupVariables.PPM, 100 / SetupVariables.PPM, 100 / SetupVariables.PPM);
-        game.spriteBatch.draw(animationHealPotion.getKeyFrame(elapsedTime, true), 575 / SetupVariables.PPM, 190 / SetupVariables.PPM, 50 / SetupVariables.PPM, 50 / SetupVariables.PPM);
+        game.spriteBatch.draw(animationPlayer.getKeyFrame(elapsedTime, true), 550, 270, 100, 100);
+        game.spriteBatch.draw(animationGoblin.getKeyFrame(elapsedTime, true), 550, 220, 100, 100);
+        game.spriteBatch.draw(animationHealPotion.getKeyFrame(elapsedTime, true), 575, 190, 50, 50);
 
     }
 
@@ -82,7 +82,7 @@ public class HowToPlay implements Screen {
         game.spriteBatch.setProjectionMatrix(camera.combined);
         game.spriteBatch.begin();
 
-        game.spriteBatch.draw(backdrop, 0, 0, SetupVariables.WIDTH / SetupVariables.PPM, SetupVariables.HEIGHT / SetupVariables.PPM);
+        game.spriteBatch.draw(backdrop, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
 
         update(delta);
 

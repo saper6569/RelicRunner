@@ -32,7 +32,7 @@ public class Button {
         textureRegion = new TextureRegion(texture);
         drawable = new TextureRegionDrawable(textureRegion);
         button = new ImageButton(drawable);
-        button.setPosition(x/SetupVariables.PPM, y/SetupVariables.PPM);
+        button.setPosition(x, y);
     }
 
     public Texture getTexture() {
