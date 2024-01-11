@@ -48,7 +48,7 @@ public class MainMenu implements Screen {
      */
     public void show() {
         //load resources from disk
-        buttonTexture = new Texture(Gdx.files.internal("MainMenu/MenuButtonBorder.png"))
+        buttonTexture = new Texture(Gdx.files.internal("MainMenu/MenuButtonBorder.png"));
         backdropTexture = new Texture(Gdx.files.internal("MainMenu/backdrop.png"));
         menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));
 
@@ -60,93 +60,74 @@ public class MainMenu implements Screen {
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
-//CREDITS BUTTON
-        //code for creating the credits image button and placing it at the desired location
+//PLAY BUTTON
+        //code for creating the play button and placing it at the desired location
         int origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
         int origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
-        Button creditsButton = new Button("CREDITS",origin_x,origin_y);
+        Button playButton = new Button("PLAY",origin_x - 200 ,origin_y - 100);
 
         //click listener to find when the user wants to switch to the credits screen
-        creditsButton.getButton().addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new Credits(game));
-                //stop the music if it is playing
-                if (menuSong.isPlaying()) {
-                    menuSong.stop();
-                }
-            }
-        });
-
-//PLAY BUTTON
-        //code for creating the credits image button and placing it at the desired location
-        origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
-        origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
-        Button playButton = new Button("PLAY",origin_x - 100 ,origin_y);
-
-        //click listener to find when the user wants to switch to the credits screen
-        creditsButton.getButton().addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new Credits(game));
-                //stop the music if it is playing
-                if (menuSong.isPlaying()) {
-                    menuSong.stop();
-                }
-            }
-        });
-
-
-        //click listener to find when the user wants to switch to the settings screen
-        settings.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlay(game));
-                //stop the music if it is playing
-                if (menuSong.isPlaying()) {
-                    menuSong.pause();
-                }
-            }
-        });
-
-        //code for creating the quit image button and placing it at the desired location
-        origin_x = (Gdx.graphics.getWidth() - quitTexture.getWidth()) / 2;
-        origin_y = ((Gdx.graphics.getHeight() - quitTexture.getHeight()) / 2) - 50;
-        quitTextureRegion = new TextureRegion(quitTexture);
-        quitDrawable = new TextureRegionDrawable(quitTextureRegion);
-        quit = new ImageButton(quitDrawable);
-        quit.setPosition(origin_x - 50, origin_y);
-
-        //click listener to find when the user wants to exit
-        quit.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
-
-        //temp variables for placing graphics at disorder locations
-        origin_x = (Gdx.graphics.getWidth() - playTexture.getWidth()) / 2;
-        origin_y = ((Gdx.graphics.getHeight() - playTexture.getHeight()) / 2) + 50;
-        //code for creating the play image button and placing it at the desired location
-        playTextureRegion = new TextureRegion(playTexture);
-        playDrawable = new TextureRegionDrawable(playTextureRegion);
-        play = new ImageButton(playDrawable);
-        play.setPosition(origin_x - 50, origin_y);
-
-        //click listener to find when the user wants to switch to the first game screen
-        play.addListener(new ClickListener(){
+        playButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen1(game));
                 //stop the music if it is playing
                 if (menuSong.isPlaying()) {
-                    menuSong.pause();
+                    menuSong.stop();
                 }
+            }
+        });
+
+//CREDITS BUTTON
+        //code for creating the credits button and placing it at the desired location
+        origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
+        origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
+        Button creditsButton = new Button("CREDITS",origin_x - 200,origin_y - 200);
+
+        //click listener to find when the user wants to switch to the credits screen
+        creditsButton.getButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new Credits(game));
+                //stop the music if it is playing
+                if (menuSong.isPlaying()) {
+                    menuSong.stop();
+                }
+            }
+        });
+
+//HOW TO PLAY BUTTON
+    //code for creating the settings button and placing it at the desired location
+    origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
+    origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
+    Button howToPlayButton = new Button("HOW TO PLAY",origin_x - 200,origin_y - 300);
+
+    //click listener to find when the user wants to switch to the credits screen
+    howToPlayButton.getButton().addListener(new ClickListener(){
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlay(game));
+            //stop the music if it is playing
+            if (menuSong.isPlaying()) {
+                menuSong.stop();
+            }
+        }
+    });
+
+//QUIT BUTTON
+        //code for creating the Quit Game button and placing it at the desired location
+        origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
+        origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
+        Button quitButton = new Button("QUIT",origin_x - 100,origin_y - 100);
+
+        //Click listener to find when the user wants to exit program
+        quitButton.getButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
             }
         });
 
@@ -155,10 +136,10 @@ public class MainMenu implements Screen {
         //add all graphics and music to the stage
 
         stage.addActor(backdrop);
-        stage.addActor(quit);
-        stage.addActor(play);
-        stage.addActor(settings);
         stage.addActor(creditsButton.getButton());
+        stage.addActor(playButton.getButton());
+        stage.addActor(quitButton.getButton());
+        stage.addActor(howToPlayButton.getButton());
         menuSong.setVolume((float)0.4);
         menuSong.play();
 
@@ -211,10 +192,7 @@ public class MainMenu implements Screen {
     public void dispose() {
         //manual garbage disposal
         stage.dispose();
-        playTexture.dispose();
-        creditsTexture.dispose();
-        settingsTexture.dispose();
-        quitTexture.dispose();
+        buttonTexture.dispose();
         backdropTexture.dispose();
         menuSong.dispose();
     }
