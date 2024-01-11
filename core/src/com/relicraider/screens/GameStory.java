@@ -33,8 +33,14 @@ public class GameStory implements Screen {
 
         stage = new Stage(viewport, game.spriteBatch);
 
-        backdrop1 = new Texture(Gdx.files.internal("HowToPlay/HowToPlay.png"));
+        backdrop1 = new Texture(Gdx.files.internal("GameStory/gameStory1.png"));
         backdrop1.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        backdrop2 = new Texture(Gdx.files.internal("GameStory/gameStory2.png"));
+        backdrop2.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        backdrop2 = new Texture(Gdx.files.internal("GameStory/gameStory3.png"));
+        backdrop2.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         button = new Button("button", 100, 0);
 
