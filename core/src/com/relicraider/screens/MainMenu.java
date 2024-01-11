@@ -23,25 +23,10 @@ public class MainMenu implements Screen {
     //game resources
     private Stage stage;
 
-    private Texture playTexture;
-    private TextureRegion playTextureRegion;
-    private TextureRegionDrawable playDrawable;
-    private ImageButton play;
-
-    private Texture settingsTexture;
-    private TextureRegion settingsTextureRegion;
-    private TextureRegionDrawable settingsDrawable;
-    private ImageButton settings;
-
-    private Texture creditsTexture;
-    private TextureRegion creditsTextureRegion;
-    private TextureRegionDrawable creditsDrawable;
-    private ImageButton credits;
-
-    private Texture quitTexture;
-    private TextureRegion quitTextureRegion;
-    private TextureRegionDrawable quitDrawable;
-    private ImageButton quit;
+    private Texture buttonTexture;
+    private TextureRegion buttonTextureRegion;
+    private TextureRegionDrawable buttonDrawable;
+    private ImageButton buttonBorder;
 
     private Texture backdropTexture;
     private Image backdrop;
@@ -63,10 +48,7 @@ public class MainMenu implements Screen {
      */
     public void show() {
         //load resources from disk
-        settingsTexture = new Texture(Gdx.files.internal("MainMenu/settingsButton.png"));
-        creditsTexture = new Texture(Gdx.files.internal("MainMenu/creditsButton.png"));
-        playTexture = new Texture(Gdx.files.internal("MainMenu/playButton.png"));
-        quitTexture = new Texture(Gdx.files.internal("MainMenu/quitButton.png"));
+        buttonTexture = new Texture(Gdx.files.internal("MainMenu/MenuButtonBorder.png"))
         backdropTexture = new Texture(Gdx.files.internal("MainMenu/backdrop.png"));
         menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));
 
@@ -78,16 +60,14 @@ public class MainMenu implements Screen {
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
+//CREDITS BUTTON
         //code for creating the credits image button and placing it at the desired location
-        int origin_x = (Gdx.graphics.getWidth() - creditsTexture.getWidth()) / 2;
-        int origin_y = ((Gdx.graphics.getHeight() - creditsTexture.getHeight()) / 2) + 100;
-        creditsTextureRegion = new TextureRegion(creditsTexture);
-        creditsDrawable = new TextureRegionDrawable(creditsTextureRegion);
-        credits = new ImageButton(creditsDrawable);
-        credits.setPosition(origin_x - 50, origin_y);
+        int origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
+        int origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
+        Button creditsButton = new Button("CREDITS",origin_x,origin_y);
 
         //click listener to find when the user wants to switch to the credits screen
-        credits.addListener(new ClickListener(){
+        creditsButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -99,13 +79,25 @@ public class MainMenu implements Screen {
             }
         });
 
-        //code for creating the settings image button and placing it at the desired location
-        origin_x = (Gdx.graphics.getWidth() - settingsTexture.getWidth()) / 2;
-        origin_y = (Gdx.graphics.getHeight() - settingsTexture.getHeight()) / 2;
-        settingsTextureRegion = new TextureRegion(settingsTexture);
-        settingsDrawable = new TextureRegionDrawable(settingsTextureRegion);
-        settings = new ImageButton(settingsDrawable);
-        settings.setPosition(origin_x - 50, origin_y);
+//PLAY BUTTON
+        //code for creating the credits image button and placing it at the desired location
+        origin_x = ((Gdx.graphics.getWidth() - buttonTexture.getWidth()) / 2) + 100;
+        origin_y = ((Gdx.graphics.getHeight() - buttonTexture.getHeight()) / 2) + 100;
+        Button playButton = new Button("PLAY",origin_x - 100 ,origin_y);
+
+        //click listener to find when the user wants to switch to the credits screen
+        creditsButton.getButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new Credits(game));
+                //stop the music if it is playing
+                if (menuSong.isPlaying()) {
+                    menuSong.stop();
+                }
+            }
+        });
+
 
         //click listener to find when the user wants to switch to the settings screen
         settings.addListener(new ClickListener(){
@@ -161,11 +153,12 @@ public class MainMenu implements Screen {
         backdrop = new Image(backdropTexture);
 
         //add all graphics and music to the stage
+
         stage.addActor(backdrop);
         stage.addActor(quit);
         stage.addActor(play);
         stage.addActor(settings);
-        stage.addActor(credits);
+        stage.addActor(creditsButton.getButton());
         menuSong.setVolume((float)0.4);
         menuSong.play();
 

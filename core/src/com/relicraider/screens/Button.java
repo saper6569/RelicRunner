@@ -19,9 +19,11 @@ public class Button {
     private TextureRegionDrawable drawable;
     private ImageButton button;
 
+    private FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
+
     public Button(String text, float x, float y) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("PixelifySans-Bold.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.magFilter = Texture.TextureFilter.MipMapNearestNearest;
         fontParameter.size = 18;
 
@@ -33,6 +35,9 @@ public class Button {
         drawable = new TextureRegionDrawable(textureRegion);
         button = new ImageButton(drawable);
         button.setPosition(x, y);
+        Label buttonLabel = new Label(text, labelStyle);
+        buttonLabel.setPosition(x,y);
+
     }
 
     public Texture getTexture() {
@@ -66,4 +71,8 @@ public class Button {
     public void setButton(ImageButton button) {
         this.button = button;
     }
+    public void setFontSize(int size){
+        fontParameter.size = size;
+    }
 }
+
