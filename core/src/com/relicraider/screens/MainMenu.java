@@ -54,11 +54,15 @@ public class MainMenu implements Screen {
         backdrop = new Image(new Texture(Gdx.files.internal("MainMenu/backdrop.png")));
         stage.addActor(backdrop);
 
+//TITLE
+
+//LOGO
 //PLAY BUTTON
         //code for creating the play button and placing it at the desired location
-        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 150;
+        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140;
         int origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) + 30;
-        Button playButton = new Button("PLAY", origin_x, origin_y, stage);
+        Button playButton = new Button("PLAY", origin_x, origin_y, stage, 24);
+
 
         //click listener to find when the user wants to switch to the credits screen
         playButton.getButton().addListener(new ClickListener(){
@@ -75,9 +79,9 @@ public class MainMenu implements Screen {
 
 //CREDITS BUTTON
         //code for creating the credits button and placing it at the desired location
-        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 150;
+        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140;
         origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 25;
-        Button creditsButton = new Button("CREDITS", origin_x, origin_y, stage);
+        Button creditsButton = new Button("CREDITS", origin_x, origin_y, stage, 24);
 
         //click listener to find when the user wants to switch to the credits screen
         creditsButton.getButton().addListener(new ClickListener(){
@@ -94,9 +98,9 @@ public class MainMenu implements Screen {
 
 //HOW TO PLAY BUTTON
         //code for creating the settings button and placing it at the desired location
-        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 150;
+        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140;
         origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 80;
-        Button howToPlayButton = new Button("HOW TO PLAY", origin_x, origin_y, stage);
+        Button howToPlayButton = new Button("HOW TO PLAY", origin_x, origin_y, stage, 24);
 
         //click listener to find when the user wants to switch to the credits screen
         howToPlayButton.getButton().addListener(new ClickListener(){
@@ -113,9 +117,9 @@ public class MainMenu implements Screen {
 
 //QUIT BUTTON
         //code for creating the Quit Game button and placing it at the desired location
-        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 150;
+        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140;
         origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 135;
-        Button quitButton = new Button("QUIT", origin_x, origin_y, stage);
+        Button quitButton = new Button("QUIT", origin_x, origin_y, stage, 24);
 
         //Click listener to find when the user wants to exit program
         quitButton.getButton().addListener(new ClickListener(){
@@ -125,7 +129,7 @@ public class MainMenu implements Screen {
             }
         });
 
-        //add all graphics and music to the stage
+        //Set Volume of Main Menu Music and Play, start count.
         menuSong.setVolume((float)0.4);
         menuSong.play();
 

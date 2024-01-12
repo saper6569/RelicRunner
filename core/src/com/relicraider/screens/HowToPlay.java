@@ -61,7 +61,7 @@ public class HowToPlay implements Screen {
         atlasHealPotion = new TextureAtlas(Gdx.files.internal("Sprites/healPotion.txt"));
         animationHealPotion = new Animation<TextureRegion>(FRAME_DURATION, atlasHealPotion.getRegions());
 
-        backButton = new Button("Back", SetupVariables.WIDTH - Button.width - 120, 80, stage);
+        backButton = new Button("Back", SetupVariables.WIDTH - Button.width - 120, 80, stage, 24);
         stage.addActor(backButton.getButton());
         //click listener to find when the user wants to go back
         backButton.getButton().addListener(new ClickListener(){

@@ -46,7 +46,7 @@ public class GameStory implements Screen {
         backdrop3 = new Texture(Gdx.files.internal("GameStory/gameStory3.png"));
         backdrop3.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        continueButton = new Button("CONTINUE", SetupVariables.WIDTH - Button.width - 100, 50, stage);
+        continueButton = new Button("CONTINUE", SetupVariables.WIDTH - Button.width - 100, 50, stage, 18);
 
         //click listener to find when the user wants to switch to the next page
         continueButton.getButton().addListener(new ClickListener(){
@@ -61,7 +61,7 @@ public class GameStory implements Screen {
             }
         });
 
-        skipButton = new Button("SKIP", 100, 50, stage);
+        skipButton = new Button("SKIP", 100, 50, stage, 18);
 
         //click listener to find when the user wants to switch to the next page
         skipButton.getButton().addListener(new ClickListener(){
