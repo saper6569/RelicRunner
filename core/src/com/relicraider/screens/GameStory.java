@@ -1,11 +1,15 @@
 package com.relicraider.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
@@ -18,12 +22,12 @@ public class GameStory implements Screen {
     private Texture backdrop3;
     private final OrthographicCamera camera;
     private final FitViewport viewport;
-    private Button button;
-    private Table table;
+    private Button continueButton;
+    private Button skipButton;
 
     private int backdrop;
 
-    public GameStory(RelicRaider game) {
+    public GameStory(final RelicRaider game) {
         this.game = game;
 
         //camera
@@ -39,12 +43,35 @@ public class GameStory implements Screen {
         backdrop2 = new Texture(Gdx.files.internal("GameStory/gameStory2.png"));
         backdrop2.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        backdrop2 = new Texture(Gdx.files.internal("GameStory/gameStory3.png"));
-        backdrop2.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        backdrop3 = new Texture(Gdx.files.internal("GameStory/gameStory3.png"));
+        backdrop3.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        button = new Button("button", 100, 0);
+        continueButton = new Button("CONTINUE", SetupVariables.WIDTH - Button.width - 100, 50, stage);
 
-        stage.addActor(button.getButton());
+        //click listener to find when the user wants to switch to the next page
+        continueButton.getButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                backdrop++;
+                if (backdrop == 3) {
+                    continueButton.setText("ENTER");
+                } if (backdrop == 4) {
+                    ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen1(game));
+                }
+            }
+        });
+
+        skipButton = new Button("SKIP", 100, 50, stage);
+
+        //click listener to find when the user wants to switch to the next page
+        skipButton.getButton().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen1(game));
+            }
+        });
+
+        backdrop = 1;
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -54,20 +81,41 @@ public class GameStory implements Screen {
 
     }
 
+    public void update() {
+        if (backdrop == 1) {
+            game.spriteBatch.draw(backdrop1, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
+        } else if (backdrop == 2) {
+            game.spriteBatch.draw(backdrop2, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
+        } else {
+            game.spriteBatch.draw(backdrop3, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
+            continueButton.setText("ENTER");
+            continueButton.getButton().setPosition(SetupVariables.WIDTH / 2 - Button.width / 2, 50);
+            skipButton.getButton().remove();
+        }
+    }
+
     @Override
     public void render(float delta) {
+        //screen render functions
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         camera.update();
 
         game.spriteBatch.setProjectionMatrix(camera.combined);
         game.spriteBatch.begin();
-        game.spriteBatch.draw(backdrop1, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
+
+        update();
+
         game.spriteBatch.end();
+        stage.act();
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height,true);
+        viewport.update(width, height,true);
     }
 
     @Override

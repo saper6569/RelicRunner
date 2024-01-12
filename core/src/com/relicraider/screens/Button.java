@@ -9,35 +9,41 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.relicraider.SetupVariables;
 
 public class Button {
+    public static int width = 190;
+    public static int height = 49;
     private Texture texture;
     private TextureRegion textureRegion;
     private TextureRegionDrawable drawable;
-    private ImageButton button;
-
+    private ImageTextButton button;
+    private ImageTextButton.ImageTextButtonStyle style;
+    private Label buttonLabel;
     private FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
+    private String text;
 
-    public Button(String text, float x, float y) {
+    public Button(String text, float x, float y, Stage stage) {
+        this.text = text;
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("PixelifySans-Bold.ttf"));
         fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.magFilter = Texture.TextureFilter.MipMapNearestNearest;
         fontParameter.size = 18;
 
         BitmapFont font = generator.generateFont(fontParameter);
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
 
         texture = new Texture(Gdx.files.internal("Other/button.png"));
         textureRegion = new TextureRegion(texture);
         drawable = new TextureRegionDrawable(textureRegion);
-        button = new ImageButton(drawable);
-        button.setPosition(x, y);
-        Label buttonLabel = new Label(text, labelStyle);
-        buttonLabel.setPosition(x,y);
+        style = new ImageTextButton.ImageTextButtonStyle(drawable, drawable, drawable, font);
+        button = new ImageTextButton(text, style);
 
+        button.setPosition(x, y);
+
+        stage.addActor(button);
     }
 
     public Texture getTexture() {
@@ -64,15 +70,49 @@ public class Button {
         this.drawable = drawable;
     }
 
-    public ImageButton getButton() {
+    public void setFontSize(int size){
+        fontParameter.size = size;
+    }
+
+    public Label getButtonLabel() {
+        return buttonLabel;
+    }
+
+    public void setButtonLabel(Label buttonLabel) {
+        this.buttonLabel = buttonLabel;
+    }
+
+    public ImageTextButton getButton() {
         return button;
     }
 
-    public void setButton(ImageButton button) {
+    public void setButton(ImageTextButton button) {
         this.button = button;
     }
-    public void setFontSize(int size){
-        fontParameter.size = size;
+
+    public ImageTextButton.ImageTextButtonStyle getStyle() {
+        return style;
+    }
+
+    public void setStyle(ImageTextButton.ImageTextButtonStyle style) {
+        this.style = style;
+    }
+
+    public FreeTypeFontGenerator.FreeTypeFontParameter getFontParameter() {
+        return fontParameter;
+    }
+
+    public void setFontParameter(FreeTypeFontGenerator.FreeTypeFontParameter fontParameter) {
+        this.fontParameter = fontParameter;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+        button.setText(text);
     }
 }
 
