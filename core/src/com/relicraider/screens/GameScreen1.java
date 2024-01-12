@@ -35,10 +35,10 @@ public class GameScreen1 extends AbstractGameScreen {
 
                 if (fixtureA.getUserData() instanceof Goblin && fixtureB.getUserData() instanceof Player) {
                     ((Goblin) fixtureA.getUserData()).setAttacking(true);
-                    AbstractGameScreen.player.getCollisons().add((Goblin) fixtureA.getUserData());
+                    AbstractGameScreen.player.getCollisions().add((Goblin) fixtureA.getUserData());
                 } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureB.getUserData()).setAttacking(true);
-                    AbstractGameScreen.player.getCollisons().add((Goblin) fixtureB.getUserData());
+                    AbstractGameScreen.player.getCollisions().add((Goblin) fixtureB.getUserData());
                 }
             }
 

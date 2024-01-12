@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.relicraider.SetupVariables;
+import com.relicraider.characters.Player;
 import com.relicraider.screens.AbstractGameScreen;
 
 public class HealingPotion extends Item {

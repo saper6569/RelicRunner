@@ -38,7 +38,7 @@ public class Credits implements Screen {
         backdrop = new Image(backdropTexture);
         stage.addActor(backdrop);
 
-        backButton = new Button("BACK", SetupVariables.WIDTH - Button.width - 80, 100, stage);
+        backButton = new Button("BACK", SetupVariables.WIDTH - Button.width - 80, 50, stage);
         //click listener to find when the user wants to go back
         backButton.getButton().addListener(new ClickListener(){
             @Override

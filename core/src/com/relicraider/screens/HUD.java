@@ -26,7 +26,8 @@ public class HUD implements Disposable {
     private Label healthLabel;
     private Label roomL;
     private Label roomLabel;
-    private Label itemsL;
+    private Label relicsL;
+    private Label relicsLable;
 
     private Table hearts;
     private Texture fullHeart;
@@ -59,7 +60,8 @@ public class HUD implements Disposable {
         healthLabel = new Label(String.format("%03d", player.getHealth()), labelStyle);
         roomL = new Label (" ROOM ", labelStyle);
         roomLabel = new Label (Player.room, labelStyle);
-        itemsL = new Label (" ITEMS ", labelStyle);
+        relicsL = new Label (" RELICS COLLECTED ", labelStyle);
+        relicsLable = new Label(Player.getRelicsCollected() +  " / 8", labelStyle);
 
         table.add(healthL).padTop(10).padLeft(5);
         table.row();
@@ -69,7 +71,9 @@ public class HUD implements Disposable {
         table.row();
         table.add(roomLabel).padLeft(5);
         table.row();
-        table.add(itemsL).padTop(10).padLeft(5);
+        table.add(relicsL).padTop(10).padLeft(5);
+        table.row();
+        table.add(relicsLable).padTop(10).padLeft(5);
 
         hearts = new Table();
         hearts.bottom().left();
