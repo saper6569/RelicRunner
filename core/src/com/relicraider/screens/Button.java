@@ -26,12 +26,12 @@ public class Button {
     private FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
     private String text;
 
-    public Button(String text, float x, float y, Stage stage) {
+    public Button(String text, float x, float y, Stage stage, int fontSize) {
         this.text = text;
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("PixelifySans-Bold.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("KenPixel Mini Square.ttf"));
         fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.magFilter = Texture.TextureFilter.MipMapNearestNearest;
-        fontParameter.size = 18;
+        fontParameter.size = fontSize;
 
         BitmapFont font = generator.generateFont(fontParameter);
 
