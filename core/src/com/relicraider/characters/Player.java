@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
-import com.relicraider.Items.Item;
 import com.relicraider.SetupVariables;
 
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ import java.util.ArrayList;
 public class Player extends GameCharacter {
     public static String room;
     private boolean canAttack;
-    private ArrayList<GameCharacter> collisons;
+    private ArrayList<GameCharacter> collisions;
     private float attackCooldown;
-    private ArrayList<Item> inventory;
+    private static int relicsCollected;
     private String lastPressed;
     private boolean isBlocking;
 
@@ -34,8 +33,8 @@ public class Player extends GameCharacter {
         setBounds(0, 0, 32, 32);
 
         lastPressed = "s";
-        inventory = new ArrayList<Item>();
-        collisons = new ArrayList<GameCharacter>();
+        relicsCollected = 0;
+        collisions = new ArrayList<GameCharacter>();
         canAttack = true;
         isBlocking = false;
 
@@ -55,8 +54,8 @@ public class Player extends GameCharacter {
         setBounds(0, 0, 32, 32);
 
         lastPressed = "s";
-        inventory = new ArrayList<Item>();
-        collisons = new ArrayList<GameCharacter>();
+        relicsCollected = 0;
+        collisions = new ArrayList<GameCharacter>();
         canAttack = true;
         isBlocking = false;
 
@@ -98,7 +97,7 @@ public class Player extends GameCharacter {
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             if (canAttack) {
-                for (GameCharacter character : collisons) {
+                for (GameCharacter character : collisions) {
                     attack(character);
                 }
                 canAttack = false;
@@ -194,14 +193,6 @@ public class Player extends GameCharacter {
         this.canAttack = canAttack;
     }
 
-    public ArrayList<Item> getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(ArrayList<Item> inventory) {
-        this.inventory = inventory;
-    }
-
     public String getLastPressed() {
         return lastPressed;
     }
@@ -210,21 +201,21 @@ public class Player extends GameCharacter {
         this.lastPressed = lastPressed;
     }
 
-    public ArrayList<GameCharacter> getCollisons() {
-        return collisons;
+    public ArrayList<GameCharacter> getCollisions() {
+        return collisions;
     }
 
     public void removeCollision(int characterID) {
-        for (int i = 0; i < collisons.size(); i++) {
-            if (collisons.get(i).getCharacterID() == characterID) {
-                collisons.remove(i);
+        for (int i = 0; i < collisions.size(); i++) {
+            if (collisions.get(i).getCharacterID() == characterID) {
+                collisions.remove(i);
                 break;
             }
         }
     }
 
-    public void setCollisons(ArrayList<GameCharacter> collisons) {
-        this.collisons = collisons;
+    public void setCollisions(ArrayList<GameCharacter> collisions) {
+        this.collisions = collisions;
     }
 
     public float getAttackCooldown() {
@@ -281,5 +272,13 @@ public class Player extends GameCharacter {
 
     public void setBlockRight(TextureRegion blockRight) {
         this.blockRight = blockRight;
+    }
+
+    public static int getRelicsCollected() {
+        return relicsCollected;
+    }
+
+    public static void setRelicsCollected(int relicsCollected) {
+        Player.relicsCollected = relicsCollected;
     }
 }

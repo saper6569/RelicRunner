@@ -18,7 +18,7 @@ public abstract class Item extends Sprite {
     private final static float FRAME_DURATION = 0.30f;
 
     protected TextureRegion region;
-    protected TextureRegion icon;
+    protected TextureRegion image;
     protected TextureAtlas atlas;
     protected Animation<TextureRegion> animation;
 
@@ -37,8 +37,24 @@ public abstract class Item extends Sprite {
         atlas = new TextureAtlas(atlasFile);
         Array<TextureAtlas.AtlasRegion> region = atlas.getRegions();
         animation = new Animation<TextureRegion>(FRAME_DURATION, region, Animation.PlayMode.LOOP);
-        icon = new TextureRegion(atlas.findRegion("00"));
-        setRegion(icon);
+        image = new TextureRegion(atlas.findRegion("00"));
+        setRegion(image);
+    }
+
+    public Item(String itemName, String atlasFile, String atlasRegion, float xPos, float yPos) {
+        this.itemName = itemName;
+        itemCounter++;
+        itemID = itemCounter;
+        isPickedUp = false;
+
+        elapsed_time = 0.0f;
+        region = null;
+
+        atlas = new TextureAtlas(atlasFile);
+        Array<TextureAtlas.AtlasRegion> region = atlas.getRegions();
+        animation = new Animation<TextureRegion>(FRAME_DURATION, region, Animation.PlayMode.LOOP);
+        image = new TextureRegion(atlas.findRegion("atlasRegion"));
+        setRegion(image);
     }
 
     public abstract void itemIsPickedUp();
@@ -101,12 +117,12 @@ public abstract class Item extends Sprite {
         return region;
     }
 
-    public TextureRegion getIcon() {
-        return icon;
+    public TextureRegion getImage() {
+        return image;
     }
 
-    public void setIcon(TextureRegion icon) {
-        this.icon = icon;
+    public void setImage(TextureRegion image) {
+        this.image = image;
     }
 
     public TextureAtlas getAtlas() {
