@@ -84,6 +84,21 @@ public class HUD implements Disposable {
         stage.addActor(hearts);
     }
 
+    private void drawHearts(int health, int counter) {
+        if (counter == 10 && health < 5) {
+            hearts.add(new Image(emptyHeart)).padBottom(20).height(40).width(40).padLeft(10);
+        } else if (health < 5) {
+            hearts.add(new Image(emptyHeart)).padBottom(20).height(40).width(40).padLeft(10);
+            drawHearts(health, counter++);
+        } else if (health < 10) {
+            hearts.add(new Image(halfHeart)).padBottom(20).height(40).width(40).padLeft(10);
+            drawHearts(health - 10, counter++);
+        } else {
+            hearts.add(new Image(fullHeart)).padBottom(20).height(40).width(40).padLeft(10);
+            drawHearts(health - 10, counter++);
+        }
+    }
+
     private void drawHearts() {
         hearts.clear();
         boolean hasHalfHeart = false;
@@ -113,7 +128,9 @@ public class HUD implements Disposable {
 
     public void update(float dt) {
         healthLabel.setText(String.format("%03d", player.getHealth()));
-        drawHearts();
+        int health = player.getHealth();
+        hearts.clear();
+        drawHearts(health, 0);
     }
 
     @Override
