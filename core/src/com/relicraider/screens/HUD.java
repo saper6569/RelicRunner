@@ -85,44 +85,17 @@ public class HUD implements Disposable {
     }
 
     private void drawHearts(int health, int counter) {
-        if (counter == 10 && health < 5) {
-            hearts.add(new Image(emptyHeart)).padBottom(20).height(40).width(40).padLeft(10);
+        if (health < 5 && counter > 10) {
+            return;
         } else if (health < 5) {
             hearts.add(new Image(emptyHeart)).padBottom(20).height(40).width(40).padLeft(10);
-            drawHearts(health, counter++);
+            drawHearts(health, counter + 1);
         } else if (health < 10) {
             hearts.add(new Image(halfHeart)).padBottom(20).height(40).width(40).padLeft(10);
-            drawHearts(health - 10, counter++);
+            drawHearts(health - 5, counter + 1);
         } else {
             hearts.add(new Image(fullHeart)).padBottom(20).height(40).width(40).padLeft(10);
-            drawHearts(health - 10, counter++);
-        }
-    }
-
-    private void drawHearts() {
-        hearts.clear();
-        boolean hasHalfHeart = false;
-        int emptyHearts;
-        int roundedHealth;
-        roundedHealth = (int)(5*(Math.round((double)player.getHealth()/5)));
-        if (roundedHealth % 10 == 5) {
-            hasHalfHeart = true;
-            roundedHealth -= 5;
-        }
-        int fullHearts = roundedHealth / 10;
-        for(int i = 0; i < fullHearts; i++) {
-            hearts.add(new Image(fullHeart)).padBottom(20).height(40).width(40).padLeft(10);
-        }
-
-        if (hasHalfHeart) {
-            hearts.add(new Image(halfHeart)).padBottom(20).height(40).width(40).padLeft(10);
-            emptyHearts = 10 - fullHearts - 1;
-        } else {
-            emptyHearts = 10 - fullHearts;
-        }
-
-        for(int i = 0; i < emptyHearts; i++) {
-            hearts.add(new Image(emptyHeart)).padBottom(20).height(40).width(40).padLeft(15);
+            drawHearts(health - 10, counter + 1);
         }
     }
 
@@ -130,7 +103,7 @@ public class HUD implements Disposable {
         healthLabel.setText(String.format("%03d", player.getHealth()));
         int health = player.getHealth();
         hearts.clear();
-        drawHearts(health, 0);
+        drawHearts(health, 1);
     }
 
     @Override
