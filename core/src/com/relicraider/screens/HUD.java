@@ -78,7 +78,7 @@ public class HUD implements Disposable {
         hearts = new Table();
         hearts.bottom().left();
         hearts.setFillParent(true);
-        drawHearts();
+        drawHearts(10,5);
 
         stage.addActor(table);
         stage.addActor(hearts);
