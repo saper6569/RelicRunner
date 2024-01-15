@@ -8,11 +8,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
+import com.relicraider.screens.gamescreens.Room1;
+import com.relicraider.screens.utilities.Button;
 
 public class GameStory implements Screen {
     private final RelicRaider game;
@@ -56,7 +57,7 @@ public class GameStory implements Screen {
                 if (backdrop == 3) {
                     continueButton.setText("ENTER");
                 } if (backdrop == 4) {
-                    ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen1(game));
+                    ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game));
                 }
             }
         });
@@ -67,7 +68,7 @@ public class GameStory implements Screen {
         skipButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen1(game));
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game));
             }
         });
 

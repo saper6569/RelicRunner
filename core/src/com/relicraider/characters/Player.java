@@ -78,7 +78,7 @@ public class Player extends GameCharacter {
 
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = SetupVariables.BIT_PLAYER;
-        fixtureDef.filter.maskBits = SetupVariables.BIT_ITEM | SetupVariables.BIT_WORLD;
+        fixtureDef.filter.maskBits = SetupVariables.BIT_ITEM | SetupVariables.BIT_WORLD | SetupVariables.BIT_DOOR;
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 
@@ -96,6 +96,7 @@ public class Player extends GameCharacter {
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            isBlocking = false;
             if (canAttack) {
                 for (GameCharacter character : collisions) {
                     attack(character);
@@ -104,7 +105,6 @@ public class Player extends GameCharacter {
                 attackCooldown = 0;
             }
             b2dBody.setLinearVelocity(0, 0);
-            System.out.println(b2dBody.getPosition().x + " , " + b2dBody.getPosition().y);
 
             if (lastPressed.equals("w")) {
                 region = backwardAttack.getKeyFrame(elapsed_time, false);

@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
+import com.relicraider.screens.gamescreens.Room1;
+import com.relicraider.screens.utilities.Button;
 
 public class HowToPlay implements Screen {
     private final RelicRaider game;
