@@ -1,7 +1,7 @@
 relics.png
 size: 208, 16
 format: RGBA8888
-filter: Linear,Linear
+filter: Nearest,Nearest
 repeat: none
 book 1
   rotate: false

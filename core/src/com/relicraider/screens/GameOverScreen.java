@@ -10,11 +10,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
+import com.relicraider.screens.utilities.Button;
 
 public class GameOverScreen implements Screen {
     private final RelicRaider game;
@@ -39,10 +39,10 @@ public class GameOverScreen implements Screen {
         viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 
-        stage = new Stage(viewport, game.spriteBatch);
+        stage = new Stage(viewport, RelicRaider.spriteBatch);
 
         //create stage object for placing graphics on
-        stage = new Stage(viewport, game.spriteBatch);
+        stage = new Stage(viewport, RelicRaider.spriteBatch);
         Gdx.input.setInputProcessor(stage);
 
         gameOverBackground = new Image(new Texture(Gdx.files.internal("GameOver/gameOverScreen.png")));
@@ -93,9 +93,6 @@ public class GameOverScreen implements Screen {
     }
 
     @Override
-    /**
-     * Render method for the Main Menu - resets and redraws the screen when called
-     */
     public void render(float delta) {
         camera.update();
 

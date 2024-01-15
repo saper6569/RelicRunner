@@ -10,6 +10,8 @@ import com.relicraider.SetupVariables;
 import java.util.ArrayList;
 
 public class Player extends GameCharacter {
+    public static int score = 0;
+    public static int playerHealth = 100;
     public static String room;
     private boolean canAttack;
     private ArrayList<GameCharacter> collisions;
@@ -26,6 +28,7 @@ public class Player extends GameCharacter {
 
     public Player(World world, float xPos, float yPos, int health) {
         super(health, 0.2f, 20, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+        playerHealth = health;
 
         this.world = world;
         defineBody(xPos, yPos);
@@ -47,6 +50,7 @@ public class Player extends GameCharacter {
 
     public Player(World world, float xPos, float yPos) {
         super(100, 0.2f, 10, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+        playerHealth = health;
 
         this.world = world;
         defineBody(xPos, yPos);
@@ -78,7 +82,7 @@ public class Player extends GameCharacter {
 
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = SetupVariables.BIT_PLAYER;
-        fixtureDef.filter.maskBits = SetupVariables.BIT_ITEM | SetupVariables.BIT_WORLD;
+        fixtureDef.filter.maskBits = SetupVariables.BIT_ITEM | SetupVariables.BIT_WORLD | SetupVariables.BIT_DOOR;
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 
@@ -96,6 +100,8 @@ public class Player extends GameCharacter {
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            System.out.println(b2dBody.getPosition().x + ", " + b2dBody.getPosition().y);
+            isBlocking = false;
             if (canAttack) {
                 for (GameCharacter character : collisions) {
                     attack(character);
@@ -104,7 +110,6 @@ public class Player extends GameCharacter {
                 attackCooldown = 0;
             }
             b2dBody.setLinearVelocity(0, 0);
-            System.out.println(b2dBody.getPosition().x + " , " + b2dBody.getPosition().y);
 
             if (lastPressed.equals("w")) {
                 region = backwardAttack.getKeyFrame(elapsed_time, false);
@@ -170,6 +175,9 @@ public class Player extends GameCharacter {
     public void takeDamage(int damage) {
         if (!isBlocking) {
             health -= damage;
+        }
+        if (health <= 0) {
+            isAlive = false;
         }
     }
 
@@ -280,5 +288,13 @@ public class Player extends GameCharacter {
 
     public static void setRelicsCollected(int relicsCollected) {
         Player.relicsCollected = relicsCollected;
+    }
+
+    public static int getPlayerHealth() {
+        return playerHealth;
+    }
+
+    public static void setPlayerHealth(int playerHealth) {
+        Player.playerHealth = playerHealth;
     }
 }

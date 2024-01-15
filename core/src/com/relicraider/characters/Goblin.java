@@ -2,13 +2,12 @@ package com.relicraider.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.relicraider.SetupVariables;
-import com.relicraider.screens.AbstractGameScreen;
+import com.relicraider.screens.gamescreens.AbstractGameScreen;
 
 public class Goblin extends GameCharacter {
     //attributes
@@ -20,24 +19,8 @@ public class Goblin extends GameCharacter {
     private boolean hasChecked;
     private float timer;
 
-    public Goblin(World world, float xPos, float yPos, int health) {
-        super(health, 0.15f, 10, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
-
-        this.world = world;
-        defineBody(xPos, yPos);
-        b2dBody.setLinearDamping(10f);
-        setBounds(0, 0, 32, 32);
-
-        direction = "forward";
-        isAggravated = false;
-        isStopped = false;
-        isAttacking = false;
-        timer = 0;
-        hasChecked = false;
-    }
-
     public Goblin(World world, float xPos, float yPos) {
-        super(40, 0.15f, 5, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
+        super(80, 0.15f, 5, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
 
         this.world = world;
         defineBody(xPos, yPos);
