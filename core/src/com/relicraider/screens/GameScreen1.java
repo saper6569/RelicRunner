@@ -1,5 +1,6 @@
 package com.relicraider.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.*;
@@ -117,6 +118,11 @@ public class GameScreen1 extends AbstractGameScreen {
                 items.remove(i);
             }
         }
+
+        if (AbstractGameScreen.player.getHealth() <= 0){
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(game));
+        }
+
 
         hud.update(dt);
 
