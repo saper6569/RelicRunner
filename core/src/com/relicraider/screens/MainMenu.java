@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Main Menu Class
+ */
 package com.relicraider.screens;
 
 import com.badlogic.gdx.Game;
@@ -17,9 +22,10 @@ import com.relicraider.SetupVariables;
 import com.relicraider.screens.gamescreens.Room1;
 import com.relicraider.screens.utilities.Button;
 
+//Main Menu Class Implements Screen Interface
 public class MainMenu implements Screen {
 
-    //game resources
+    //Game resources
     private Stage stage;
 
     private Image backdrop;
@@ -29,44 +35,52 @@ public class MainMenu implements Screen {
     //frame counter
     private double countSec;
 
-    //camera
+    //Camera
     private OrthographicCamera camera;
     private FitViewport viewport;
 
     private RelicRaider game;
 
+    /**
+     * Primary Constructor for Main Menu
+     * @param game - Game Main Menu is for
+     */
     public MainMenu(final RelicRaider game) {
         this.game = game;
-        //load resources from disk
+        //Load main menu song file
         menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));
 
-        //camera objects for creating view of game for user
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
-        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
+        //Camera objects for creating view of game for user
+        camera = new OrthographicCamera(); //Create new Camera
+        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera); //Camera's viewport is set width and height, found in setup variables class
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0); //Set Camera's Position to x: Width of the World Camera is in, divided by 2. y: Height of the World Camera is in, divided by 2.
 
         //create stage object for placing graphics on
         stage = new Stage(viewport, RelicRaider.spriteBatch);
         Gdx.input.setInputProcessor(stage);
 
+        //Add Background Image to Main Menu
         backdrop = new Image(new Texture(Gdx.files.internal("MainMenu/backdrop.png")));
-        stage.addActor(backdrop);
+        stage.addActor(backdrop); //Add to main menu stage
 
-//TITLE
-
-//LOGO
 //PLAY BUTTON
         //code for creating the play button and placing it at the desired location
-        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140;
-        int origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) + 30;
-        Button playButton = new Button("PLAY", origin_x, origin_y, stage, 24);
+        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140; //x origin of the button is (setup width take away width of button) from that number take away 140
+        int origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) + 30; //y origin of the button is (setup height take away height of button) from that number add 30
+        Button playButton = new Button("PLAY", origin_x, origin_y, stage, 24); //Create New button with text, x, y, Stage, font size of text
 
 
-        //click listener to find when the user wants to switch to the credits screen
+        //click listener to find when the user wants to switch to the game screen
         playButton.getButton().addListener(new ClickListener(){
             @Override
+            /**
+             *Method to find if user clicked the play button
+             * @param event - Click Event
+             * @param x - X value of where user clicked
+             * @param y - Y value of where user clicked
+             */
             public void clicked(InputEvent event, float x, float y) {
-
+                //If user clicked play button, set screen to game story.
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new GameStory(game));
                 //stop the music if it is playing
                 if (menuSong.isPlaying()) {
@@ -77,15 +91,15 @@ public class MainMenu implements Screen {
 
 //CREDITS BUTTON
         //code for creating the credits button and placing it at the desired location
-        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140;
-        origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 25;
-        Button creditsButton = new Button("CREDITS", origin_x, origin_y, stage, 24);
+        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140; //x origin of the button is (setup width take away width of button) from that number take away 140
+        origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 25; //y origin of the button is (setup height take away height of button) from that number take away 25
+        Button creditsButton = new Button("CREDITS", origin_x, origin_y, stage, 24); //Create New button with text, x, y, Stage, font size of text
 
         //click listener to find when the user wants to switch to the credits screen
         creditsButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                //If user clicked credits button, set screen to credits screen.
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new Credits(game));
                 //stop the music if it is playing
                 if (menuSong.isPlaying()) {
@@ -95,16 +109,16 @@ public class MainMenu implements Screen {
         });
 
 //HOW TO PLAY BUTTON
-        //code for creating the settings button and placing it at the desired location
-        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140;
-        origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 80;
-        Button howToPlayButton = new Button("HOW TO PLAY", origin_x, origin_y, stage, 24);
+        //code for creating the how to play button and placing it at the desired location
+        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140; //x origin of the button is (setup width take away width of button) from that number take away 140
+        origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 80; //y origin of the button is (setup height take away height of button) from that number take away 80
+        Button howToPlayButton = new Button("HOW TO PLAY", origin_x, origin_y, stage, 24); //Create New button with text, x, y, Stage, font size of text
 
         //click listener to find when the user wants to switch to the credits screen
         howToPlayButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                //If user clicked how to play button, set screen to credits screen.
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlay(game));
                 //stop the music if it is playing
                 if (menuSong.isPlaying()) {
@@ -115,11 +129,11 @@ public class MainMenu implements Screen {
 
 //QUIT BUTTON
         //code for creating the Quit Game button and placing it at the desired location
-        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140;
-        origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 135;
-        Button quitButton = new Button("QUIT", origin_x, origin_y, stage, 24);
+        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140; //x origin of the button is (setup width take away width of button) from that number take away 140
+        origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 135; //y origin of the button is (setup height take away height of button) from that number take away 135
+        Button quitButton = new Button("QUIT", origin_x, origin_y, stage, 24); //Create New button with text, x, y, Stage, font size of text
 
-        //Click listener to find when the user wants to exit program
+        //Click listener to find when the user clicks the button to exit program
         quitButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -135,13 +149,17 @@ public class MainMenu implements Screen {
     }
 
 
-    @Override
+    @Override //Overide Method Declaration in super class
     public void show() {
     }
 
     @Override
+    /**
+     * Method to render the screen
+     * @param delta - libGDX screen setup variable
+     */
     public void render(float delta) {
-        camera.update();
+        camera.update(); //Update Screen's Camera
 
         //Clear the game screen with Black
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -162,6 +180,11 @@ public class MainMenu implements Screen {
     }
 
     @Override
+    /**
+     * Method to resize the screen of the main menu
+     * @param width - New Width of Screen
+     * @param height - New Height of Screen
+     */
     public void resize(int width, int height) {
         stage.getViewport().update(width, height,true);
     }
@@ -182,6 +205,9 @@ public class MainMenu implements Screen {
     }
 
     @Override
+    /**
+     * Method to dispose assets used in the main menu
+     */
     public void dispose() {
         //manual garbage disposal
         stage.dispose();
