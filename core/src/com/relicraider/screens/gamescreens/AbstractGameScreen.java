@@ -1,5 +1,6 @@
 package com.relicraider.screens.gamescreens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +13,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.Items.HealingPotion;
 import com.relicraider.Items.Item;
@@ -21,6 +24,8 @@ import com.relicraider.SetupVariables;
 import com.relicraider.characters.GameCharacter;
 import com.relicraider.characters.Goblin;
 import com.relicraider.characters.Player;
+import com.relicraider.screens.GameOverScreen;
+import com.relicraider.screens.utilities.Button;
 import com.relicraider.screens.utilities.Door;
 import com.relicraider.screens.utilities.HUD;
 
@@ -53,6 +58,7 @@ public abstract class AbstractGameScreen implements Screen {
     protected final RelicRaider game;
     protected final Stage stage;
     protected HUD hud;
+    protected Button enterButton;
 
 
     public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer) {
@@ -64,7 +70,8 @@ public abstract class AbstractGameScreen implements Screen {
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
         camera.zoom -= 0.7f;
 
-        stage = new Stage(viewport, this.game.spriteBatch);
+        stage = new Stage(viewport, RelicRaider.spriteBatch);
+        Gdx.input.setInputProcessor(stage);
 
         characters = new ArrayList<>();
         items = new ArrayList<>();
@@ -78,10 +85,9 @@ public abstract class AbstractGameScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        player = new Player(world, 200, 300);
+        player = new Player(world, 200, 300, Player.playerHealth);
         characters.add(player);
-
-        hud = new HUD(game.spriteBatch, player);
+        hud = new HUD(RelicRaider.spriteBatch, player);
 
         bodyDef = new BodyDef();
         bodyDef.position.set(new Vector2(0, 10));
@@ -177,6 +183,10 @@ public abstract class AbstractGameScreen implements Screen {
     }
 
     public void update(float dt){
+        if (!player.isAlive()) {
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(game));
+        }
+
         camera.update();
 
         camera.position.x = player.getB2dBody().getPosition().x;
@@ -224,27 +234,32 @@ public abstract class AbstractGameScreen implements Screen {
         mapRenderer.render();
         //debugRenderer.render(world, camera.combined);
 
-        game.spriteBatch.setProjectionMatrix(camera.combined);
-        game.spriteBatch.begin();
+        RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
+        RelicRaider.spriteBatch.begin();
 
         //player movement
         player.playerMovement(delta);
-        for (int i = 0; i < characters.size(); i++) {
-            characters.get(i).draw(game.spriteBatch);
-        }
 
         for (int i = 0; i < items.size(); i++) {
-            items.get(i).draw(game.spriteBatch);
+            items.get(i).draw(RelicRaider.spriteBatch);
+        }
+
+        for (int i = 0; i < characters.size(); i++) {
+            characters.get(i).draw(RelicRaider.spriteBatch);
         }
 
         for (int i = 0; i < doors.size(); i++) {
-            doors.get(i).draw(game.spriteBatch);
+            doors.get(i).draw(RelicRaider.spriteBatch);
         }
 
-        game.spriteBatch.end();
+        RelicRaider.spriteBatch.end();
 
-        game.spriteBatch.setProjectionMatrix(hud.stage.getCamera().combined);
+        RelicRaider.spriteBatch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+
+        //render the stage
+        stage.draw();
+        stage.act();
 
         stepWorld();
     }

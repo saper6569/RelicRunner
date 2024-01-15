@@ -46,7 +46,7 @@ public class MainMenu implements Screen {
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 
         //create stage object for placing graphics on
-        stage = new Stage(viewport, game.spriteBatch);
+        stage = new Stage(viewport, RelicRaider.spriteBatch);
         Gdx.input.setInputProcessor(stage);
 
         backdrop = new Image(new Texture(Gdx.files.internal("MainMenu/backdrop.png")));
@@ -140,9 +140,6 @@ public class MainMenu implements Screen {
     }
 
     @Override
-    /**
-     * Render method for the Main Menu - resets and redraws the screen when called
-     */
     public void render(float delta) {
         camera.update();
 

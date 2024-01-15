@@ -10,6 +10,7 @@ import com.relicraider.SetupVariables;
 import java.util.ArrayList;
 
 public class Player extends GameCharacter {
+    public static int playerHealth = 100;
     public static String room;
     private boolean canAttack;
     private ArrayList<GameCharacter> collisions;
@@ -17,6 +18,7 @@ public class Player extends GameCharacter {
     private static int relicsCollected;
     private String lastPressed;
     private boolean isBlocking;
+    private boolean canEnter;
 
     private TextureAtlas blockAtlas;
     private TextureRegion blockForward;
@@ -26,6 +28,7 @@ public class Player extends GameCharacter {
 
     public Player(World world, float xPos, float yPos, int health) {
         super(health, 0.2f, 20, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+        playerHealth = health;
 
         this.world = world;
         defineBody(xPos, yPos);
@@ -37,6 +40,7 @@ public class Player extends GameCharacter {
         collisions = new ArrayList<GameCharacter>();
         canAttack = true;
         isBlocking = false;
+        canEnter = false;
 
         blockAtlas = new TextureAtlas("Sprites/knightBlock.txt");
         blockForward = new TextureRegion(blockAtlas.findRegion("forward"));
@@ -47,6 +51,7 @@ public class Player extends GameCharacter {
 
     public Player(World world, float xPos, float yPos) {
         super(100, 0.2f, 10, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+        playerHealth = health;
 
         this.world = world;
         defineBody(xPos, yPos);
@@ -58,6 +63,7 @@ public class Player extends GameCharacter {
         collisions = new ArrayList<GameCharacter>();
         canAttack = true;
         isBlocking = false;
+        canEnter = false;
 
         blockAtlas = new TextureAtlas("Sprites/knightBlock.txt");
         blockForward = new TextureRegion(blockAtlas.findRegion("forward"));
@@ -171,6 +177,9 @@ public class Player extends GameCharacter {
         if (!isBlocking) {
             health -= damage;
         }
+        if (health <= 0) {
+            isAlive = false;
+        }
     }
 
     public void attack(GameCharacter character) {
@@ -280,5 +289,21 @@ public class Player extends GameCharacter {
 
     public static void setRelicsCollected(int relicsCollected) {
         Player.relicsCollected = relicsCollected;
+    }
+
+    public static int getPlayerHealth() {
+        return playerHealth;
+    }
+
+    public static void setPlayerHealth(int playerHealth) {
+        Player.playerHealth = playerHealth;
+    }
+
+    public boolean isCanEnter() {
+        return canEnter;
+    }
+
+    public void setCanEnter(boolean canEnter) {
+        this.canEnter = canEnter;
     }
 }

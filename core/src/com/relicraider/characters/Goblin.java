@@ -19,24 +19,8 @@ public class Goblin extends GameCharacter {
     private boolean hasChecked;
     private float timer;
 
-    public Goblin(World world, float xPos, float yPos, int health) {
-        super(health, 0.15f, 10, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
-
-        this.world = world;
-        defineBody(xPos, yPos);
-        b2dBody.setLinearDamping(10f);
-        setBounds(0, 0, 32, 32);
-
-        direction = "forward";
-        isAggravated = false;
-        isStopped = false;
-        isAttacking = false;
-        timer = 0;
-        hasChecked = false;
-    }
-
     public Goblin(World world, float xPos, float yPos) {
-        super(40, 0.15f, 5, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
+        super(80, 0.15f, 5, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
 
         this.world = world;
         defineBody(xPos, yPos);

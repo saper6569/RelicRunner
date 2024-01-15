@@ -84,11 +84,11 @@ public class GameStory implements Screen {
 
     public void update() {
         if (backdrop == 1) {
-            game.spriteBatch.draw(backdrop1, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
+            RelicRaider.spriteBatch.draw(backdrop1, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
         } else if (backdrop == 2) {
-            game.spriteBatch.draw(backdrop2, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
+            RelicRaider.spriteBatch.draw(backdrop2, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
         } else {
-            game.spriteBatch.draw(backdrop3, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
+            RelicRaider.spriteBatch.draw(backdrop3, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
             continueButton.setText("ENTER");
             continueButton.getButton().setPosition(SetupVariables.WIDTH / 2 - Button.width / 2, 50);
             skipButton.getButton().remove();
@@ -104,12 +104,12 @@ public class GameStory implements Screen {
 
         camera.update();
 
-        game.spriteBatch.setProjectionMatrix(camera.combined);
-        game.spriteBatch.begin();
+        RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
+        RelicRaider.spriteBatch.begin();
 
         update();
 
-        game.spriteBatch.end();
+        RelicRaider.spriteBatch.end();
         stage.act();
         stage.draw();
     }

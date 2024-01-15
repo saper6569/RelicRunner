@@ -52,7 +52,7 @@ public class HowToPlay implements Screen {
         viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 
-        stage = new Stage(viewport, game.spriteBatch);
+        stage = new Stage(viewport, RelicRaider.spriteBatch);
 
         atlasPlayer = new TextureAtlas(Gdx.files.internal("Sprites/knightWalk.txt"));
         animationPlayer = new Animation<TextureRegion>(FRAME_DURATION, atlasPlayer.findRegions("forward"));
@@ -63,8 +63,8 @@ public class HowToPlay implements Screen {
         atlasHealPotion = new TextureAtlas(Gdx.files.internal("Sprites/healPotion.txt"));
         animationHealPotion = new Animation<TextureRegion>(FRAME_DURATION, atlasHealPotion.getRegions());
 
-        backButton = new Button("Back", SetupVariables.WIDTH - Button.width - 120, 80, stage, 24);
-        stage.addActor(backButton.getButton());
+        backButton = new Button("BACK", SetupVariables.WIDTH - Button.width - 120, 80, stage, 24);
+
         //click listener to find when the user wants to go back
         backButton.getButton().addListener(new ClickListener(){
             @Override
@@ -84,9 +84,9 @@ public class HowToPlay implements Screen {
     public void update(float dt) {
         elapsedTime += dt;
 
-        game.spriteBatch.draw(animationPlayer.getKeyFrame(elapsedTime, true), 550, 270, 100, 100);
-        game.spriteBatch.draw(animationGoblin.getKeyFrame(elapsedTime, true), 550, 220, 100, 100);
-        game.spriteBatch.draw(animationHealPotion.getKeyFrame(elapsedTime, true), 575, 190, 50, 50);
+        RelicRaider.spriteBatch.draw(animationPlayer.getKeyFrame(elapsedTime, true), 550, 270, 100, 100);
+        RelicRaider.spriteBatch.draw(animationGoblin.getKeyFrame(elapsedTime, true), 550, 220, 100, 100);
+        RelicRaider.spriteBatch.draw(animationHealPotion.getKeyFrame(elapsedTime, true), 575, 190, 50, 50);
 
     }
 
@@ -100,14 +100,14 @@ public class HowToPlay implements Screen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.spriteBatch.setProjectionMatrix(camera.combined);
-        game.spriteBatch.begin();
+        RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
+        RelicRaider.spriteBatch.begin();
 
-        game.spriteBatch.draw(backdrop, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
+        RelicRaider.spriteBatch.draw(backdrop, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
 
         update(delta);
 
-        game.spriteBatch.end();
+        RelicRaider.spriteBatch.end();
 
         stage.act();
         stage.draw();

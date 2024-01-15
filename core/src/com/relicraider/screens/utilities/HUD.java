@@ -34,6 +34,8 @@ public class HUD implements Disposable {
     private Texture halfHeart;
     private Texture emptyHeart;
 
+    private Button enterButton;
+
     public HUD (SpriteBatch spriteBatch, Player player) {
         this.player = player;
         fullHeart = new Texture(Gdx.files.internal("Other/fullHeart.png"));
@@ -43,6 +45,8 @@ public class HUD implements Disposable {
         OrthographicCamera camera = new OrthographicCamera();
         viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
         stage = new Stage(viewport, spriteBatch);
+
+        enterButton = new Button("ENTER", 0, 0, stage, 24);
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("KenPixel Mini Square.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -75,11 +79,18 @@ public class HUD implements Disposable {
         table.row();
         table.add(relicsLable).padTop(10).padLeft(5);
 
+        Table enterTable = new Table();
+        enterTable.bottom().right();
+        enterTable.setFillParent(true);
+        enterTable.add(enterButton.getButton()).padBottom(20).padRight(20);
+
         hearts = new Table();
         hearts.bottom().left();
         hearts.setFillParent(true);
 
         stage.addActor(table);
+        stage.addActor(enterTable);
+        drawHearts(Player.playerHealth, 1);
         stage.addActor(hearts);
     }
 
@@ -103,6 +114,13 @@ public class HUD implements Disposable {
         int health = player.getHealth();
         hearts.clear();
         drawHearts(health, 1);
+        if (!player.isCanEnter()) {
+            enterButton.getButton().setVisible(false);
+            enterButton.getButton().setDisabled(true);
+        } else {
+            enterButton.getButton().setVisible(true);
+            enterButton.getButton().setDisabled(false);
+        }
     }
 
     @Override
