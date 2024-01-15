@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
+import com.relicraider.screens.utilities.Button;
 
 public class Credits implements Screen {
 
@@ -38,7 +39,7 @@ public class Credits implements Screen {
         backdrop = new Image(backdropTexture);
         stage.addActor(backdrop);
 
-        backButton = new Button("BACK", SetupVariables.WIDTH - Button.width - 80, 100, stage, 24);
+        backButton = new Button("BACK", SetupVariables.WIDTH - Button.width - 80, 50, stage, 24);
         //click listener to find when the user wants to go back
         backButton.getButton().addListener(new ClickListener(){
             @Override

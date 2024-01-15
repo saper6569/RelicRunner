@@ -6,18 +6,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.badlogic.gdx.graphics.GL20;
 import com.relicraider.SetupVariables;
+import com.relicraider.screens.gamescreens.Room1;
+import com.relicraider.screens.utilities.Button;
 
 public class MainMenu implements Screen {
 
@@ -48,7 +46,7 @@ public class MainMenu implements Screen {
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
 
         //create stage object for placing graphics on
-        stage = new Stage(viewport, game.spriteBatch);
+        stage = new Stage(viewport, RelicRaider.spriteBatch);
         Gdx.input.setInputProcessor(stage);
 
         backdrop = new Image(new Texture(Gdx.files.internal("MainMenu/backdrop.png")));
@@ -142,9 +140,6 @@ public class MainMenu implements Screen {
     }
 
     @Override
-    /**
-     * Render method for the Main Menu - resets and redraws the screen when called
-     */
     public void render(float delta) {
         camera.update();
 
