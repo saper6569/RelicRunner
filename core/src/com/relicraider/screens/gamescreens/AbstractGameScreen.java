@@ -87,7 +87,7 @@ public abstract class AbstractGameScreen implements Screen {
 
         player = new Player(world, 200, 300, Player.playerHealth);
         characters.add(player);
-        hud = new HUD(RelicRaider.spriteBatch, player);
+        hud = new HUD(game, RelicRaider.spriteBatch, player);
 
         bodyDef = new BodyDef();
         bodyDef.position.set(new Vector2(0, 10));
@@ -109,6 +109,10 @@ public abstract class AbstractGameScreen implements Screen {
             body.createFixture(fDef);
         }
 
+        createCollisionListener();
+    }
+
+    public void createCollisionListener() {
         world.setContactListener(new ContactListener() {
 
             @Override
@@ -116,10 +120,10 @@ public abstract class AbstractGameScreen implements Screen {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
 
-                if (fixtureA.getUserData() instanceof HealingPotion) {
-                    ((HealingPotion) fixtureA.getUserData()).itemIsPickedUp();
-                } else if (fixtureB.getUserData() instanceof HealingPotion) {
-                    ((HealingPotion) fixtureB.getUserData()).itemIsPickedUp();
+                if (fixtureA.getUserData() instanceof Item) {
+                    ((Item) fixtureA.getUserData()).itemIsPickedUp();
+                } else if (fixtureB.getUserData() instanceof Item) {
+                    ((Item) fixtureB.getUserData()).itemIsPickedUp();
                 }
 
                 if (fixtureA.getUserData() instanceof Goblin) {
@@ -134,6 +138,14 @@ public abstract class AbstractGameScreen implements Screen {
                 } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureB.getUserData()).setAttacking(true);
                     AbstractGameScreen.player.getCollisions().add((Goblin) fixtureB.getUserData());
+                }
+
+                if (fixtureA.getUserData() instanceof Door && fixtureB.getUserData() instanceof Player) {
+                    hud.setRoom(((Door) fixtureA.getUserData()).getRoom());
+                    hud.setShowButton(true);
+                } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Door) {
+                    hud.setRoom(((Door) fixtureB.getUserData()).getRoom());
+                    hud.setShowButton(true);
                 }
             }
 
@@ -154,6 +166,12 @@ public abstract class AbstractGameScreen implements Screen {
                     ((Goblin) fixtureA.getUserData()).setCollided(false);
                 } else if (fixtureB.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureB.getUserData()).setCollided(false);
+                }
+
+                if (fixtureA.getUserData() instanceof Door && fixtureB.getUserData() instanceof Player) {
+                    hud.setShowButton(false);
+                } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Door) {
+                    hud.setShowButton(false);
                 }
             }
 
@@ -232,7 +250,7 @@ public abstract class AbstractGameScreen implements Screen {
 
         mapRenderer.setView(camera);
         mapRenderer.render();
-        //debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
 
         RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
         RelicRaider.spriteBatch.begin();
@@ -246,10 +264,6 @@ public abstract class AbstractGameScreen implements Screen {
 
         for (int i = 0; i < characters.size(); i++) {
             characters.get(i).draw(RelicRaider.spriteBatch);
-        }
-
-        for (int i = 0; i < doors.size(); i++) {
-            doors.get(i).draw(RelicRaider.spriteBatch);
         }
 
         RelicRaider.spriteBatch.end();

@@ -1,6 +1,7 @@
 package com.relicraider.screens.gamescreens;
 
 import com.relicraider.Items.HealingPotion;
+import com.relicraider.Items.Relic;
 import com.relicraider.RelicRaider;
 import com.relicraider.characters.Goblin;
 import com.relicraider.characters.Player;

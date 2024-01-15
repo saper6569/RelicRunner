@@ -10,6 +10,7 @@ import com.relicraider.SetupVariables;
 import java.util.ArrayList;
 
 public class Player extends GameCharacter {
+    public static int score = 0;
     public static int playerHealth = 100;
     public static String room;
     private boolean canAttack;
@@ -18,7 +19,6 @@ public class Player extends GameCharacter {
     private static int relicsCollected;
     private String lastPressed;
     private boolean isBlocking;
-    private boolean canEnter;
 
     private TextureAtlas blockAtlas;
     private TextureRegion blockForward;
@@ -40,7 +40,6 @@ public class Player extends GameCharacter {
         collisions = new ArrayList<GameCharacter>();
         canAttack = true;
         isBlocking = false;
-        canEnter = false;
 
         blockAtlas = new TextureAtlas("Sprites/knightBlock.txt");
         blockForward = new TextureRegion(blockAtlas.findRegion("forward"));
@@ -63,7 +62,6 @@ public class Player extends GameCharacter {
         collisions = new ArrayList<GameCharacter>();
         canAttack = true;
         isBlocking = false;
-        canEnter = false;
 
         blockAtlas = new TextureAtlas("Sprites/knightBlock.txt");
         blockForward = new TextureRegion(blockAtlas.findRegion("forward"));
@@ -102,6 +100,7 @@ public class Player extends GameCharacter {
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            System.out.println(b2dBody.getPosition().x + ", " + b2dBody.getPosition().y);
             isBlocking = false;
             if (canAttack) {
                 for (GameCharacter character : collisions) {
@@ -297,13 +296,5 @@ public class Player extends GameCharacter {
 
     public static void setPlayerHealth(int playerHealth) {
         Player.playerHealth = playerHealth;
-    }
-
-    public boolean isCanEnter() {
-        return canEnter;
-    }
-
-    public void setCanEnter(boolean canEnter) {
-        this.canEnter = canEnter;
     }
 }

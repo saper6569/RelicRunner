@@ -14,7 +14,8 @@ public class Door extends Sprite {
     private Body b2dBody;
     private final RelicRaider game;
 
-    public Door(final RelicRaider game, String room, float x, float y) {
+    public Door(final RelicRaider game, World world, String room, float x, float y) {
+        this.world = world;
         this.game = game;
         this.room = room;
 
@@ -29,7 +30,7 @@ public class Door extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(2, 32);
+        polygonShape.setAsBox(16, 2);
 
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.maskBits = SetupVariables.BIT_PLAYER;
@@ -37,19 +38,27 @@ public class Door extends Sprite {
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 
-    private void playerIsEntering() {
-        if (room.equals("room 1")) {
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new Room1(game));
-        } else if (room.equals("room 2")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room2(game));
-        } else if (room.equals("room 3")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room3(game));
-        } else if (room.equals("room 4")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room4(game));
-        } else if (room.equals("room 5")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room5(game));
-        } else if (room.equals("room 6")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room6(game));
-        }
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    public Body getB2dBody() {
+        return b2dBody;
+    }
+
+    public void setB2dBody(Body b2dBody) {
+        this.b2dBody = b2dBody;
     }
 }

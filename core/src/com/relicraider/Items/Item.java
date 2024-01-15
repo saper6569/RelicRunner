@@ -53,7 +53,7 @@ public abstract class Item extends Sprite {
         atlas = new TextureAtlas(atlasFile);
         Array<TextureAtlas.AtlasRegion> region = atlas.getRegions();
         animation = new Animation<TextureRegion>(FRAME_DURATION, region, Animation.PlayMode.LOOP);
-        image = new TextureRegion(atlas.findRegion("atlasRegion"));
+        image = new TextureRegion(atlas.findRegion(atlasRegion));
         setRegion(image);
     }
 

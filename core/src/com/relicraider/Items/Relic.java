@@ -1,5 +1,7 @@
 package com.relicraider.Items;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -8,8 +10,8 @@ import com.relicraider.SetupVariables;
 import com.relicraider.characters.Player;
 
 public class Relic extends Item {
-    public Relic(World world, String itemName, String atlasFile, float xPos, float yPos) {
-        super(itemName, "Sprites/relics.txt", "", xPos, yPos);
+    public Relic(World world, String itemName, float xPos, float yPos) {
+        super(itemName, "Sprites/relics.txt", itemName, xPos, yPos);
 
         this.world = world;
         defineBody(xPos, yPos);
@@ -25,6 +27,7 @@ public class Relic extends Item {
     @Override
     public void update(float dt) {
         setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
+        setRegion(image);
         if (isPickedUp) {
             removeItem();
 
