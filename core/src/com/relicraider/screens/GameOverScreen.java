@@ -50,8 +50,8 @@ public class GameOverScreen implements Screen {
 
 //MAIN MENU BUTTON
 
-        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 50;
-        int origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - -200;
+        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) ;
+        int origin_y = ((SetupVariables.HEIGHT - Button.height) / 2 + 20);
         Button mainMenuButton = new Button("MAIN MENU", origin_x, origin_y, stage, 24);
         //click listener to find when the user wants to go back to main menu
         mainMenuButton.getButton().addListener(new ClickListener() {
@@ -69,8 +69,8 @@ public class GameOverScreen implements Screen {
 
 //QUIT BUTTON
         //code for creating the Quit Game button and placing it at the desired location
-        origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 50;
-        origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 240;
+        origin_x = ((SetupVariables.WIDTH - Button.width) / 2);
+        origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) - 50;
         Button quitButton = new Button("QUIT", origin_x, origin_y, stage, 24);
 
         //Click listener to find when the user wants to exit program
