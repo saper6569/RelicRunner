@@ -15,7 +15,7 @@ public class Player extends GameCharacter {
     private boolean canAttack;
     private ArrayList<GameCharacter> collisions;
     private float attackCooldown;
-    public static int relicsCollected;
+    public static int relicsCollected = 0;
     private String lastPressed;
     private boolean isBlocking;
 
@@ -35,7 +35,6 @@ public class Player extends GameCharacter {
         setBounds(0, 0, 32, 32);
 
         lastPressed = "s";
-        relicsCollected = 0;
         collisions = new ArrayList<GameCharacter>();
         canAttack = true;
         isBlocking = false;
@@ -100,7 +99,6 @@ public class Player extends GameCharacter {
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            System.out.println(b2dBody.getPosition().x + ", " + b2dBody.getPosition().y);
             isBlocking = false;
             if (canAttack) {
                 for (GameCharacter character : collisions) {

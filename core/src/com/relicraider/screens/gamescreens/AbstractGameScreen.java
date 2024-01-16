@@ -326,7 +326,9 @@ public abstract class AbstractGameScreen implements Screen {
 
         mapRenderer.setView(camera);
         mapRenderer.render();
-        debugRenderer.render(world, camera.combined);
+
+        //uncomment to see hitboxes
+        //debugRenderer.render(world, camera.combined);
 
         RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
         RelicRaider.spriteBatch.begin();

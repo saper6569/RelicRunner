@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Sets up Room 5
+ */
 package com.relicraider.screens.gamescreens;
 
 import com.relicraider.Items.HealingPotion;
@@ -12,11 +17,20 @@ public class Room5 extends AbstractGameScreen {
     public static boolean potionIsUsed = false;
     public static boolean relicIsFound = false;
 
+    /**
+     * constructor for creating room5
+     * @param game - the game that is used to manage screens
+     * @param playerX - x position of the player
+     * @param playerY - y postion of the player
+     */
     public Room5(RelicRaider game, float playerX, float playerY) {
         super(game, "Maps/room5.tmx", 4, playerX, playerY);
 
         Player.room = "Room5";
 
+        //add all the actor to the game screen
+
+        //if the player has already picked up a relic or healing potion don't draw it again
         if (!relicIsFound) {
             items.add(new Relic(world, "crystal ball", 120, 236, 5));
         }
