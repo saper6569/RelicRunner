@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Abstract Game Screen Class - Every Game Screen has this code
+ */
 package com.relicraider.screens.gamescreens;
 
 import com.badlogic.gdx.Game;
@@ -32,7 +37,9 @@ import com.relicraider.screens.utilities.HUD;
 
 import java.util.ArrayList;
 
+//Abstract Game Screen implements Screen interface
 public abstract class AbstractGameScreen implements Screen {
+//VARIABLES
     public static Player player;
     protected ArrayList<GameCharacter> characters;
     protected ArrayList<Item> items;
@@ -44,7 +51,7 @@ public abstract class AbstractGameScreen implements Screen {
     protected final OrthographicCamera camera;
     protected final FitViewport viewport;
 
-    //B2D setup
+    //Box2D setup
     protected final World world;
     protected final Box2DDebugRenderer debugRenderer;
 
@@ -64,38 +71,51 @@ public abstract class AbstractGameScreen implements Screen {
 
     private double countSec;
 
+    /**
+     * Primary Constructor for a Game Screen
+     * @param game - Relic Raider Game Object
+     * @param mapLocation - What room game screen should display
+     * @param objectLayer - libGDX variable to create rooms
+     * @param playerX - X position of player
+     * @param playerY - Y position of player
+     */
     public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer, float playerX, float playerY) {
         this.game = game;
 
-        //Load main menu song file
+        //Load game music file
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/mainGameMusic.mp3"));
 
-        //camera
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
+//CAMERA
+        camera = new OrthographicCamera(); //Create new Camera
+        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera); //Camera's viewport is set width and height, found in setup variables class
 
-        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
-        camera.zoom -= 0.7f;
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0); //Set Camera's Position to x: Width of the World Camera is in, divided by 2. y: Height of the World Camera is in, divided by 2.
+        camera.zoom -= 0.7f; //Zoom camera in
+//STAGE
+        stage = new Stage(viewport, RelicRaider.spriteBatch); ///Create new Stage
+        Gdx.input.setInputProcessor(stage); //Get Input to stage
 
-        stage = new Stage(viewport, RelicRaider.spriteBatch);
-        Gdx.input.setInputProcessor(stage);
+        characters = new ArrayList<>(); //Create new ArrayList for characters
+        items = new ArrayList<>(); //Create new ArrayList for items
+        doors = new ArrayList<>(); //Create new ArrayList for doors
 
-        characters = new ArrayList<>();
-        items = new ArrayList<>();
-        doors = new ArrayList<>();
-
+        //To load map
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(mapLocation);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
 
-        //B2D setup
-        world = new World(new Vector2(0, 0), true);
-        debugRenderer = new Box2DDebugRenderer();
+        //Box2D setup
+        world = new World(new Vector2(0, 0), true); //Create new world
+        debugRenderer = new Box2DDebugRenderer(); //Create new Box2d Bug Renderer
 
+        //Create new player, add to characters list
         player = new Player(world, playerX, playerY, Player.playerHealth);
         characters.add(player);
+
+        //Create new hud
         hud = new HUD(game, RelicRaider.spriteBatch, player);
 
+        //To get player in the world
         bodyDef = new BodyDef();
         bodyDef.position.set(new Vector2(0, 10));
         PolygonShape shape = new PolygonShape();
@@ -104,7 +124,7 @@ public abstract class AbstractGameScreen implements Screen {
         fDef.filter.maskBits = SetupVariables.BIT_PLAYER | SetupVariables.BIT_WORLD;
         Body body;
 
-        //walls
+//WALLS
         for (MapObject object : map.getLayers().get(objectLayer).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -116,8 +136,9 @@ public abstract class AbstractGameScreen implements Screen {
             body.createFixture(fDef);
         }
 
-        createCollisionListener();
-        //Set Volume of Main Menu Music and Play, start count.
+        createCollisionListener(); //Call createCollisionListener method
+
+        //Set Volume of Game Music and Play in a loop, start count.
         gameMusic.setVolume((float) 0.1);
         gameMusic.setLooping(true);
         gameMusic.play();

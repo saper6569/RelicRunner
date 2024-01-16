@@ -40,34 +40,32 @@ public class GameOverScreen implements Screen {
     public GameOverScreen(final RelicRaider game) {
         this.game = game; //Set Game Over Screen's game to parameter
 
-        //MAKE THIS DEATH MUSIC
+        //Import Song File
         menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));
 
 //CAMERA
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
-        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
-
-        stage = new Stage(viewport, RelicRaider.spriteBatch);
+        camera = new OrthographicCamera(); //Create new Camera
+        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera); //Camera's viewport is set width and height, found in setup variables class
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0); //Set Camera's Position to x: Width of the World Camera is in, divided by 2. y: Height of the World Camera is in, divided by 2.
 
         //create stage object for placing graphics on
         stage = new Stage(viewport, RelicRaider.spriteBatch);
         Gdx.input.setInputProcessor(stage);
 
+        //Import background image for game over screen, add to stage
         gameOverBackground = new Image(new Texture(Gdx.files.internal("GameOver/gameOverScreen.png")));
         stage.addActor(gameOverBackground);
 
 //MAIN MENU BUTTON
-
-        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) ;
-        int origin_y = ((SetupVariables.HEIGHT - Button.height) / 2 + 20);
-        Button mainMenuButton = new Button("MAIN MENU", origin_x, origin_y, stage, 24);
+        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) ; //Buttons x value is the width of the screen minus the width of the button, divided by two
+        int origin_y = ((SetupVariables.HEIGHT - Button.height) / 2 + 20); //Buttons y value is the height of the screen minus the height of the button, divided by two
+        Button mainMenuButton = new Button("MAIN MENU", origin_x, origin_y, stage, 24); //Create new button to go to main meny
         //click listener to find when the user wants to go back to main menu
         mainMenuButton.getButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu(game));
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu(game)); //If button is clicked go to main menu screen
                 //stop the music if it is playing
                 if (menuSong.isPlaying()) {
                     menuSong.stop();
@@ -101,7 +99,11 @@ public class GameOverScreen implements Screen {
     public void show() {
     }
 
-    @Override
+    /**
+     * Method to render the screen
+     * @param delta - libGDX screen setup variable
+     */
+    @Override //Overides method in superclass
     public void render(float delta) {
         camera.update();
 
@@ -123,6 +125,11 @@ public class GameOverScreen implements Screen {
 
     }
 
+    /**
+     * Method to resize the screen of the main menu
+     * @param width - New Width of Screen
+     * @param height - New Height of Screen
+     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height,true);
@@ -143,6 +150,9 @@ public class GameOverScreen implements Screen {
 
     }
 
+    /**
+     * Method to dispose assets used in the main menu
+     */
     @Override
     public void dispose() {
         //manual garbage disposal
