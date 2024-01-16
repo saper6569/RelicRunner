@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 import com.relicraider.characters.Player;
+import com.relicraider.screens.gamescreens.*;
 import com.relicraider.screens.utilities.Button;
 
 //Game Over Screen implements Screen interface
@@ -37,10 +38,10 @@ public class GameOverScreen implements Screen {
      * @param game - The Game Object
      */
     public GameOverScreen(final RelicRaider game) {
+        //Set Game Over Screen's game to parameter
         this.game = game;
-        Player.playerHealth = 100;
-        Player.setRelicsCollected(0);
-        this.game = game; //Set Game Over Screen's game to parameter
+
+        resetGame();
 
         //Import Song File
         menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));
@@ -97,6 +98,31 @@ public class GameOverScreen implements Screen {
         countSec = 0;
     }
 
+    /**
+     * method used for resetting the game in order to let the game be run again
+     */
+    public void resetGame() {
+        Player.playerHealth = 100;
+        Player.setRelicsCollected(0);
+
+        Room1.relicIsFound = false;
+        Room1.potionIsUsed = false;
+
+        Room2.relicIsFound = false;
+        Room2.potionIsUsed = false;
+
+        Room3.relicIsFound = false;
+        Room3.potionIsUsed = false;
+
+        Room4.relicIsFound = false;
+        Room4.potionIsUsed = false;
+
+        Room5.relicIsFound = false;
+        Room5.potionIsUsed = false;
+
+        Room6.relicIsFound = false;
+        Room6.potionIsUsed = false;
+    }
 
     public void show() {
     }

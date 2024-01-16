@@ -9,8 +9,8 @@ import com.relicraider.screens.utilities.Door;
 
 public class Room3 extends AbstractGameScreen {
 
-    protected boolean potionIsUsed = false;
-    protected boolean relicIsFound = false;
+    public static boolean potionIsUsed = false;
+    public static boolean relicIsFound = false;
 
     public Room3(RelicRaider game, float playerX, float playerY) {
         super(game, "Maps/room3.tmx", 4, playerX, playerY);
@@ -26,10 +26,10 @@ public class Room3 extends AbstractGameScreen {
         characters.add(new Goblin(world, 187, 347));
 
         if (!relicIsFound) {
-            items.add(new Relic(world, "jem 2", 370, 255));
+            items.add(new Relic(world, "jem 2", 370, 255, 3));
         }
         if (!potionIsUsed) {
-            items.add(new HealingPotion(world, 90, 300));
+            items.add(new HealingPotion(world, 90, 300, 3));
         }
 
         doors.add(new Door(game, world, "room 4", 368, 466, 334, 284));

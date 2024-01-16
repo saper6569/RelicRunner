@@ -5,14 +5,16 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.relicraider.SetupVariables;
-import com.relicraider.screens.gamescreens.AbstractGameScreen;
+import com.relicraider.screens.gamescreens.*;
 
 public class HealingPotion extends Item {
+    private int roomNumber;
 
-    public HealingPotion(World world, float xPos, float yPos) {
+    public HealingPotion(World world, float xPos, float yPos, int roomNumber) {
         super("Healing Potion", "Sprites/healPotion.txt", xPos, yPos);
 
         this.world = world;
+        this.roomNumber = roomNumber;
         defineBody(xPos, yPos);
         setBounds(0, 0, 16, 16);
     }
@@ -21,6 +23,26 @@ public class HealingPotion extends Item {
     public void itemIsPickedUp() {
         isPickedUp = true;
         AbstractGameScreen.player.setHealth(AbstractGameScreen.player.getHealth() + 20);
+
+        if (roomNumber == 1) {
+            Room1.potionIsUsed = true;
+
+        } else if (roomNumber == 2) {
+            Room2.potionIsUsed = true;
+
+        } else if (roomNumber == 3) {
+            Room3.potionIsUsed = true;
+
+        } else if (roomNumber == 4) {
+            Room4.potionIsUsed = true;
+
+        } else if (roomNumber == 5) {
+            Room5.potionIsUsed = true;
+
+        } else if (roomNumber == 6) {
+            Room6.potionIsUsed = true;
+
+        }
     }
 
     @Override
