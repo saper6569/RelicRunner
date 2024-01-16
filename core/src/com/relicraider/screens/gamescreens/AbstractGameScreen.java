@@ -146,26 +146,36 @@ public abstract class AbstractGameScreen implements Screen {
         countSec = 0;
     }
 
+    /**
+     * Method for creating the collision listener for each room. This will handle any interactions between different physics bodies
+     */
     public void createCollisionListener() {
         world.setContactListener(new ContactListener() {
 
+            /**
+             * method that runs when 2 bodies come into contact
+             * @param contact - the object containing the 2 collided objects
+             */
             @Override
             public void beginContact(Contact contact) {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
 
+                //handles item pickups
                 if (fixtureA.getUserData() instanceof Item) {
                     ((Item) fixtureA.getUserData()).itemIsPickedUp();
                 } else if (fixtureB.getUserData() instanceof Item) {
                     ((Item) fixtureB.getUserData()).itemIsPickedUp();
                 }
 
+                //handles when a goblin collisions
                 if (fixtureA.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureA.getUserData()).setCollided(true);
                 } else if (fixtureB.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureB.getUserData()).setCollided(true);
                 }
 
+                //handles when a player and goblin collides
                 if (fixtureA.getUserData() instanceof Goblin && fixtureB.getUserData() instanceof Player) {
                     ((Goblin) fixtureA.getUserData()).setAttacking(true);
                     AbstractGameScreen.player.getCollisions().add((Goblin) fixtureA.getUserData());
@@ -174,6 +184,7 @@ public abstract class AbstractGameScreen implements Screen {
                     AbstractGameScreen.player.getCollisions().add((Goblin) fixtureB.getUserData());
                 }
 
+                //handles when a player collides with a door
                 if (fixtureA.getUserData() instanceof Door && fixtureB.getUserData() instanceof Player) {
                     hud.setDoorX(((Door) fixtureA.getUserData()).getNextX());
                     hud.setDoorY(((Door) fixtureA.getUserData()).getNextY());
@@ -187,11 +198,16 @@ public abstract class AbstractGameScreen implements Screen {
                 }
             }
 
+            /**
+             * method that runs when 2 bodies end contact
+             * @param contact - the object containing the 2 uncollided objects
+             */
             @Override
             public void endContact(Contact contact) {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
 
+                //handles when a player and goblin end contact
                 if (fixtureA.getUserData() instanceof Goblin && fixtureB.getUserData() instanceof Player) {
                     ((Goblin) fixtureA.getUserData()).setAttacking(false);
                     AbstractGameScreen.player.removeCollision(((Goblin) fixtureA.getUserData()).getCharacterID());
@@ -200,12 +216,14 @@ public abstract class AbstractGameScreen implements Screen {
                     AbstractGameScreen.player.removeCollision(((Goblin) fixtureB.getUserData()).getCharacterID());
                 }
 
+                //handles when goblin and object end contact
                 if (fixtureA.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureA.getUserData()).setCollided(false);
                 } else if (fixtureB.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureB.getUserData()).setCollided(false);
                 }
 
+                //handles when the player and door end contact
                 if (fixtureA.getUserData() instanceof Door && fixtureB.getUserData() instanceof Player) {
                     hud.setShowButton(false);
                 } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Door) {
@@ -225,6 +243,9 @@ public abstract class AbstractGameScreen implements Screen {
         });
     }
 
+    /**
+     * method used to advance the physics world
+     */
     protected void stepWorld() {
         //B2D physics
         float delta = Gdx.graphics.getDeltaTime();
@@ -238,7 +259,12 @@ public abstract class AbstractGameScreen implements Screen {
         }
     }
 
+    /**
+     * update method
+     * @param dt - represents the time since last render
+     */
     public void update(float dt){
+        //if the player is dead change to the game over screen
         if (!player.isAlive()) {
             ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(game));
             //stop the music if it is playing
@@ -248,23 +274,27 @@ public abstract class AbstractGameScreen implements Screen {
         }
 
         camera.update();
-
         camera.position.x = player.getB2dBody().getPosition().x;
         camera.position.y = player.getB2dBody().getPosition().y;
+
+        //loop through all the characters and update them
         for (int i = 0; i < characters.size(); i++) {
             characters.get(i).updateSprite(dt);
         }
 
+        //loop through all the characters and remove any that are dead
         for (int i = 0; i < characters.size(); i++) {
             if (!characters.get(i).isAlive()) {
                 characters.remove(i);
             }
         }
 
+        //loop through all the characters and remove any that are dead
         for (int i = 0; i < items.size(); i++) {
             items.get(i).update(dt);
         }
 
+        //loop through all the items and remove any that are picked up
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).isPickedUp()) {
                 items.remove(i);
@@ -281,6 +311,10 @@ public abstract class AbstractGameScreen implements Screen {
 
     }
 
+    /**
+     * render method for the room
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         update(delta);
@@ -300,10 +334,12 @@ public abstract class AbstractGameScreen implements Screen {
         //player movement
         player.playerMovement(delta);
 
+        //loop through all the items and draw them
         for (int i = 0; i < items.size(); i++) {
             items.get(i).draw(RelicRaider.spriteBatch);
         }
 
+        //loop through all the characters and draw them
         for (int i = 0; i < characters.size(); i++) {
             characters.get(i).draw(RelicRaider.spriteBatch);
         }
@@ -320,6 +356,11 @@ public abstract class AbstractGameScreen implements Screen {
         stepWorld();
     }
 
+    /**
+     * method for resizing the screen
+     * @param width - New Width of Screen
+     * @param height - New Height of Screen
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
@@ -341,6 +382,9 @@ public abstract class AbstractGameScreen implements Screen {
 
     }
 
+    /**
+     * Method to dispose assets used in the room
+     */
     @Override
     public void dispose() {
         world.dispose();
@@ -349,6 +393,10 @@ public abstract class AbstractGameScreen implements Screen {
         debugRenderer.dispose();
     }
 
+    /**
+     *
+     * @return the tmx map loader
+     */
     public TmxMapLoader getMapLoader() {
         return mapLoader;
     }

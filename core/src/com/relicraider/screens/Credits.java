@@ -89,6 +89,6 @@ public class Credits implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }
