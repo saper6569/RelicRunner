@@ -3,6 +3,7 @@ package com.relicraider.screens.gamescreens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -59,10 +60,16 @@ public abstract class AbstractGameScreen implements Screen {
     protected final Stage stage;
     protected HUD hud;
     protected Button enterButton;
+    private Music gameMusic;
 
+    private double countSec;
 
     public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer, float playerX, float playerY) {
         this.game = game;
+
+        //Load main menu song file
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/mainGameMusic.mp3"));
+
         //camera
         camera = new OrthographicCamera();
         viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
@@ -110,6 +117,12 @@ public abstract class AbstractGameScreen implements Screen {
         }
 
         createCollisionListener();
+        //Set Volume of Main Menu Music and Play, start count.
+        gameMusic.setVolume((float) 0.1);
+        gameMusic.setLooping(true);
+        gameMusic.play();
+
+        countSec = 0;
     }
 
     public void createCollisionListener() {
@@ -207,6 +220,10 @@ public abstract class AbstractGameScreen implements Screen {
     public void update(float dt){
         if (!player.isAlive()) {
             ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(game));
+            //stop the music if it is playing
+            if (gameMusic.isPlaying()) {
+                gameMusic.stop();
+            }
         }
 
         camera.update();

@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Game Over Screen Class
+ */
 package com.relicraider.screens;
 
 import com.badlogic.gdx.Game;
@@ -16,6 +21,7 @@ import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 import com.relicraider.screens.utilities.Button;
 
+//Game Over Screen implements Screen interface
 public class GameOverScreen implements Screen {
     private final RelicRaider game;
     public Stage stage;
@@ -27,8 +33,12 @@ public class GameOverScreen implements Screen {
     private Music menuSong;
     private double countSec;
 
+    /**
+     * Primary Constructor for Game Over Screen
+     * @param game - The Game Object
+     */
     public GameOverScreen(final RelicRaider game) {
-        this.game = game;
+        this.game = game; //Set Game Over Screen's game to parameter
 
         //MAKE THIS DEATH MUSIC
         menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));
@@ -81,7 +91,7 @@ public class GameOverScreen implements Screen {
         });
 
         //Set Volume of Main Menu Music and Play, start count.
-        menuSong.setVolume((float) 0.4);
+        menuSong.setVolume((float) 0.3);
         menuSong.play();
 
         countSec = 0;
