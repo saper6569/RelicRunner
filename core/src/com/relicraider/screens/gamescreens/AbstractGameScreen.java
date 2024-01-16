@@ -61,7 +61,7 @@ public abstract class AbstractGameScreen implements Screen {
     protected Button enterButton;
 
 
-    public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer) {
+    public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer, float playerX, float playerY) {
         this.game = game;
         //camera
         camera = new OrthographicCamera();
@@ -85,7 +85,7 @@ public abstract class AbstractGameScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        player = new Player(world, 200, 300, Player.playerHealth);
+        player = new Player(world, playerX, playerY, Player.playerHealth);
         characters.add(player);
         hud = new HUD(game, RelicRaider.spriteBatch, player);
 
@@ -141,9 +141,13 @@ public abstract class AbstractGameScreen implements Screen {
                 }
 
                 if (fixtureA.getUserData() instanceof Door && fixtureB.getUserData() instanceof Player) {
+                    hud.setDoorX(((Door) fixtureA.getUserData()).getNextX());
+                    hud.setDoorY(((Door) fixtureA.getUserData()).getNextY());
                     hud.setRoom(((Door) fixtureA.getUserData()).getRoom());
                     hud.setShowButton(true);
                 } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Door) {
+                    hud.setDoorX(((Door) fixtureB.getUserData()).getNextX());
+                    hud.setDoorY(((Door) fixtureB.getUserData()).getNextY());
                     hud.setRoom(((Door) fixtureB.getUserData()).getRoom());
                     hud.setShowButton(true);
                 }
@@ -281,6 +285,7 @@ public abstract class AbstractGameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+        hud.getViewport().update(width, height);
     }
 
     @Override

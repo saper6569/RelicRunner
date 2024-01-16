@@ -57,7 +57,7 @@ public class GameStory implements Screen {
                 if (backdrop == 3) {
                     continueButton.setText("ENTER");
                 } if (backdrop == 4) {
-                    ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game));
+                    ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game, 200, 300));
                 }
             }
         });
@@ -68,7 +68,7 @@ public class GameStory implements Screen {
         skipButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game));
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game, 200, 300));
             }
         });
 

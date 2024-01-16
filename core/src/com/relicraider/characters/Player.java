@@ -87,6 +87,7 @@ public class Player extends GameCharacter {
     }
 
     public void updateSprite(float dt) {
+        playerHealth = health;
         setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
         TextureRegion frame = playerMovement(dt);
         setRegion(frame);

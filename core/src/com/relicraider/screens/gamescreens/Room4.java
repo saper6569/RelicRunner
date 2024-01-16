@@ -1,26 +1,22 @@
 package com.relicraider.screens.gamescreens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.physics.box2d.*;
 import com.relicraider.Items.HealingPotion;
 import com.relicraider.RelicRaider;
-import com.relicraider.characters.Goblin;
 import com.relicraider.characters.Player;
+import com.relicraider.screens.utilities.Door;
 
 public class Room4 extends AbstractGameScreen {
 
-    public Room4(RelicRaider game) {
-        super(game, "Maps/room4.tmx", 4);
+    public Room4(RelicRaider game, float playerX, float playerY) {
+        super(game, "Maps/room4.tmx", 4, playerX, playerY);
 
         Player.room = "Room4";
 
-        characters.add(new Goblin(world, 100, 300));
-        characters.add(new Goblin(world, 220, 300));
-        characters.add(new Goblin(world, 270, 130));
-        characters.add(new Goblin(world, 360, 80));
-
         items.add(new HealingPotion(world, 90, 300));
+
+        doors.add(new Door(game, world, "room 3", 336, 274, 368, 456));
+        doors.add(new Door(game, world, "room 6", 176, 434, 368, 50));
+        doors.add(new Door(game, world, "room 1", 96, 226, 272, 168));
     }
 }
 

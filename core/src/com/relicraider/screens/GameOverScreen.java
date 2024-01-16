@@ -26,7 +26,6 @@ public class GameOverScreen implements Screen {
     private Button quitButton;
     private Music menuSong;
     private double countSec;
-    private int backdrop;
 
     public GameOverScreen(final RelicRaider game) {
         this.game = game;

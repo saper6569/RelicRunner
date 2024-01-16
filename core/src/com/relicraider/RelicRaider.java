@@ -7,6 +7,7 @@ import com.relicraider.screens.GameStory;
 import com.relicraider.screens.HowToPlay;
 import com.relicraider.screens.MainMenu;
 import com.relicraider.screens.gamescreens.Room1;
+import com.relicraider.screens.gamescreens.Room2;
 
 public class RelicRaider extends Game {
 
@@ -17,8 +18,6 @@ public class RelicRaider extends Game {
 	public void create() {
 		spriteBatch = new SpriteBatch();
 		setScreen(new MainMenu(this));
-		//setScreen(new Room1(this));
-		//setScreen(new GameStory(this));
 	}
 
 	@Override
