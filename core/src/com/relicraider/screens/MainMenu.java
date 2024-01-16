@@ -43,7 +43,7 @@ public class MainMenu implements Screen {
 
     /**
      * Primary Constructor for Main Menu
-     * @param game - Game Main Menu is for
+     * @param game - RelicRaider Game Object
      */
     public MainMenu(final RelicRaider game) {
         this.game = game;
@@ -65,7 +65,7 @@ public class MainMenu implements Screen {
 
 //PLAY BUTTON
         //code for creating the play button and placing it at the desired location
-        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140; //x origin of the button is (setup width take away width of button) from that number take away 140
+        int origin_x = ((SetupVariables.WIDTH - Button.width) / 2) - 140; //x origin of the button is (width of screen take away width of button) from that number take away 140
         int origin_y = ((SetupVariables.HEIGHT - Button.height) / 2) + 30; //y origin of the button is (setup height take away height of button) from that number add 30
         Button playButton = new Button("PLAY", origin_x, origin_y, stage, 24); //Create New button with text, x, y, Stage, font size of text
 
