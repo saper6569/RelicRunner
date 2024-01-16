@@ -58,7 +58,6 @@ public abstract class AbstractGameScreen implements Screen {
     protected final RelicRaider game;
     protected final Stage stage;
     protected HUD hud;
-    protected Button enterButton;
 
 
     public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer, float playerX, float playerY) {
@@ -86,6 +85,7 @@ public abstract class AbstractGameScreen implements Screen {
         debugRenderer = new Box2DDebugRenderer();
 
         player = new Player(world, playerX, playerY, Player.playerHealth);
+        player.setSpeed(1000f);
         characters.add(player);
         hud = new HUD(game, RelicRaider.spriteBatch, player);
 

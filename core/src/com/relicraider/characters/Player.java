@@ -10,13 +10,12 @@ import com.relicraider.SetupVariables;
 import java.util.ArrayList;
 
 public class Player extends GameCharacter {
-    public static int score = 0;
     public static int playerHealth = 100;
     public static String room;
     private boolean canAttack;
     private ArrayList<GameCharacter> collisions;
     private float attackCooldown;
-    private static int relicsCollected;
+    public static int relicsCollected;
     private String lastPressed;
     private boolean isBlocking;
 

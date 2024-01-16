@@ -15,7 +15,7 @@ public class Relic extends Item {
 
         this.world = world;
         defineBody(xPos, yPos);
-        setBounds(0, 0, 16, 16);
+        setBounds(0, 0, 20, 20);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Relic extends Item {
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(4, 4);
+        polygonShape.setAsBox(8, 8);
 
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.maskBits = SetupVariables.BIT_PLAYER;

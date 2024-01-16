@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
+import com.relicraider.characters.Player;
 import com.relicraider.screens.utilities.Button;
 
 public class GameOverScreen implements Screen {
@@ -22,13 +23,13 @@ public class GameOverScreen implements Screen {
     private Image gameOverBackground;
     private final OrthographicCamera camera;
     private final FitViewport viewport;
-    private Button mainMenuButton;
-    private Button quitButton;
     private Music menuSong;
     private double countSec;
 
     public GameOverScreen(final RelicRaider game) {
         this.game = game;
+        Player.playerHealth = 100;
+        Player.setRelicsCollected(0);
 
         //MAKE THIS DEATH MUSIC
         menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));

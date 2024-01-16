@@ -9,18 +9,27 @@ import com.relicraider.screens.utilities.Door;
 
 public class Room1 extends AbstractGameScreen {
 
+    protected boolean potionIsUsed = false;
+    protected boolean relicIsFound = false;
+
     public Room1(RelicRaider game, float playerX, float playerY) {
         super(game, "Maps/room1.tmx", 4, playerX, playerY);
 
         Player.room = "Room1";
 
-//        characters.add(new Goblin(world, 100, 300));
-//        characters.add(new Goblin(world, 220, 300));
-//        characters.add(new Goblin(world, 270, 130));
-//        characters.add(new Goblin(world, 360, 80));
+        characters.add(new Goblin(world, 100, 300));
+        characters.add(new Goblin(world, 220, 300));
+        characters.add(new Goblin(world, 270, 130));
+        characters.add(new Goblin(world, 360, 80));
 
-        items.add(new HealingPotion(world, 90, 300));
-        items.add(new Relic(world, "ring 5", 360, 85));
+        if (!relicIsFound) {
+            items.add(new Relic(world, "ring 5", 360, 105));
+        }
+        if (!potionIsUsed) {
+            items.add(new HealingPotion(world, 90, 300));
+        }
+
+
 
         doors.add(new Door(game, world, "room 6", 80, 418, 120, 30));
         doors.add(new Door(game, world, "room 2", 96, 18, 214, 456));
