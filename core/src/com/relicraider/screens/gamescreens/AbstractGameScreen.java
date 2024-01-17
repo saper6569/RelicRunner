@@ -67,10 +67,6 @@ public abstract class AbstractGameScreen implements Screen {
     protected final RelicRaider game;
     protected final Stage stage;
     protected HUD hud;
-    protected Button enterButton;
-    private Music gameMusic;
-
-    private double countSec;
 
     /**
      * Primary Constructor for a Game Screen
@@ -82,9 +78,6 @@ public abstract class AbstractGameScreen implements Screen {
      */
     public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer, float playerX, float playerY) {
         this.game = game;
-
-        //Load game music file
-        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/mainGameMusic.mp3"));
 
 //CAMERA
         camera = new OrthographicCamera(); //Create new Camera
@@ -138,13 +131,6 @@ public abstract class AbstractGameScreen implements Screen {
         }
 
         createCollisionListener(); //Call createCollisionListener method
-
-        //Set Volume of Game Music and Play in a loop, start count.
-        gameMusic.setVolume((float) 0.1);
-        gameMusic.setLooping(true);
-        gameMusic.play();
-
-        countSec = 0;
     }
 
     /**
@@ -268,18 +254,10 @@ public abstract class AbstractGameScreen implements Screen {
         //if the player is dead change to the game over screen
         if (!player.isAlive()) {
             ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(game));
-            //stop the music if it is playing
-            if (gameMusic.isPlaying()) {
-                gameMusic.stop();
-            }
         }
 
         if (Player.getRelicsCollected() == 6) {
             ((Game) Gdx.app.getApplicationListener()).setScreen(new GameWinScreen(game));
-            //stop the music if it is playing
-            if (gameMusic.isPlaying()) {
-                gameMusic.stop();
-            }
         }
 
         camera.update();

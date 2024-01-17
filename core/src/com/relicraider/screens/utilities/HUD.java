@@ -36,8 +36,6 @@ public class HUD implements Disposable {
     public Stage stage;
     private Player player;
 
-    private Label healthL;
-    private Label healthLabel;
     private Label roomL;
     private Label roomLabel;
     private Label relicsL;
@@ -90,17 +88,10 @@ public class HUD implements Disposable {
         table.setFillParent(true);
 
 //Fill table with stats
-        healthL = new Label (" HEALTH ", labelStyle);
-        healthLabel = new Label(String.format("%03d", player.getHealth()), labelStyle);
         roomL = new Label (" ROOM ", labelStyle);
         roomLabel = new Label (Player.room, labelStyle);
         relicsL = new Label (" RELICS COLLECTED ", labelStyle);
-        relicsLable = new Label(Player.getRelicsCollected() +  " / 8", labelStyle);
-
-        table.add(healthL).padTop(10).padLeft(5);
-        table.row();
-        table.add(healthLabel).padLeft(5);
-        table.row();
+        relicsLable = new Label(Player.getRelicsCollected() +  " / 6", labelStyle);
         table.add(roomL).padTop(10).padLeft(5);
         table.row();
         table.add(roomLabel).padLeft(5);
@@ -157,8 +148,7 @@ public class HUD implements Disposable {
 
     public void update(float dt) {
         roomLabel.setText(Player.room);
-        relicsLable.setText(Player.getRelicsCollected() +  " / 8");
-        healthLabel.setText(String.format("%03d", player.getHealth()));
+        relicsLable.setText(Player.getRelicsCollected() +  " / 6");
         int health = player.getHealth();
         hearts.clear();
         drawHearts(health, 1);

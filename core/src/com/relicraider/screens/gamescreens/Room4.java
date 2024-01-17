@@ -32,7 +32,7 @@ public class Room4 extends AbstractGameScreen {
 
         //if the player has already picked up a relic or healing potion don't draw it again
         if (!relicIsFound) {
-            items.add(new Relic(world, "book 1", 180, 105, 4));
+            items.add(new Relic(world, "book 1", 42, 288, 4));
         }
         if (!potionIsUsed) {
             items.add(new HealingPotion(world, 90, 300, 4));
