@@ -6,8 +6,13 @@
 package com.relicraider;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.relicraider.screens.GameStory;
+import com.relicraider.screens.HowToPlay;
 import com.relicraider.screens.MainMenu;
+import com.relicraider.screens.gamescreens.Room1;
+import com.relicraider.screens.gamescreens.Room2;
 
 //Relic Raider class extends the Game class
 public class RelicRaider extends Game {
