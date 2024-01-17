@@ -20,9 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 import com.relicraider.characters.Player;
-import com.relicraider.screens.MainMenu;
 import com.relicraider.screens.gamescreens.*;
-import com.relicraider.screens.utilities.Button;
 
 public class HUD implements Disposable {
     private Viewport viewport;
@@ -173,16 +171,8 @@ public class HUD implements Disposable {
         return viewport;
     }
 
-    public void setViewport(Viewport viewport) {
-        this.viewport = viewport;
-    }
-
     public Stage getStage() {
         return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     public Player getPlayer() {
@@ -191,98 +181,6 @@ public class HUD implements Disposable {
 
     public void setPlayer(Player player) {
         this.player = player;
-    }
-
-    public Label getHealthL() {
-        return healthL;
-    }
-
-    public void setHealthL(Label healthL) {
-        this.healthL = healthL;
-    }
-
-    public Label getHealthLabel() {
-        return healthLabel;
-    }
-
-    public void setHealthLabel(Label healthLabel) {
-        this.healthLabel = healthLabel;
-    }
-
-    public Label getRoomL() {
-        return roomL;
-    }
-
-    public void setRoomL(Label roomL) {
-        this.roomL = roomL;
-    }
-
-    public Label getRoomLabel() {
-        return roomLabel;
-    }
-
-    public void setRoomLabel(Label roomLabel) {
-        this.roomLabel = roomLabel;
-    }
-
-    public Label getRelicsL() {
-        return relicsL;
-    }
-
-    public void setRelicsL(Label relicsL) {
-        this.relicsL = relicsL;
-    }
-
-    public Label getRelicsLable() {
-        return relicsLable;
-    }
-
-    public void setRelicsLable(Label relicsLable) {
-        this.relicsLable = relicsLable;
-    }
-
-    public Table getHearts() {
-        return hearts;
-    }
-
-    public void setHearts(Table hearts) {
-        this.hearts = hearts;
-    }
-
-    public Texture getFullHeart() {
-        return fullHeart;
-    }
-
-    public void setFullHeart(Texture fullHeart) {
-        this.fullHeart = fullHeart;
-    }
-
-    public Texture getHalfHeart() {
-        return halfHeart;
-    }
-
-    public void setHalfHeart(Texture halfHeart) {
-        this.halfHeart = halfHeart;
-    }
-
-    public Texture getEmptyHeart() {
-        return emptyHeart;
-    }
-
-    public void setEmptyHeart(Texture emptyHeart) {
-        this.emptyHeart = emptyHeart;
-    }
-
-    public Button getEnterButton() {
-        return enterButton;
-    }
-
-    public void setEnterButton(Button enterButton) {
-        this.enterButton = enterButton;
-    }
-
-    public boolean isShowButton() {
-        return showButton;
     }
 
     public void setShowButton(boolean showButton) {
@@ -303,10 +201,6 @@ public class HUD implements Disposable {
 
     public void setDoorX(float doorX) {
         this.doorX = doorX;
-    }
-
-    public float getDoorY() {
-        return doorY;
     }
 
     public void setDoorY(float doorY) {

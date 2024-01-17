@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Creates a game win story screen
+ */
 package com.relicraider.screens;
 
 import com.badlogic.gdx.Game;
@@ -12,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
+import com.relicraider.characters.Player;
+import com.relicraider.screens.gamescreens.*;
 import com.relicraider.screens.utilities.Button;
 
 public class GameWinScreen implements Screen {
@@ -26,8 +33,14 @@ public class GameWinScreen implements Screen {
 
     private int backdrop;
 
+    /**
+     * Primary Constructor for Game win Screen
+     * @param game - The Game Object
+     */
     public GameWinScreen(final RelicRaider game) {
         this.game = game;
+
+        resetGame();
 
         //camera
         camera = new OrthographicCamera();
@@ -70,6 +83,9 @@ public class GameWinScreen implements Screen {
 
     }
 
+    /**
+     * method for updating the game win screen
+     */
     public void update() {
         if (backdrop == 1) {
             RelicRaider.spriteBatch.draw(backdrop1, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
@@ -80,6 +96,10 @@ public class GameWinScreen implements Screen {
         }
     }
 
+    /**
+     * render method to draw the screen
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         //screen render functions
@@ -99,6 +119,37 @@ public class GameWinScreen implements Screen {
         stage.draw();
     }
 
+    /**
+     * method used for resetting the game in order to let the game be run again
+     */
+    public void resetGame() {
+        Player.playerHealth = 100;
+        Player.setRelicsCollected(0);
+
+        Room1.relicIsFound = false;
+        Room1.potionIsUsed = false;
+
+        Room2.relicIsFound = false;
+        Room2.potionIsUsed = false;
+
+        Room3.relicIsFound = false;
+        Room3.potionIsUsed = false;
+
+        Room4.relicIsFound = false;
+        Room4.potionIsUsed = false;
+
+        Room5.relicIsFound = false;
+        Room5.potionIsUsed = false;
+
+        Room6.relicIsFound = false;
+        Room6.potionIsUsed = false;
+    }
+
+    /**
+     * Method to resize the screen of the win screen
+     * @param width - New Width of Screen
+     * @param height - New Height of Screen
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height,true);
@@ -119,6 +170,9 @@ public class GameWinScreen implements Screen {
 
     }
 
+    /**
+     * Method to dispose assets used
+     */
     @Override
     public void dispose() {
         stage.dispose();

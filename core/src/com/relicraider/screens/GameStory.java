@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Creates a game story screen
+ */
 package com.relicraider.screens;
 
 import com.badlogic.gdx.Game;
@@ -28,6 +33,10 @@ public class GameStory implements Screen {
 
     private int backdrop;
 
+    /**
+     * Primary Constructor for Game Story Screen
+     * @param game - The Game Object
+     */
     public GameStory(final RelicRaider game) {
         this.game = game;
 
@@ -82,6 +91,9 @@ public class GameStory implements Screen {
 
     }
 
+    /**
+     * method for updating the game story screen
+     */
     public void update() {
         if (backdrop == 1) {
             RelicRaider.spriteBatch.draw(backdrop1, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
@@ -95,6 +107,10 @@ public class GameStory implements Screen {
         }
     }
 
+    /**
+     * render mwthod to draw the screen
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         //screen render functions
@@ -114,6 +130,11 @@ public class GameStory implements Screen {
         stage.draw();
     }
 
+    /**
+     * Method to resize the screen of the main menu
+     * @param width - New Width of Screen
+     * @param height - New Height of Screen
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height,true);
@@ -134,6 +155,9 @@ public class GameStory implements Screen {
 
     }
 
+    /**
+     * Method to dispose assets used
+     */
     @Override
     public void dispose() {
         stage.dispose();
