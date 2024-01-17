@@ -63,7 +63,7 @@ public class HUD implements Disposable {
     public HUD (RelicRaider game, SpriteBatch spriteBatch, Player player) {
         this.player = player;
         this.game = game;
-        //Import Images, create textures using each image
+        //Import Images, create textures using each of the images
         fullHeart = new Texture(Gdx.files.internal("Other/fullHeart.png"));
         halfHeart = new Texture(Gdx.files.internal("Other/halfHeart.png"));
         emptyHeart = new Texture(Gdx.files.internal("Other/emptyHeart.png"));
