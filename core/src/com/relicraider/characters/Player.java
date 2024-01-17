@@ -1,8 +1,3 @@
-/* Relic Raider ; Final Project ICS4U
-   Sanija, Ryder, Amin
-   December 15th, 2023 - January 16th, 2024
-   Creates a player character
- */
 package com.relicraider.characters;
 
 import com.badlogic.gdx.Gdx;
@@ -30,13 +25,6 @@ public class Player extends GameCharacter {
     private TextureRegion blockLeft;
     private TextureRegion blockRight;
 
-    /**
-     * 1st constructor for creating a player at a desired location
-     * @param world - the physics world
-     * @param xPos - the x position of the player
-     * @param yPos - the y position of the player
-     * @param health - the health of the player
-     */
     public Player(World world, float xPos, float yPos, int health) {
         super(health, 0.2f, 20, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
         playerHealth = health;
@@ -58,12 +46,6 @@ public class Player extends GameCharacter {
         blockRight = new TextureRegion(blockAtlas.findRegion("right"));
     }
 
-    /**
-     * 2snd constructor for creating a player at a desired location
-     * @param world - the physics world
-     * @param xPos - the x position of the player
-     * @param yPos - the y position of the player
-     */
     public Player(World world, float xPos, float yPos) {
         super(100, 0.2f, 10, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
         playerHealth = health;
@@ -86,11 +68,6 @@ public class Player extends GameCharacter {
         blockRight = new TextureRegion(blockAtlas.findRegion("right"));
     }
 
-    /**
-     * method for creating the physics body of the player
-     * @param xPos - X position of character body
-     * @param yPos - Y position of character body
-     */
     public void defineBody(float xPos, float yPos) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(xPos, yPos);
@@ -102,17 +79,11 @@ public class Player extends GameCharacter {
         polygonShape.setAsBox(6, 8);
 
         fixtureDef.shape = polygonShape;
-
-        //set the player to only collide with the world, items and te doors
         fixtureDef.filter.categoryBits = SetupVariables.BIT_PLAYER;
         fixtureDef.filter.maskBits = SetupVariables.BIT_ITEM | SetupVariables.BIT_WORLD | SetupVariables.BIT_DOOR;
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 
-    /**
-     * method for updating the player
-     * @param dt - time since last render
-     */
     public void updateSprite(float dt) {
         playerHealth = health;
         setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
@@ -120,20 +91,13 @@ public class Player extends GameCharacter {
         setRegion(frame);
     }
 
-    /**
-     * method for taking input from the user and moving the player
-     * @param dt - time since last render
-     * @return the texture region that needs to be drawn next
-     */
     public TextureRegion playerMovement(float dt) {
         elapsed_time += Gdx.graphics.getDeltaTime();
         attackCooldown += dt;
-
         if (attackCooldown > 1) {
             canAttack = true;
         }
 
-        //when the user presses the left button attack any characters that are in contact every 1 second
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             isBlocking = false;
             if (canAttack) {
@@ -145,7 +109,6 @@ public class Player extends GameCharacter {
             }
             b2dBody.setLinearVelocity(0, 0);
 
-            //set the attack frame based on the last direction the player moved in
             if (lastPressed.equals("w")) {
                 region = backwardAttack.getKeyFrame(elapsed_time, false);
             } else if (lastPressed.equals("s")) {
@@ -155,11 +118,9 @@ public class Player extends GameCharacter {
             } else {
                 region = leftAttack.getKeyFrame(elapsed_time, false);
             }
-            //if the right button is pressed set the layer to block attacks
         } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
             isBlocking = true;
 
-            //set the block frame based on the last direction the player moved in
             if (lastPressed.equals("w")) {
                 region = blockBackward;
             } else if (lastPressed.equals("s")) {
@@ -172,7 +133,6 @@ public class Player extends GameCharacter {
         } else {
             isBlocking = false;
 
-            //set the walk frame based on the last direction the player moved in
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 lastPressed = "s";
                 b2dBody.setLinearVelocity(0,-speed);
@@ -193,8 +153,6 @@ public class Player extends GameCharacter {
                 b2dBody.setLinearVelocity(speed,0);
                 region = left.getKeyFrame(elapsed_time, true);
             }
-
-            //set the idle frame based on the last direction the player moved in
             if (!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.D)){
                 b2dBody.setLinearVelocity(0, 0);
                 if (lastPressed.equals("w")) {
@@ -212,17 +170,10 @@ public class Player extends GameCharacter {
         return region;
     }
 
-    /**
-     * method used for taking damage and checking if the player is alive
-     * @param damage- The amount of health the character should lose
-     */
     public void takeDamage(int damage) {
-        //dont take damage when the player is blocking
         if (!isBlocking) {
             health -= damage;
         }
-
-        //check if the player is alive
         if (health <= 0) {
             isAlive = false;
         }

@@ -1,8 +1,3 @@
-/* Relic Raider ; Final Project ICS4U
-   Sanija, Ryder, Amin
-   December 15th, 2023 - January 16th, 2024
-   Creates a goblin character
- */
 package com.relicraider.characters;
 
 import com.badlogic.gdx.Gdx;
@@ -24,12 +19,6 @@ public class Goblin extends GameCharacter {
     private boolean hasChecked;
     private float timer;
 
-    /**
-     * constructor for creating a goblin at a desired location
-     * @param world - the physics world
-     * @param xPos - the x position of the goblin
-     * @param yPos - the y position of the goblin
-     */
     public Goblin(World world, float xPos, float yPos) {
         super(80, 0.15f, 5, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
 
@@ -46,26 +35,17 @@ public class Goblin extends GameCharacter {
         isAttacking = false;
     }
 
-    /**
-     * method for updating the goblins
-     * @param dt - time since last render
-     */
     @Override
     public void updateSprite(float dt) {
         setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
-
-        //if the goblin is within a radius of 60 of the player set it to be aggravated
         if (getDistance(this, AbstractGameScreen.player) < 60) {
             isAggravated = true;
         } else {
             isAggravated = false;
         }
         checkHealth();
-
-        //if the goblin is not aggravated walk randomly
         if (!isAggravated) {
             setRandomVelocity(dt);
-            //if the goblin is aggravated either set it to walk to the player or attack the player
         } else {
             if (isAttacking) {
                 attack(dt);
@@ -77,11 +57,6 @@ public class Goblin extends GameCharacter {
         setRegion(frame);
     }
 
-    /**
-     * method for creating the physics body of the goblin
-     * @param xPos - X position of character body
-     * @param yPos - Y position of character body
-     */
     @Override
     public void defineBody(float xPos, float yPos) {
         BodyDef bodyDef = new BodyDef();
@@ -94,24 +69,15 @@ public class Goblin extends GameCharacter {
         polygonShape.setAsBox(4, 6);
 
         fixtureDef.shape = polygonShape;
-
-        //set the goblin to only collide with the world and the player
         fixtureDef.filter.categoryBits = SetupVariables.BIT_WORLD;
         fixtureDef.filter.maskBits = SetupVariables.BIT_PLAYER | SetupVariables.BIT_WORLD;
-
-        //attach the class information to the body
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 
-    /**
-     * method used for making the goblin walk around randomly
-     * @param dt - time since last render
-     */
     public void setRandomVelocity(float dt) {
         int random = (int) (Math.random() * 3 + 1);
 
         timer += dt;
-        //every 5 seconds if the random number is 1 set the goblin to stop and wait
         if (timer > 5f && !hasChecked) {
             hasChecked = true;
             if (random == 1) {
@@ -119,7 +85,6 @@ public class Goblin extends GameCharacter {
             }
         }
 
-        //reset the timer and other variables after 8 seconds
         if (timer > 8f) {
             isStopped = false;
             hasChecked = false;
@@ -128,30 +93,21 @@ public class Goblin extends GameCharacter {
 
         random = (int) (Math.random() * 2 + 1);
 
-        //if the goblin is not stoppd but the velocity is 0 find its new direction
         if (b2dBody.getLinearVelocity().isZero() && !isStopped) {
             findDirection(random);
         }
 
-        //if the goblin is stopped there is a 1/100 chance that the goblin will turn on its own
         else if (!b2dBody.getLinearVelocity().isZero() && !isStopped) {
             if (((int) (Math.random() * 100 + 1)) == 1) {
                 findDirection(random);
             }
         }
-
-        //if the goblin should be moving set its velocity
         if (!isStopped) {
             setVelocity();
         }
     }
 
-    /**
-     * choose a direction for the goblin to walk based of a random chance and the direction it was moving in previously
-     * @param random - a random number 1-2
-     */
     private void findDirection(int random) {
-        //set the direction randomly to one of the perpendicular directions to that of the original direction
         if (direction.equals("left")) {
             if (random == 1) {
                 direction = "forward";
@@ -179,9 +135,6 @@ public class Goblin extends GameCharacter {
         }
     }
 
-    /**
-     * set the velocity corresponding to th direction of the player
-     */
     private void setVelocity() {
         if (direction.equals("right")) {
             b2dBody.setLinearVelocity(speed,0);
@@ -194,11 +147,7 @@ public class Goblin extends GameCharacter {
         }
     }
 
-    /**
-     * method used for pathfinding tot the player
-     */
     public void walkToPlayer () {
-        //set the direction of the goblin to the horizontal placement of the goblin
         if (AbstractGameScreen.player.b2dBody.getPosition().x - 2 > b2dBody.getPosition().x) {
             direction = "right";
             setVelocity();
@@ -207,7 +156,6 @@ public class Goblin extends GameCharacter {
             setVelocity();
         }
 
-        //set the direction of the goblin to the vertical placement of the goblin
         if (AbstractGameScreen.player.b2dBody.getPosition().y - 2 > b2dBody.getPosition().y) {
             direction = "backward";
             setVelocity();
@@ -218,7 +166,6 @@ public class Goblin extends GameCharacter {
 
         String originalDirection = direction;
 
-        //set the direction of the goblin to the horizontal placement of the goblin if it is collided and if the original direction was forward or backward
         if (isCollided && (originalDirection.equals("forward") || originalDirection.equals("backward"))) {
             if (AbstractGameScreen.player.b2dBody.getPosition().x - 2 > b2dBody.getPosition().x) {
                 direction = "right";
@@ -227,7 +174,6 @@ public class Goblin extends GameCharacter {
                 direction = "left";
                 setVelocity();
             }
-            //set the direction of the goblin to the vertical placement of the goblin if it is collided and if the original direction was left or right
         } else if (isCollided && (originalDirection.equals("left") || originalDirection.equals("right"))) {
             if (AbstractGameScreen.player.b2dBody.getPosition().y - 2 > b2dBody.getPosition().y) {
                 direction = "backward";
@@ -239,32 +185,22 @@ public class Goblin extends GameCharacter {
         }
     }
 
-    /**
-     * method used for when the goblin is attacking the player
-     * @param dt - time since last render
-     */
     public void attack(float dt) {
         timer += dt;
-        //attack the player once every second
         if (!hasChecked) {
             AbstractGameScreen.player.takeDamage(strength);
             hasChecked = true;
         }
+
         if (timer > 1) {
             hasChecked = false;
             timer = 0f;
         }
     }
 
-    /**
-     * method used for getting the fram that needs to be drawn
-     * @param dt - time since last render
-     * @return the texture region that needs to be drawn next
-     */
     public TextureRegion getFrame(float dt) {
         elapsed_time += Gdx.graphics.getDeltaTime();
 
-        //if the goblin is attacking find its attack frame using its direction
         if (isAttacking) {
             if (direction.equals("forward")) {
                 region = forwardAttack.getKeyFrame(elapsed_time, false);
@@ -275,7 +211,6 @@ public class Goblin extends GameCharacter {
             } else {
                 region = leftAttack.getKeyFrame(elapsed_time, false);
             }
-            //if the goblin is moving find its walk frame using its direction
         } else if (b2dBody.getLinearVelocity().x > 0) {
             region = left.getKeyFrame(elapsed_time, true);
         } else if (b2dBody.getLinearVelocity().x < 0) {
@@ -285,7 +220,6 @@ public class Goblin extends GameCharacter {
         } else if (b2dBody.getLinearVelocity().y > 0) {
             region = backward.getKeyFrame(elapsed_time, true);
         }
-        //if the goblin is staying still find its idle frame using its direction
         else {
             if (direction.equals("forward")) {
                 region = defForward;
