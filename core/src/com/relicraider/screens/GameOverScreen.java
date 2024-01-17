@@ -102,6 +102,7 @@ public class GameOverScreen implements Screen {
      * method used for resetting the game in order to let the game be run again
      */
     public void resetGame() {
+        //reset all the variables
         Player.playerHealth = 100;
         Player.setRelicsCollected(0);
 
@@ -124,7 +125,9 @@ public class GameOverScreen implements Screen {
         Room6.potionIsUsed = false;
     }
 
+    @Override
     public void show() {
+
     }
 
     /**
@@ -154,7 +157,7 @@ public class GameOverScreen implements Screen {
     }
 
     /**
-     * Method to resize the screen of the main menu
+     * Method to resize the screen of the game over screen
      * @param width - New Width of Screen
      * @param height - New Height of Screen
      */
@@ -179,7 +182,7 @@ public class GameOverScreen implements Screen {
     }
 
     /**
-     * Method to dispose assets used in the main menu
+     * Method to dispose assets used
      */
     @Override
     public void dispose() {
