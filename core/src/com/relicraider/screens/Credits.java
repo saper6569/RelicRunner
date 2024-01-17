@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Credits screen class
+ */
 package com.relicraider.screens;
 
 import com.badlogic.gdx.Game;
@@ -24,6 +29,10 @@ public class Credits implements Screen {
     private final FitViewport viewport;
     private Button backButton;
 
+    /**
+     * Primary Constructor for credits screen
+     * @param game - The Game Object
+     */
     public Credits (final RelicRaider game) {
         this.game = game;
 
@@ -55,6 +64,10 @@ public class Credits implements Screen {
 
     }
 
+    /**
+     * method for rendering to the screen
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         //Clear the game screen with Black
@@ -67,6 +80,11 @@ public class Credits implements Screen {
         stage.draw();
     }
 
+    /**
+     * Method to resize the screen of the game over screen
+     * @param width - New Width of Screen
+     * @param height - New Height of Screen
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height,true);
@@ -87,6 +105,9 @@ public class Credits implements Screen {
 
     }
 
+    /**
+     * Method to dispose assets used
+     */
     @Override
     public void dispose() {
         stage.dispose();
