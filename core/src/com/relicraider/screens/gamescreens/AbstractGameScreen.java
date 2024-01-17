@@ -1,8 +1,14 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Abstract Game Screen Class - Every Game Screen has this code
+ */
 package com.relicraider.screens.gamescreens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -31,7 +37,9 @@ import com.relicraider.screens.utilities.HUD;
 
 import java.util.ArrayList;
 
+//Abstract Game Screen implements Screen interface
 public abstract class AbstractGameScreen implements Screen {
+//VARIABLES
     public static Player player;
     protected ArrayList<GameCharacter> characters;
     protected ArrayList<Item> items;
@@ -43,7 +51,7 @@ public abstract class AbstractGameScreen implements Screen {
     protected final OrthographicCamera camera;
     protected final FitViewport viewport;
 
-    //B2D setup
+    //Box2D setup
     protected final World world;
     protected final Box2DDebugRenderer debugRenderer;
 
@@ -59,36 +67,55 @@ public abstract class AbstractGameScreen implements Screen {
     protected final Stage stage;
     protected HUD hud;
     protected Button enterButton;
+    private Music gameMusic;
 
+    private double countSec;
 
-    public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer) {
+    /**
+     * Primary Constructor for a Game Screen
+     * @param game - Relic Raider Game Object
+     * @param mapLocation - What room game screen should display
+     * @param objectLayer - libGDX variable to create rooms
+     * @param playerX - X position of player
+     * @param playerY - Y position of player
+     */
+    public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer, float playerX, float playerY) {
         this.game = game;
-        //camera
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
 
-        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
-        camera.zoom -= 0.7f;
+        //Load game music file
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/mainGameMusic.mp3"));
 
-        stage = new Stage(viewport, RelicRaider.spriteBatch);
-        Gdx.input.setInputProcessor(stage);
+//CAMERA
+        camera = new OrthographicCamera(); //Create new Camera
+        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera); //Camera's viewport is set width and height, found in setup variables class
 
-        characters = new ArrayList<>();
-        items = new ArrayList<>();
-        doors = new ArrayList<>();
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0); //Set Camera's Position to x: Width of the World Camera is in, divided by 2. y: Height of the World Camera is in, divided by 2.
+        camera.zoom -= 0.7f; //Zoom camera in
+//STAGE
+        stage = new Stage(viewport, RelicRaider.spriteBatch); ///Create new Stage
+        Gdx.input.setInputProcessor(stage); //Get Input to stage
 
+        characters = new ArrayList<>(); //Create new ArrayList for characters
+        items = new ArrayList<>(); //Create new ArrayList for items
+        doors = new ArrayList<>(); //Create new ArrayList for doors
+
+        //To load map
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(mapLocation);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1);
 
-        //B2D setup
-        world = new World(new Vector2(0, 0), true);
-        debugRenderer = new Box2DDebugRenderer();
+        //Box2D setup
+        world = new World(new Vector2(0, 0), true); //Create new world
+        debugRenderer = new Box2DDebugRenderer(); //Create new Box2d Bug Renderer
 
-        player = new Player(world, 200, 300, Player.playerHealth);
+        //Create new player, add to characters list
+        player = new Player(world, playerX, playerY, Player.playerHealth);
         characters.add(player);
+
+        //Create new hud
         hud = new HUD(game, RelicRaider.spriteBatch, player);
 
+        //To get player in the world
         bodyDef = new BodyDef();
         bodyDef.position.set(new Vector2(0, 10));
         PolygonShape shape = new PolygonShape();
@@ -97,7 +124,7 @@ public abstract class AbstractGameScreen implements Screen {
         fDef.filter.maskBits = SetupVariables.BIT_PLAYER | SetupVariables.BIT_WORLD;
         Body body;
 
-        //walls
+//WALLS
         for (MapObject object : map.getLayers().get(objectLayer).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -109,29 +136,46 @@ public abstract class AbstractGameScreen implements Screen {
             body.createFixture(fDef);
         }
 
-        createCollisionListener();
+        createCollisionListener(); //Call createCollisionListener method
+
+        //Set Volume of Game Music and Play in a loop, start count.
+        gameMusic.setVolume((float) 0.1);
+        gameMusic.setLooping(true);
+        gameMusic.play();
+
+        countSec = 0;
     }
 
+    /**
+     * Method for creating the collision listener for each room. This will handle any interactions between different physics bodies
+     */
     public void createCollisionListener() {
         world.setContactListener(new ContactListener() {
 
+            /**
+             * method that runs when 2 bodies come into contact
+             * @param contact - the object containing the 2 collided objects
+             */
             @Override
             public void beginContact(Contact contact) {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
 
+                //handles item pickups
                 if (fixtureA.getUserData() instanceof Item) {
                     ((Item) fixtureA.getUserData()).itemIsPickedUp();
                 } else if (fixtureB.getUserData() instanceof Item) {
                     ((Item) fixtureB.getUserData()).itemIsPickedUp();
                 }
 
+                //handles when a goblin collisions
                 if (fixtureA.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureA.getUserData()).setCollided(true);
                 } else if (fixtureB.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureB.getUserData()).setCollided(true);
                 }
 
+                //handles when a player and goblin collides
                 if (fixtureA.getUserData() instanceof Goblin && fixtureB.getUserData() instanceof Player) {
                     ((Goblin) fixtureA.getUserData()).setAttacking(true);
                     AbstractGameScreen.player.getCollisions().add((Goblin) fixtureA.getUserData());
@@ -140,20 +184,30 @@ public abstract class AbstractGameScreen implements Screen {
                     AbstractGameScreen.player.getCollisions().add((Goblin) fixtureB.getUserData());
                 }
 
+                //handles when a player collides with a door
                 if (fixtureA.getUserData() instanceof Door && fixtureB.getUserData() instanceof Player) {
+                    hud.setDoorX(((Door) fixtureA.getUserData()).getNextX());
+                    hud.setDoorY(((Door) fixtureA.getUserData()).getNextY());
                     hud.setRoom(((Door) fixtureA.getUserData()).getRoom());
                     hud.setShowButton(true);
                 } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Door) {
+                    hud.setDoorX(((Door) fixtureB.getUserData()).getNextX());
+                    hud.setDoorY(((Door) fixtureB.getUserData()).getNextY());
                     hud.setRoom(((Door) fixtureB.getUserData()).getRoom());
                     hud.setShowButton(true);
                 }
             }
 
+            /**
+             * method that runs when 2 bodies end contact
+             * @param contact - the object containing the 2 uncollided objects
+             */
             @Override
             public void endContact(Contact contact) {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
 
+                //handles when a player and goblin end contact
                 if (fixtureA.getUserData() instanceof Goblin && fixtureB.getUserData() instanceof Player) {
                     ((Goblin) fixtureA.getUserData()).setAttacking(false);
                     AbstractGameScreen.player.removeCollision(((Goblin) fixtureA.getUserData()).getCharacterID());
@@ -162,12 +216,14 @@ public abstract class AbstractGameScreen implements Screen {
                     AbstractGameScreen.player.removeCollision(((Goblin) fixtureB.getUserData()).getCharacterID());
                 }
 
+                //handles when goblin and object end contact
                 if (fixtureA.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureA.getUserData()).setCollided(false);
                 } else if (fixtureB.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureB.getUserData()).setCollided(false);
                 }
 
+                //handles when the player and door end contact
                 if (fixtureA.getUserData() instanceof Door && fixtureB.getUserData() instanceof Player) {
                     hud.setShowButton(false);
                 } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Door) {
@@ -187,6 +243,9 @@ public abstract class AbstractGameScreen implements Screen {
         });
     }
 
+    /**
+     * method used to advance the physics world
+     */
     protected void stepWorld() {
         //B2D physics
         float delta = Gdx.graphics.getDeltaTime();
@@ -200,29 +259,42 @@ public abstract class AbstractGameScreen implements Screen {
         }
     }
 
+    /**
+     * update method
+     * @param dt - represents the time since last render
+     */
     public void update(float dt){
+        //if the player is dead change to the game over screen
         if (!player.isAlive()) {
             ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(game));
+            //stop the music if it is playing
+            if (gameMusic.isPlaying()) {
+                gameMusic.stop();
+            }
         }
 
         camera.update();
-
         camera.position.x = player.getB2dBody().getPosition().x;
         camera.position.y = player.getB2dBody().getPosition().y;
+
+        //loop through all the characters and update them
         for (int i = 0; i < characters.size(); i++) {
             characters.get(i).updateSprite(dt);
         }
 
+        //loop through all the characters and remove any that are dead
         for (int i = 0; i < characters.size(); i++) {
             if (!characters.get(i).isAlive()) {
                 characters.remove(i);
             }
         }
 
+        //loop through all the characters and remove any that are dead
         for (int i = 0; i < items.size(); i++) {
             items.get(i).update(dt);
         }
 
+        //loop through all the items and remove any that are picked up
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).isPickedUp()) {
                 items.remove(i);
@@ -239,6 +311,10 @@ public abstract class AbstractGameScreen implements Screen {
 
     }
 
+    /**
+     * render method for the room
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         update(delta);
@@ -250,7 +326,9 @@ public abstract class AbstractGameScreen implements Screen {
 
         mapRenderer.setView(camera);
         mapRenderer.render();
-        debugRenderer.render(world, camera.combined);
+
+        //uncomment to see hitboxes
+        //debugRenderer.render(world, camera.combined);
 
         RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
         RelicRaider.spriteBatch.begin();
@@ -258,10 +336,12 @@ public abstract class AbstractGameScreen implements Screen {
         //player movement
         player.playerMovement(delta);
 
+        //loop through all the items and draw them
         for (int i = 0; i < items.size(); i++) {
             items.get(i).draw(RelicRaider.spriteBatch);
         }
 
+        //loop through all the characters and draw them
         for (int i = 0; i < characters.size(); i++) {
             characters.get(i).draw(RelicRaider.spriteBatch);
         }
@@ -278,9 +358,15 @@ public abstract class AbstractGameScreen implements Screen {
         stepWorld();
     }
 
+    /**
+     * method for resizing the screen
+     * @param width - New Width of Screen
+     * @param height - New Height of Screen
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+        hud.getViewport().update(width, height);
     }
 
     @Override
@@ -298,6 +384,9 @@ public abstract class AbstractGameScreen implements Screen {
 
     }
 
+    /**
+     * Method to dispose assets used in the room
+     */
     @Override
     public void dispose() {
         world.dispose();
@@ -306,6 +395,10 @@ public abstract class AbstractGameScreen implements Screen {
         debugRenderer.dispose();
     }
 
+    /**
+     *
+     * @return the tmx map loader
+     */
     public TmxMapLoader getMapLoader() {
         return mapLoader;
     }

@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Creates a game story screen
+ */
 package com.relicraider.screens;
 
 import com.badlogic.gdx.Game;
@@ -28,6 +33,10 @@ public class GameStory implements Screen {
 
     private int backdrop;
 
+    /**
+     * Primary Constructor for Game Story Screen
+     * @param game - The Game Object
+     */
     public GameStory(final RelicRaider game) {
         this.game = game;
 
@@ -53,11 +62,13 @@ public class GameStory implements Screen {
         continueButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //add 1 to the backdrop counter
                 backdrop++;
+                //when the final page is being shown and the button is pressed again enter the game
                 if (backdrop == 3) {
                     continueButton.setText("ENTER");
                 } if (backdrop == 4) {
-                    ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game));
+                    ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game, 200, 300));
                 }
             }
         });
@@ -68,7 +79,8 @@ public class GameStory implements Screen {
         skipButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game));
+                //enter the game if the skip button is pressed
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game, 200, 300));
             }
         });
 
@@ -82,7 +94,11 @@ public class GameStory implements Screen {
 
     }
 
+    /**
+     * method for updating the game story screen
+     */
     public void update() {
+        //draw the screen based on what backdrop is supposed to be shown
         if (backdrop == 1) {
             RelicRaider.spriteBatch.draw(backdrop1, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
         } else if (backdrop == 2) {
@@ -95,6 +111,10 @@ public class GameStory implements Screen {
         }
     }
 
+    /**
+     * render mwthod to draw the screen
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         //screen render functions
@@ -114,6 +134,11 @@ public class GameStory implements Screen {
         stage.draw();
     }
 
+    /**
+     * Method to resize the screen of the main menu
+     * @param width - New Width of Screen
+     * @param height - New Height of Screen
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height,true);
@@ -134,6 +159,9 @@ public class GameStory implements Screen {
 
     }
 
+    /**
+     * Method to dispose assets used
+     */
     @Override
     public void dispose() {
         stage.dispose();

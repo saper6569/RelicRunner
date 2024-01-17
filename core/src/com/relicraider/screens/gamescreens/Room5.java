@@ -1,26 +1,50 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   Sets up Room 5
+ */
 package com.relicraider.screens.gamescreens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.physics.box2d.*;
 import com.relicraider.Items.HealingPotion;
+import com.relicraider.Items.Relic;
 import com.relicraider.RelicRaider;
 import com.relicraider.characters.Goblin;
 import com.relicraider.characters.Player;
+import com.relicraider.screens.utilities.Door;
 
 public class Room5 extends AbstractGameScreen {
 
-    public Room5(RelicRaider game) {
-        super(game, "Maps/room5.tmx", 4);
+    public static boolean potionIsUsed = false;
+    public static boolean relicIsFound = false;
+
+    /**
+     * constructor for creating room5
+     * @param game - the game that is used to manage screens
+     * @param playerX - x position of the player
+     * @param playerY - y postion of the player
+     */
+    public Room5(RelicRaider game, float playerX, float playerY) {
+        super(game, "Maps/room5.tmx", 4, playerX, playerY);
 
         Player.room = "Room5";
 
-        characters.add(new Goblin(world, 100, 300));
-        characters.add(new Goblin(world, 220, 300));
-        characters.add(new Goblin(world, 270, 130));
-        characters.add(new Goblin(world, 360, 80));
+        //add all the actor to the game screen
 
-        items.add(new HealingPotion(world, 90, 300));
+        //if the player has already picked up a relic or healing potion don't draw it again
+        if (!relicIsFound) {
+            items.add(new Relic(world, "crystal ball", 120, 236, 5));
+        }
+        if (!potionIsUsed) {
+            items.add(new HealingPotion(world, 231, 324, 5));
+        }
+
+        characters.add(new Goblin(world, 76, 384));
+        characters.add(new Goblin(world, 167, 284));
+        characters.add(new Goblin(world, 211, 152));
+        characters.add(new Goblin(world, 78, 219));
+
+        doors.add(new Door(game, world, "room 2", 160, 450, 112, 338));
+        doors.add(new Door(game, world, "room 2", 272, 226, 320, 114));
     }
 }
 

@@ -43,6 +43,7 @@ public class HUD implements Disposable {
 
     private Button enterButton;
     private boolean showButton;
+    private float doorX, doorY;
     private String room;
     private RelicRaider game;
 
@@ -131,6 +132,7 @@ public class HUD implements Disposable {
     }
 
     public void update(float dt) {
+        roomLabel.setText(Player.room);
         relicsLable.setText(Player.getRelicsCollected() +  " / 8");
         healthLabel.setText(String.format("%03d", player.getHealth()));
         int health = player.getHealth();
@@ -147,19 +149,18 @@ public class HUD implements Disposable {
     }
 
     private void playerIsEntering() {
-        System.out.println("hi");
         if (room.equals("room 1")) {
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new Room1(game));
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new Room1(game, doorX, doorY));
         } else if (room.equals("room 2")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room2(game));
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room2(game, doorX, doorY));
         } else if (room.equals("room 3")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room3(game));
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room3(game, doorX, doorY));
         } else if (room.equals("room 4")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room4(game));
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room4(game, doorX, doorY));
         } else if (room.equals("room 5")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room5(game));
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room5(game, doorX, doorY));
         } else if (room.equals("room 6")) {
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room6(game));
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new Room6(game, doorX, doorY));
         }
     }
 
@@ -294,5 +295,21 @@ public class HUD implements Disposable {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public float getDoorX() {
+        return doorX;
+    }
+
+    public void setDoorX(float doorX) {
+        this.doorX = doorX;
+    }
+
+    public float getDoorY() {
+        return doorY;
+    }
+
+    public void setDoorY(float doorY) {
+        this.doorY = doorY;
     }
 }
