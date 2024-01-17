@@ -80,7 +80,7 @@ public class HUD implements Disposable {
         roomL = new Label (" ROOM ", labelStyle);
         roomLabel = new Label (Player.room, labelStyle);
         relicsL = new Label (" RELICS COLLECTED ", labelStyle);
-        relicsLable = new Label(Player.getRelicsCollected() +  " / 8", labelStyle);
+        relicsLable = new Label(Player.getRelicsCollected() +  " / 6", labelStyle);
 
         table.add(healthL).padTop(10).padLeft(5);
         table.row();
@@ -133,7 +133,7 @@ public class HUD implements Disposable {
 
     public void update(float dt) {
         roomLabel.setText(Player.room);
-        relicsLable.setText(Player.getRelicsCollected() +  " / 8");
+        relicsLable.setText(Player.getRelicsCollected() +  " / 6");
         healthLabel.setText(String.format("%03d", player.getHealth()));
         int health = player.getHealth();
         hearts.clear();

@@ -20,7 +20,7 @@ public class Player extends GameCharacter {
     private boolean canAttack;
     private ArrayList<GameCharacter> collisions;
     private float attackCooldown;
-    public static int relicsCollected = 0;
+    public static int relicsCollected = 6;
     private String lastPressed;
     private boolean isBlocking;
 

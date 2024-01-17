@@ -31,6 +31,7 @@ import com.relicraider.characters.GameCharacter;
 import com.relicraider.characters.Goblin;
 import com.relicraider.characters.Player;
 import com.relicraider.screens.GameOverScreen;
+import com.relicraider.screens.GameWinScreen;
 import com.relicraider.screens.utilities.Button;
 import com.relicraider.screens.utilities.Door;
 import com.relicraider.screens.utilities.HUD;
@@ -267,6 +268,14 @@ public abstract class AbstractGameScreen implements Screen {
         //if the player is dead change to the game over screen
         if (!player.isAlive()) {
             ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(game));
+            //stop the music if it is playing
+            if (gameMusic.isPlaying()) {
+                gameMusic.stop();
+            }
+        }
+
+        if (Player.getRelicsCollected() == 6) {
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new GameWinScreen(game));
             //stop the music if it is playing
             if (gameMusic.isPlaying()) {
                 gameMusic.stop();
