@@ -228,119 +228,232 @@ public class Player extends GameCharacter {
         }
     }
 
+    /**
+     * Method to have a character get attacked
+     * @param character - The character that is getting hurt
+     */
     public void attack(GameCharacter character) {
-        character.takeDamage(strength);
+        character.takeDamage(strength); //Take away characters health by the amount of strength the character hitting them has
     }
 
+    /**
+     * Method to get what room player is in
+     * @return - The room the player is currently in
+     */
     public static String getRoom() {
         return room;
     }
 
+    /**
+     * Method to set what room player is in
+     * @param room - The room player is in is set to
+     */
     public static void setRoom(String room) {
-        Player.room = room;
+        Player.room = room; //Players room = room parameter
     }
 
+    /**
+     * Method to see if player can attack
+     * @return - True - if play can attack, False - if player cant attack
+     */
     public boolean isCanAttack() {
         return canAttack;
     }
 
+    /**
+     * Method to set if a player can attack
+     * @param canAttack - True - if player is set to be able to attack, False -  if player is set to not be able to attack
+     */
     public void setCanAttack(boolean canAttack) {
-        this.canAttack = canAttack;
+        this.canAttack = canAttack; //Set if player can attack to parameter
     }
 
+    /**
+     * Method to get last pressed input
+     * @return - The last pressed input
+     */
     public String getLastPressed() {
         return lastPressed;
     }
 
+    /**
+     * Method to set last pressed input
+     * @param lastPressed - The input that lastPressed is to be set to
+     */
     public void setLastPressed(String lastPressed) {
         this.lastPressed = lastPressed;
     }
 
+    /**
+     * Method to get collisions of player
+     * @return - The arraylist of collisions of the player
+     */
     public ArrayList<GameCharacter> getCollisions() {
         return collisions;
     }
 
+    /**
+     * Method to remove a collision with the player
+     * @param characterID - Player's ID
+     */
     public void removeCollision(int characterID) {
+        //Until I is greater than collisions arraylist
         for (int i = 0; i < collisions.size(); i++) {
-            if (collisions.get(i).getCharacterID() == characterID) {
-                collisions.remove(i);
+            if (collisions.get(i).getCharacterID() == characterID) { //If the element in the collision arraylist id equals to character id
+                collisions.remove(i); //Remove collision
                 break;
             }
         }
     }
 
+    /**
+     * Method to set collisions with the player
+     * @param collisions - ArrayList containing collision id's
+     */
     public void setCollisions(ArrayList<GameCharacter> collisions) {
         this.collisions = collisions;
     }
 
+    /**
+     * Method to get time of attack cooldown
+     * @return - Time of attack cooldown
+     */
     public float getAttackCooldown() {
         return attackCooldown;
     }
 
+    /**
+     * Method to set time of attack cooldown
+     * @param attackCooldown - New set time of attack cooldown
+     */
     public void setAttackCooldown(float attackCooldown) {
         this.attackCooldown = attackCooldown;
     }
 
+    /**
+     * Method to see if player is currently blocking
+     * @return - True - if player is blocking, False -  if player isnt blocking
+     */
     public boolean isBlocking() {
         return isBlocking;
     }
 
+    /**
+     * Method to set if player is blocking
+     * @param blocking - True - if set player to be blocking, False - if set player to not be blocking
+     */
     public void setBlocking(boolean blocking) {
         isBlocking = blocking;
     }
 
+    /**
+     * Method to get Block Atlas of player
+     * @return - The Block Atlas of the player
+     */
     public TextureAtlas getBlockAtlas() {
         return blockAtlas;
     }
 
+    /**
+     * Method to set Block Atlas of player
+     * @param blockAtlas - The new Block Atlas of the player
+     */
     public void setBlockAtlas(TextureAtlas blockAtlas) {
         this.blockAtlas = blockAtlas;
     }
 
+    /**
+     * Method to get texture region of player's forward block
+     * @return - Texture Region of players forward block
+     */
     public TextureRegion getBlockForward() {
         return blockForward;
     }
 
+    /**
+     * Method to set texture region of player's forward block
+     * @param blockForward - New Texture region of player's forward block
+     */
     public void setBlockForward(TextureRegion blockForward) {
         this.blockForward = blockForward;
     }
 
+    /**
+     * Method to get texture region of player's backward block
+     * @return - Texture Region of players backward block
+     */
     public TextureRegion getBlockBackward() {
         return blockBackward;
     }
 
+    /**
+     * Method to set texture region of player's backward block
+     * @param blockBackward - New Texture region of player's backward block
+     */
     public void setBlockBackward(TextureRegion blockBackward) {
         this.blockBackward = blockBackward;
     }
 
+    /**
+     * Method to get texture region of player's leftwards block
+     * @return - Texture Region of players leftwards block
+     */
     public TextureRegion getBlockLeft() {
         return blockLeft;
     }
 
+    /**
+     * Method to set texture region of player's leftwards block
+     * @param blockLeft - New Texture region of player's leftwards block
+     */
     public void setBlockLeft(TextureRegion blockLeft) {
         this.blockLeft = blockLeft;
     }
 
+    /**
+     * Method to get texture region of player's rightwards block
+     * @return - Texture Region of players rightwards block
+     */
     public TextureRegion getBlockRight() {
         return blockRight;
     }
 
+    /**
+     * Method to set texture region of player's rightwards block
+     * @param blockRight - New Texture region of player's rightwards block
+     */
     public void setBlockRight(TextureRegion blockRight) {
         this.blockRight = blockRight;
     }
 
+    /**
+     * Method to get number of relics collected by player
+     * @return - Number of relics collected by the player
+     */
     public static int getRelicsCollected() {
         return relicsCollected;
     }
 
+    /**
+     * Method to set number of relics collected by player
+     * @param relicsCollected - New Number of relics collected by the player
+     */
     public static void setRelicsCollected(int relicsCollected) {
         Player.relicsCollected = relicsCollected;
     }
 
+    /**
+     * Method to get health of player
+     * @return - Health of player
+     */
     public static int getPlayerHealth() {
         return playerHealth;
     }
 
+    /**
+     * Method to set health of player
+     * @param playerHealth - New Health of player
+     */
     public static void setPlayerHealth(int playerHealth) {
         Player.playerHealth = playerHealth;
     }
