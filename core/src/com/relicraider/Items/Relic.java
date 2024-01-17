@@ -13,7 +13,7 @@ import com.relicraider.screens.gamescreens.*;
 public class Relic extends Item {
     private int roomNumber;
     public Relic(World world, String itemName, float xPos, float yPos, int roomNumber) {
-        super(itemName, "Sprites/relics.txt", itemName, xPos, yPos);
+        super(itemName, "Sprites/relics.txt", itemName);
 
         this.world = world;
         this.roomNumber = roomNumber;
