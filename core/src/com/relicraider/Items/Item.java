@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   abstract item class
+ */
 package com.relicraider.Items;
 
 import com.badlogic.gdx.Gdx;
@@ -25,7 +30,12 @@ public abstract class Item extends Sprite {
     protected World world;
     protected Body b2dBody;
 
-    public Item(String itemName, String atlasFile, float xPos, float yPos) {
+    /**
+     * constructor for an item with an animation
+     * @param itemName - name of the item
+     * @param atlasFile - file location of the texture atlas file
+     */
+    public Item(String itemName, String atlasFile) {
         this.itemName = itemName;
         itemCounter++;
         itemID = itemCounter;
@@ -41,7 +51,13 @@ public abstract class Item extends Sprite {
         setRegion(image);
     }
 
-    public Item(String itemName, String atlasFile, String atlasRegion, float xPos, float yPos) {
+    /**
+     * constructor for an item without an animation
+     * @param itemName - name of the item
+     * @param atlasFile - file location of the texture atlas file
+     * @param atlasRegion - name of the region in the atlas file
+     */
+    public Item(String itemName, String atlasFile, String atlasRegion) {
         this.itemName = itemName;
         itemCounter++;
         itemID = itemCounter;
@@ -63,11 +79,19 @@ public abstract class Item extends Sprite {
 
     public abstract void defineBody(float xPos, float yPos);
 
+    /**
+     * method for getting a frame from an itme
+     * @param dt - time since last render
+     * @return the texture region of the animation that should be drawn next
+     */
     public TextureRegion getFrame(float dt) {
         elapsed_time += Gdx.graphics.getDeltaTime();
         return animation.getKeyFrame(elapsed_time, true);
     }
 
+    /**
+     * method used for removing an item
+     */
     public void removeItem() {
         world.destroyBody(b2dBody);
         getTexture().dispose();
