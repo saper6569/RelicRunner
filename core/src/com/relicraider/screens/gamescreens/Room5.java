@@ -35,7 +35,7 @@ public class Room5 extends AbstractGameScreen {
             items.add(new Relic(world, "crystal ball", 120, 236, 5));
         }
         if (!potionIsUsed) {
-            items.add(new HealingPotion(world, 231, 324, 5));
+            items.add(new HealingPotion(world, 191, 324, 5));
         }
 
         characters.add(new Goblin(world, 76, 384));
