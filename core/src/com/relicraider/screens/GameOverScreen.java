@@ -41,7 +41,7 @@ public class GameOverScreen implements Screen {
         //Set Game Over Screen's game to parameter
         this.game = game;
 
-        resetGame();
+        resetGame(); //Reset all variables for Main Game Loop
 
         //Import Song File
         menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));

@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   How To Play Screen Class
+ */
 package com.relicraider.screens;
 
 import com.badlogic.gdx.Game;
@@ -18,6 +23,7 @@ import com.relicraider.SetupVariables;
 import com.relicraider.screens.gamescreens.Room1;
 import com.relicraider.screens.utilities.Button;
 
+//HowToPlay class implements the Screen Superclass
 public class HowToPlay implements Screen {
     private final RelicRaider game;
     private Stage stage;
@@ -40,40 +46,46 @@ public class HowToPlay implements Screen {
     private final OrthographicCamera camera;
     private final FitViewport viewport;
 
+    /**
+     * Primary Constructor for HowToPlay Screen
+     * @param game - The Game Object
+     */
     public HowToPlay(final RelicRaider game) {
         this.game = game;
-        elapsedTime = 0;
+        elapsedTime = 0; //Set elapsed time to 0
 
+        //Set Background
         backdrop = new Texture(Gdx.files.internal("HowToPlay/HowToPlay.png"));
         backdrop.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        //camera
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera);
-        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
+//CAMERA
+        camera = new OrthographicCamera(); //Create new Camera
+        viewport = new FitViewport(SetupVariables.WIDTH, SetupVariables.HEIGHT, camera); //Camera's viewport is set width and height, found in setup variables class
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0); //Set Camera's Position to x: Width of the World Camera is in, divided by 2. y: Height of the World Camera is in, divided by 2.
 
-        stage = new Stage(viewport, RelicRaider.spriteBatch);
+        stage = new Stage(viewport, RelicRaider.spriteBatch); //Create New Stage
 
-        atlasPlayer = new TextureAtlas(Gdx.files.internal("Sprites/knightWalk.txt"));
-        animationPlayer = new Animation<TextureRegion>(FRAME_DURATION, atlasPlayer.findRegions("forward"));
+        atlasPlayer = new TextureAtlas(Gdx.files.internal("Sprites/knightWalk.txt")); //Import Spritesheet of Knight
+        animationPlayer = new Animation<TextureRegion>(FRAME_DURATION, atlasPlayer.findRegions("forward")); //Import images of knight walking forward
 
-        atlasGoblin = new TextureAtlas(Gdx.files.internal("Sprites/goblinWalk.txt"));
-        animationGoblin = new Animation<TextureRegion>(FRAME_DURATION, atlasGoblin.findRegions("forward"));
+        atlasGoblin = new TextureAtlas(Gdx.files.internal("Sprites/goblinWalk.txt")); //Import Spritesheet of Goblin
+        animationGoblin = new Animation<TextureRegion>(FRAME_DURATION, atlasGoblin.findRegions("forward")); //Import images of goblin walking forwards
 
-        atlasHealPotion = new TextureAtlas(Gdx.files.internal("Sprites/healPotion.txt"));
-        animationHealPotion = new Animation<TextureRegion>(FRAME_DURATION, atlasHealPotion.getRegions());
+        atlasHealPotion = new TextureAtlas(Gdx.files.internal("Sprites/healPotion.txt")); //Import Spritesheet of the health potion
+        animationHealPotion = new Animation<TextureRegion>(FRAME_DURATION, atlasHealPotion.getRegions()); //Import image of health potion
 
-        backButton = new Button("BACK", SetupVariables.WIDTH - Button.width - 120, 80, stage, 24);
+        backButton = new Button("BACK", SetupVariables.WIDTH - Button.width - 120, 80, stage, 24); //Create new button to go back to main menu
 
         //click listener to find when the user wants to go back
         backButton.getButton().addListener(new ClickListener(){
             @Override
+            //If user clicks back button, go back to main menu
             public void clicked(InputEvent event, float x, float y) {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu(game));
             }
         });
 
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(stage); //Set input processor to the stage
     }
 
     @Override
@@ -81,15 +93,24 @@ public class HowToPlay implements Screen {
 
     }
 
+    /**
+     * Method to update image animations
+     * @param dt - Down-time
+     */
     public void update(float dt) {
-        elapsedTime += dt;
+        elapsedTime += dt; //Elapsed Time = Elapsed Time + Down Time
 
+        //Draw all images
         RelicRaider.spriteBatch.draw(animationPlayer.getKeyFrame(elapsedTime, true), 550, 270, 100, 100);
         RelicRaider.spriteBatch.draw(animationGoblin.getKeyFrame(elapsedTime, true), 550, 220, 100, 100);
         RelicRaider.spriteBatch.draw(animationHealPotion.getKeyFrame(elapsedTime, true), 575, 190, 50, 50);
 
     }
 
+    /**
+     * Method to render the screen
+     * @param delta - libGDX screen setup variable
+     */
     @Override
     public void render(float delta) {
         camera.update();
@@ -103,19 +124,25 @@ public class HowToPlay implements Screen {
         RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
         RelicRaider.spriteBatch.begin();
 
-        RelicRaider.spriteBatch.draw(backdrop, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT);
+        RelicRaider.spriteBatch.draw(backdrop, 0, 0, SetupVariables.WIDTH, SetupVariables.HEIGHT); //Draw spritebatch
 
-        update(delta);
+        update(delta); //Call Update Method
 
-        RelicRaider.spriteBatch.end();
+        RelicRaider.spriteBatch.end(); //Stop drawing spritebatch
 
+        //Draw stage
         stage.act();
         stage.draw();
     }
 
+    /**
+     * Method to resize camera view
+     * @param width - Width of camera view
+     * @param height - Height of camera view
+     */
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height,true);
+        viewport.update(width, height,true); //Update camera view with new variables
     }
 
     @Override
@@ -133,6 +160,9 @@ public class HowToPlay implements Screen {
 
     }
 
+    /**
+     * Method to dispose assets used in the main menu
+     */
     @Override
     public void dispose() {
         atlasGoblin.dispose();
