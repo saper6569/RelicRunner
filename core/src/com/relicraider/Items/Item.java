@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   abstract item class
+ */
 package com.relicraider.Items;
 
 import com.badlogic.gdx.Gdx;
@@ -25,7 +30,12 @@ public abstract class Item extends Sprite {
     protected World world;
     protected Body b2dBody;
 
-    public Item(String itemName, String atlasFile, float xPos, float yPos) {
+    /**
+     * constructor for an item with an animation
+     * @param itemName - name of the item
+     * @param atlasFile - file location of the texture atlas file
+     */
+    public Item(String itemName, String atlasFile) {
         this.itemName = itemName;
         itemCounter++;
         itemID = itemCounter;
@@ -41,7 +51,13 @@ public abstract class Item extends Sprite {
         setRegion(image);
     }
 
-    public Item(String itemName, String atlasFile, String atlasRegion, float xPos, float yPos) {
+    /**
+     * constructor for an item without an animation
+     * @param itemName - name of the item
+     * @param atlasFile - file location of the texture atlas file
+     * @param atlasRegion - name of the region in the atlas file
+     */
+    public Item(String itemName, String atlasFile, String atlasRegion) {
         this.itemName = itemName;
         itemCounter++;
         itemID = itemCounter;
@@ -63,11 +79,19 @@ public abstract class Item extends Sprite {
 
     public abstract void defineBody(float xPos, float yPos);
 
+    /**
+     * method for getting a frame from an itme
+     * @param dt - time since last render
+     * @return the texture region of the animation that should be drawn next
+     */
     public TextureRegion getFrame(float dt) {
-        elapsed_time += Gdx.graphics.getDeltaTime();
+        elapsed_time += dt;
         return animation.getKeyFrame(elapsed_time, true);
     }
 
+    /**
+     * method used for removing an item
+     */
     public void removeItem() {
         world.destroyBody(b2dBody);
         getTexture().dispose();
@@ -77,68 +101,16 @@ public abstract class Item extends Sprite {
         return itemCounter;
     }
 
-    public static void setItemCounter(int itemCounter) {
-        Item.itemCounter = itemCounter;
-    }
-
     public int getItemID() {
         return itemID;
-    }
-
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
     }
 
     public String getItemName() {
         return itemName;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
     public boolean isPickedUp() {
         return isPickedUp;
-    }
-
-    public void setPickedUp(boolean pickedUp) {
-        isPickedUp = pickedUp;
-    }
-
-    public float getElapsed_time() {
-        return elapsed_time;
-    }
-
-    public void setElapsed_time(float elapsed_time) {
-        this.elapsed_time = elapsed_time;
-    }
-
-    public TextureRegion getRegion() {
-        return region;
-    }
-
-    public TextureRegion getImage() {
-        return image;
-    }
-
-    public void setImage(TextureRegion image) {
-        this.image = image;
-    }
-
-    public TextureAtlas getAtlas() {
-        return atlas;
-    }
-
-    public void setAtlas(TextureAtlas atlas) {
-        this.atlas = atlas;
-    }
-
-    public Animation<TextureRegion> getAnimation() {
-        return animation;
-    }
-
-    public void setAnimation(Animation<TextureRegion> animation) {
-        this.animation = animation;
     }
 
     public World getWorld() {
@@ -153,7 +125,8 @@ public abstract class Item extends Sprite {
         return b2dBody;
     }
 
-    public void setB2dBody(Body b2dBody) {
-        this.b2dBody = b2dBody;
+    @Override
+    public void setRegion(TextureRegion region) {
+        this.region = region;
     }
 }

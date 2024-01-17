@@ -1,3 +1,8 @@
+/* Relic Raider ; Final Project ICS4U
+   Sanija, Ryder, Amin
+   December 15th, 2023 - January 16th, 2024
+   How to Play screen class
+ */
 package com.relicraider.screens;
 
 import com.badlogic.gdx.Game;
@@ -15,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
-import com.relicraider.screens.gamescreens.Room1;
 import com.relicraider.screens.utilities.Button;
 
 public class HowToPlay implements Screen {
@@ -40,6 +44,10 @@ public class HowToPlay implements Screen {
     private final OrthographicCamera camera;
     private final FitViewport viewport;
 
+    /**
+     * Primary Constructor for How to Play screen
+     * @param game - The Game Object
+     */
     public HowToPlay(final RelicRaider game) {
         this.game = game;
         elapsedTime = 0;
@@ -69,6 +77,7 @@ public class HowToPlay implements Screen {
         backButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //set the screen to the main menu
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu(game));
             }
         });
@@ -81,6 +90,10 @@ public class HowToPlay implements Screen {
 
     }
 
+    /**
+     * method to update the screen
+     * @param dt - time since last render
+     */
     public void update(float dt) {
         elapsedTime += dt;
 
@@ -90,6 +103,10 @@ public class HowToPlay implements Screen {
 
     }
 
+    /**
+     * Method to render the screen
+     * @param delta - libGDX screen setup variable
+     */
     @Override
     public void render(float delta) {
         camera.update();
@@ -113,6 +130,11 @@ public class HowToPlay implements Screen {
         stage.draw();
     }
 
+    /**
+     * Method to resize the screen of how to play
+     * @param width - New Width of Screen
+     * @param height - New Height of Screen
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height,true);
@@ -133,6 +155,9 @@ public class HowToPlay implements Screen {
 
     }
 
+    /**
+     * Method to dispose assets used
+     */
     @Override
     public void dispose() {
         atlasGoblin.dispose();
