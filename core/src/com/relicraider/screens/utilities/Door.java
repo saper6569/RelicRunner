@@ -12,17 +12,6 @@ public class Door extends Sprite {
     private Body b2dBody;
     private final RelicRaider game;
 
-    /**
-     * constructor for creating a door
-     * @param game - game object used to switch screens
-     * @param world - the physics world
-     * @param room - the room that the door leads to
-     * @param x - the x position of the door
-     * @param y - the y position of the door
-     * @param nextX - the x position that the player will be moved to
-     * @param nextY - the y position that the player will be moved to
-     */
-
     public Door(final RelicRaider game, World world, String room, float x, float y, float nextX, float nextY) {
         this.world = world;
         this.game = game;
@@ -33,11 +22,6 @@ public class Door extends Sprite {
         defineBody(x, y);
     }
 
-    /**
-     * method for creating the physics body of the door
-     * @param xPos - X position of character body
-     * @param yPos - Y position of character body
-     */
     public void defineBody(float xPos, float yPos) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(xPos, yPos);
@@ -49,8 +33,6 @@ public class Door extends Sprite {
         polygonShape.setAsBox(16, 2);
 
         fixtureDef.shape = polygonShape;
-
-        //set the door to only collide with the player
         fixtureDef.filter.maskBits = SetupVariables.BIT_PLAYER;
         fixtureDef.filter.categoryBits = SetupVariables.BIT_DOOR;
         b2dBody.createFixture(fixtureDef).setUserData(this);
@@ -70,6 +52,14 @@ public class Door extends Sprite {
 
     public void setWorld(World world) {
         this.world = world;
+    }
+
+    public Body getB2dBody() {
+        return b2dBody;
+    }
+
+    public void setB2dBody(Body b2dBody) {
+        this.b2dBody = b2dBody;
     }
 
     @Override
@@ -96,7 +86,15 @@ public class Door extends Sprite {
         return nextX;
     }
 
+    public void setNextX(float nextX) {
+        this.nextX = nextX;
+    }
+
     public float getNextY() {
         return nextY;
+    }
+
+    public void setNextY(float nextY) {
+        this.nextY = nextY;
     }
 }
