@@ -300,42 +300,18 @@ public class Goblin extends GameCharacter {
         return region;
     }
 
-    public boolean hasStopped() {
-        return isStopped;
-    }
-
-    public void setIsStopped(boolean isStopped) {
-        this.isStopped = isStopped;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setRandomVelocity(String direction) {
-        this.direction = direction;
-    }
-
-    public boolean isAggravated() {
-        return isAggravated;
-    }
-
-    public void setAggravated(boolean aggravated) {
-        isAggravated = aggravated;
-    }
-
-    public boolean isAttacking() {
-        return isAttacking;
-    }
-
+    /**
+     * setter for is attacking
+     * @param attacking - boolean whether the goblin is attacking
+     */
     public void setAttacking(boolean attacking) {
         isAttacking = attacking;
     }
 
-    public boolean isCollided() {
-        return isCollided;
-    }
-
+    /**
+     * setter for if the goblin is collided
+     * @param collided - boolean whether the goblin has collided or not
+     */
     public void setCollided(boolean collided) {
         isCollided = collided;
     }

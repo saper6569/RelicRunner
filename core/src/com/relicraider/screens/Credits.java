@@ -108,7 +108,6 @@ public class Credits implements Screen {
     /**
      * Method to dispose assets used
      */
-
     @Override
     public void dispose() {
         stage.dispose();

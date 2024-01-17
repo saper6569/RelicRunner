@@ -97,87 +97,11 @@ public abstract class Item extends Sprite {
         getTexture().dispose();
     }
 
-    public static int getItemCounter() {
-        return itemCounter;
-    }
-
-    public static void setItemCounter(int itemCounter) {
-        Item.itemCounter = itemCounter;
-    }
-
-    public int getItemID() {
-        return itemID;
-    }
-
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
+    /**
+     * getter for is picked up
+     * @return whether the item is picked up
+     */
     public boolean isPickedUp() {
         return isPickedUp;
-    }
-
-    public void setPickedUp(boolean pickedUp) {
-        isPickedUp = pickedUp;
-    }
-
-    public float getElapsed_time() {
-        return elapsed_time;
-    }
-
-    public void setElapsed_time(float elapsed_time) {
-        this.elapsed_time = elapsed_time;
-    }
-
-    public TextureRegion getRegion() {
-        return region;
-    }
-
-    public TextureRegion getImage() {
-        return image;
-    }
-
-    public void setImage(TextureRegion image) {
-        this.image = image;
-    }
-
-    public TextureAtlas getAtlas() {
-        return atlas;
-    }
-
-    public void setAtlas(TextureAtlas atlas) {
-        this.atlas = atlas;
-    }
-
-    public Animation<TextureRegion> getAnimation() {
-        return animation;
-    }
-
-    public void setAnimation(Animation<TextureRegion> animation) {
-        this.animation = animation;
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
-    }
-
-    public Body getB2dBody() {
-        return b2dBody;
-    }
-
-    public void setB2dBody(Body b2dBody) {
-        this.b2dBody = b2dBody;
     }
 }

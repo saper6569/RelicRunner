@@ -118,42 +118,18 @@ public class Button {
         fontParameter.size = size;
     }
 
-    public Label getButtonLabel() {
-        return buttonLabel;
-    }
-
-    public void setButtonLabel(Label buttonLabel) {
-        this.buttonLabel = buttonLabel;
-    }
-
+    /**
+     * returns the button
+     * @return the button
+     */
     public ImageTextButton getButton() {
         return button;
     }
 
-    public void setButton(ImageTextButton button) {
-        this.button = button;
-    }
-
-    public ImageTextButton.ImageTextButtonStyle getStyle() {
-        return style;
-    }
-
-    public void setStyle(ImageTextButton.ImageTextButtonStyle style) {
-        this.style = style;
-    }
-
-    public FreeTypeFontGenerator.FreeTypeFontParameter getFontParameter() {
-        return fontParameter;
-    }
-
-    public void setFontParameter(FreeTypeFontGenerator.FreeTypeFontParameter fontParameter) {
-        this.fontParameter = fontParameter;
-    }
-
-    public String getText() {
-        return text;
-    }
-
+    /**
+     * setter for the text
+     * @param text - text
+     */
     public void setText(String text) {
         this.text = text;
         button.setText(text);
