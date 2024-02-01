@@ -103,7 +103,7 @@ public abstract class AbstractGameScreen implements Screen {
         debugRenderer = new Box2DDebugRenderer(); //Create new Box2d Bug Renderer
 
         //Create new player, add to characters list
-        player = new Player(world, playerX, playerY, Player.playerHealth);
+        player = new Player(game, world, playerX, playerY, Player.playerHealth);
         characters.add(player);
 
         //Create new hud

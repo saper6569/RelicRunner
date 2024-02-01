@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 
 //Game Character Class is an abstract class of sprite class, the sprite class is included in the libgdx build
@@ -50,6 +51,7 @@ public abstract class GameCharacter extends Sprite {
     //Physics objects
     protected World world;
     protected Body b2dBody;
+    protected RelicRaider game;
 
     /**
      * Primary Constructor for a character with attack and walk animations
@@ -59,7 +61,8 @@ public abstract class GameCharacter extends Sprite {
      * @param walkAtlasFile - file location of the information for the walk animation
      * @param attackAtlasFile - file location of the information for the attack animations
      */
-    public GameCharacter(int health, float speed, int strength, String walkAtlasFile, String attackAtlasFile) {
+    public GameCharacter(RelicRaider game, int health, float speed, int strength, String walkAtlasFile, String attackAtlasFile) {
+        this.game = game;
         characterCounter++; //Add one to the counter for number of characters
         characterID = characterCounter; //The ID of the character is the current counter number
         this.health = health;

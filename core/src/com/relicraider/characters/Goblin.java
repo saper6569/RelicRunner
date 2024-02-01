@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 import com.relicraider.screens.gamescreens.AbstractGameScreen;
 
@@ -30,8 +31,8 @@ public class Goblin extends GameCharacter {
      * @param xPos - the x position of the goblin
      * @param yPos - the y position of the goblin
      */
-    public Goblin(World world, float xPos, float yPos) {
-        super(80, 0.15f, 5, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
+    public Goblin(RelicRaider game, World world, float xPos, float yPos) {
+        super(game, 80, 0.15f, 5, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
 
         this.world = world;
         defineBody(xPos, yPos);

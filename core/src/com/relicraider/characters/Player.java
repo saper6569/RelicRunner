@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 
 import java.util.ArrayList;
@@ -37,8 +38,8 @@ public class Player extends GameCharacter {
      * @param yPos - the y position of the player
      * @param health - the health of the player
      */
-    public Player(World world, float xPos, float yPos, int health) {
-        super(health, 0.2f, 20, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+    public Player(RelicRaider game, World world, float xPos, float yPos, int health) {
+        super(game, health, 0.2f, 20, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
         playerHealth = health;
 
         this.world = world;
@@ -64,8 +65,8 @@ public class Player extends GameCharacter {
      * @param xPos - the x position of the player
      * @param yPos - the y position of the player
      */
-    public Player(World world, float xPos, float yPos) {
-        super(100, 0.2f, 10, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+    public Player(RelicRaider game, World world, float xPos, float yPos) {
+        super(game,100, 0.2f, 10, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
         playerHealth = health;
 
         this.world = world;

@@ -30,13 +30,13 @@ public class Room3 extends AbstractGameScreen {
 
         //add all the actor to the game screen
 
-        characters.add(new Goblin(world, 62, 251));
-        characters.add(new Goblin(world, 194, 303));
-        characters.add(new Goblin(world, 326, 407));
-        characters.add(new Goblin(world, 394, 359));
-        characters.add(new Goblin(world, 330, 255));
-        characters.add(new Goblin(world, 402, 295));
-        characters.add(new Goblin(world, 187, 347));
+        characters.add(new Goblin(game, world, 62, 251));
+        characters.add(new Goblin(game, world, 194, 303));
+        characters.add(new Goblin(game, world, 326, 407));
+        characters.add(new Goblin(game, world, 394, 359));
+        characters.add(new Goblin(game, world, 330, 255));
+        characters.add(new Goblin(game, world, 402, 295));
+        characters.add(new Goblin(game, world, 187, 347));
 
         //if the player has already picked up a relic or healing potion don't draw it again
         if (!relicIsFound) {

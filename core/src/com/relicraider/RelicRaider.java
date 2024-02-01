@@ -8,15 +8,18 @@ package com.relicraider;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.relicraider.screens.MainMenu;
+import com.relicraider.screens.utilities.SoundPlayer;
 
 //Relic Raider class extends the Game class
 public class RelicRaider extends Game {
 
 	public static SpriteBatch spriteBatch;
+	public static SoundPlayer soundPlayer;
 
 	//Create Game Screen
 	@Override
 	public void create() {
+		soundPlayer = new SoundPlayer();
 		spriteBatch = new SpriteBatch();
 		setScreen(new MainMenu(this));
 	}
