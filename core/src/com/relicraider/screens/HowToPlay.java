@@ -81,6 +81,7 @@ public class HowToPlay implements Screen {
             @Override
             //If user clicks back button, go back to main menu
             public void clicked(InputEvent event, float x, float y) {
+                RelicRaider.soundPlayer.getButtonPress().play();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu(game));
             }
         });

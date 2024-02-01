@@ -248,10 +248,11 @@ public class Goblin extends GameCharacter {
         timer += dt;
         //attack the player once every second
         if (!hasChecked) {
+            RelicRaider.soundPlayer.getDaggerSwoosh().play();
             AbstractGameScreen.player.takeDamage(strength);
             hasChecked = true;
         }
-        if (timer > 1) {
+        if (timer > 1.33) {
             hasChecked = false;
             timer = 0f;
         }

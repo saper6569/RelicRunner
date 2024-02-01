@@ -111,7 +111,6 @@ public class HUD implements Disposable {
         hearts.bottom().left();
         hearts.setFillParent(true);
 
-
         stage.addActor(table); //Add table to stage
         stage.addActor(enterTable);
         drawHearts(Player.playerHealth, 1); //Draw players health
@@ -121,6 +120,7 @@ public class HUD implements Disposable {
         enterButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                RelicRaider.soundPlayer.getButtonPress().play();
                 playerIsEntering();
             }
         });

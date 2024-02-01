@@ -63,6 +63,7 @@ public class GameStory implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 backdrop++;
+                RelicRaider.soundPlayer.getPageFlip().play();
                 if (backdrop == 3) {
                     continueButton.setText("ENTER");
                 } if (backdrop == 4) {

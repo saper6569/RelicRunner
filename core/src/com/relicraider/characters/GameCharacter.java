@@ -29,7 +29,7 @@ public abstract class GameCharacter extends Sprite {
     //Counters and Constants for Animations
     protected float elapsed_time;
     private final static float WALK_FRAME_DURATION = 0.30f;
-    private final static float ATTACK_FRAME_DURATION = 0.30f;
+    private final static float ATTACK_FRAME_DURATION = 0.50f;
 
     //Texture objects for storing frames
     protected TextureRegion region;
@@ -172,6 +172,7 @@ public abstract class GameCharacter extends Sprite {
      * @param health - New health of the character
      */
     public void setHealth(int health) {
+        RelicRaider.soundPlayer.getCollectRelic().play();
         this.health = health; //Health of character = New set Health
     }
 

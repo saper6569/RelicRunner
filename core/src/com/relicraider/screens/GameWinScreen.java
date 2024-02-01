@@ -65,6 +65,8 @@ public class GameWinScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 backdrop++;
+                RelicRaider.soundPlayer.getPageFlip().play();
+
                 if (backdrop == 3) {
                     continueButton.setText("BACK TO MENU");
                 } if (backdrop == 4) {
@@ -123,8 +125,9 @@ public class GameWinScreen implements Screen {
      * method used for resetting the game in order to let the game be run again
      */
     public void resetGame() {
+        RelicRaider.soundPlayer.stopMusic();
         Player.playerHealth = 100;
-        Player.setRelicsCollected(0);
+        Player.resetRelicsCollected();
 
         Room1.relicIsFound = false;
         Room1.potionIsUsed = false;

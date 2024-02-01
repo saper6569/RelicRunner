@@ -253,10 +253,12 @@ public abstract class AbstractGameScreen implements Screen {
     public void update(float dt){
         //if the player is dead change to the game over screen
         if (!player.isAlive()) {
+            RelicRaider.soundPlayer.stopMusic();
             ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(game));
         }
 
         if (Player.getRelicsCollected() == 6) {
+            RelicRaider.soundPlayer.stopMusic();
             ((Game) Gdx.app.getApplicationListener()).setScreen(new GameWinScreen(game));
         }
 
@@ -289,6 +291,8 @@ public abstract class AbstractGameScreen implements Screen {
         }
 
         hud.update(dt);
+
+        RelicRaider.soundPlayer.playGameMusic();
 
         stepWorld();
     }

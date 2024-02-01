@@ -30,8 +30,6 @@ public class MainMenu implements Screen {
 
     private Image backdrop;
 
-    private Music menuSong;
-
     //frame counter
     private double countSec;
 
@@ -47,8 +45,6 @@ public class MainMenu implements Screen {
      */
     public MainMenu(final RelicRaider game) {
         this.game = game;
-        //Load main menu song file
-        menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));
 
         //Camera objects for creating view of game for user
         camera = new OrthographicCamera(); //Create new Camera
@@ -80,12 +76,11 @@ public class MainMenu implements Screen {
              * @param y - Y value of where user clicked
              */
             public void clicked(InputEvent event, float x, float y) {
+                RelicRaider.soundPlayer.getButtonPress().play();
                 //If user clicked play button, set screen to game story.
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new GameStory(game));
                 //stop the music if it is playing
-                if (menuSong.isPlaying()) {
-                    menuSong.stop();
-                }
+                RelicRaider.soundPlayer.stopMusic();
             }
         });
 
@@ -99,12 +94,9 @@ public class MainMenu implements Screen {
         creditsButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                RelicRaider.soundPlayer.getButtonPress().play();
                 //If user clicked credits button, set screen to credits screen.
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new Credits(game));
-                //stop the music if it is playing
-                if (menuSong.isPlaying()) {
-                    menuSong.stop();
-                }
             }
         });
 
@@ -118,12 +110,9 @@ public class MainMenu implements Screen {
         howToPlayButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                RelicRaider.soundPlayer.getButtonPress().play();
                 //If user clicked how to play button, set screen to credits screen.
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new HowToPlay(game));
-                //stop the music if it is playing
-                if (menuSong.isPlaying()) {
-                    menuSong.stop();
-                }
             }
         });
 
@@ -137,13 +126,13 @@ public class MainMenu implements Screen {
         quitButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                RelicRaider.soundPlayer.getButtonPress().play();
                 Gdx.app.exit();
             }
         });
 
         //Set Volume of Main Menu Music and Play, start count.
-        menuSong.setVolume((float)0.4);
-        menuSong.play();
+        RelicRaider.soundPlayer.getMainTheme().play();
 
         countSec = 0;
     }
@@ -172,8 +161,8 @@ public class MainMenu implements Screen {
         countSec += delta;
 
         //loop through the menu song with a 300-second break between each repetition
-        if (!menuSong.isPlaying() && countSec > 300) {
-            menuSong.play();
+        if (!RelicRaider.soundPlayer.getMainTheme().isPlaying() && countSec > 300) {
+            RelicRaider.soundPlayer.getMainTheme().play();
             countSec = 0;
         }
 
@@ -211,6 +200,5 @@ public class MainMenu implements Screen {
     public void dispose() {
         //manual garbage disposal
         stage.dispose();
-        menuSong.dispose();
     }
 }

@@ -53,6 +53,7 @@ public class Credits implements Screen {
         backButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                RelicRaider.soundPlayer.getButtonPress().play();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu(game));
             }
         });

@@ -30,8 +30,6 @@ public class GameOverScreen implements Screen {
     private Image gameOverBackground;
     private final OrthographicCamera camera;
     private final FitViewport viewport;
-    private Music menuSong;
-    private double countSec;
 
     /**
      * Primary Constructor for Game Over Screen
@@ -42,9 +40,6 @@ public class GameOverScreen implements Screen {
         this.game = game;
 
         resetGame(); //Reset all variables for Main Game Loop
-
-        //Import Song File
-        menuSong = Gdx.audio.newMusic(Gdx.files.internal("MainMenu/track1.mp3"));
 
 //CAMERA
         camera = new OrthographicCamera(); //Create new Camera
@@ -67,12 +62,8 @@ public class GameOverScreen implements Screen {
         mainMenuButton.getButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                RelicRaider.soundPlayer.getButtonPress().play();
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu(game)); //If button is clicked go to main menu screen
-                //stop the music if it is playing
-                if (menuSong.isPlaying()) {
-                    menuSong.stop();
-                }
             }
         });
 
@@ -87,23 +78,21 @@ public class GameOverScreen implements Screen {
         quitButton.getButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                RelicRaider.soundPlayer.getButtonPress().play();
                 Gdx.app.exit();
             }
         });
 
-        //Set Volume of Main Menu Music and Play, start count.
-        menuSong.setVolume((float) 0.3);
-        menuSong.play();
-
-        countSec = 0;
+        RelicRaider.soundPlayer.getMainTheme().play();
     }
 
     /**
      * method used for resetting the game in order to let the game be run again
      */
     public void resetGame() {
+        RelicRaider.soundPlayer.stopMusic();
         Player.playerHealth = 100;
-        Player.setRelicsCollected(0);
+        Player.resetRelicsCollected();
 
         Room1.relicIsFound = false;
         Room1.potionIsUsed = false;
@@ -143,14 +132,6 @@ public class GameOverScreen implements Screen {
         //render the stage
         stage.act();
         stage.draw();
-        countSec += delta;
-
-        //loop through the menu song with a 300-second break between each repetition
-        if (!menuSong.isPlaying() && countSec > 300) {
-            menuSong.play();
-            countSec = 0;
-        }
-
     }
 
     /**
@@ -185,6 +166,5 @@ public class GameOverScreen implements Screen {
     public void dispose() {
         //manual garbage disposal
         stage.dispose();
-        menuSong.dispose();
     }
 }

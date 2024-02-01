@@ -66,7 +66,7 @@ public class Player extends GameCharacter {
      * @param yPos - the y position of the player
      */
     public Player(RelicRaider game, World world, float xPos, float yPos) {
-        super(game,100, 0.2f, 10, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+        super(game,100, 0.2f, 5, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
         playerHealth = health;
 
         this.world = world;
@@ -130,14 +130,16 @@ public class Player extends GameCharacter {
         elapsed_time += Gdx.graphics.getDeltaTime();
         attackCooldown += dt;
 
-        if (attackCooldown > 1) {
+        if (attackCooldown > 0.5) {
             canAttack = true;
         }
 
         //when the user presses the left button attack any characters that are in contact every 1 second
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            RelicRaider.soundPlayer.getFootsteps().pause();
             isBlocking = false;
             if (canAttack) {
+                RelicRaider.soundPlayer.getSwordSwoosh().play();
                 for (GameCharacter character : collisions) {
                     attack(character);
                 }
@@ -160,6 +162,8 @@ public class Player extends GameCharacter {
         } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
             isBlocking = true;
 
+            RelicRaider.soundPlayer.getFootsteps().pause();
+
             //set the block frame based on the last direction the player moved in
             if (lastPressed.equals("w")) {
                 region = blockBackward;
@@ -172,6 +176,8 @@ public class Player extends GameCharacter {
             }
         } else {
             isBlocking = false;
+
+            RelicRaider.soundPlayer.getFootsteps().play();
 
             //set the walk frame based on the last direction the player moved in
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -197,6 +203,7 @@ public class Player extends GameCharacter {
 
             //set the idle frame based on the last direction the player moved in
             if (!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.D)){
+                RelicRaider.soundPlayer.getFootsteps().pause();
                 b2dBody.setLinearVelocity(0, 0);
                 if (lastPressed.equals("w")) {
                     region = defBackward;
@@ -225,6 +232,7 @@ public class Player extends GameCharacter {
 
         //check if the player is alive
         if (health <= 0) {
+            RelicRaider.soundPlayer.getFootsteps().stop();
             isAlive = false;
         }
     }
@@ -440,7 +448,12 @@ public class Player extends GameCharacter {
      * @param relicsCollected - New Number of relics collected by the player
      */
     public static void setRelicsCollected(int relicsCollected) {
+        RelicRaider.soundPlayer.getCollectRelic().play();
         Player.relicsCollected = relicsCollected;
+    }
+
+    public static void resetRelicsCollected () {
+        Player.relicsCollected = 0;
     }
 
     /**
