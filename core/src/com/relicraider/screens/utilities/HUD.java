@@ -120,7 +120,7 @@ public class HUD implements Disposable {
         enterButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                RelicRaider.soundPlayer.getButtonPress().play();
+                RelicRaider.soundPlayer.getDoorOpen().play();
                 playerIsEntering();
             }
         });

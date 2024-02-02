@@ -39,7 +39,7 @@ public class Player extends GameCharacter {
      * @param health - the health of the player
      */
     public Player(RelicRaider game, World world, float xPos, float yPos, int health) {
-        super(game, health, 0.2f, 20, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+        super(game, health, 0.2f, 10, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
         playerHealth = health;
 
         this.world = world;
@@ -66,7 +66,7 @@ public class Player extends GameCharacter {
      * @param yPos - the y position of the player
      */
     public Player(RelicRaider game, World world, float xPos, float yPos) {
-        super(game,100, 0.2f, 5, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
+        super(game,100, 0.2f, 10, "Sprites/knightWalk.txt", "Sprites/knightAttack.txt");
         playerHealth = health;
 
         this.world = world;

@@ -15,6 +15,7 @@ public class SoundPlayer {
     private Music collectRelic;
     private Music pageFlip;
     private Music buttonPress;
+    private Music doorOpen;
 
 
     public SoundPlayer() {
@@ -26,6 +27,8 @@ public class SoundPlayer {
         collectRelic = Gdx.audio.newMusic(Gdx.files.internal("sounds/collectRelic.ogg"));
         pageFlip = Gdx.audio.newMusic(Gdx.files.internal("sounds/pageFlip.ogg"));
         buttonPress = Gdx.audio.newMusic(Gdx.files.internal("sounds/buttonPress.ogg"));
+        doorOpen = Gdx.audio.newMusic(Gdx.files.internal("sounds/doorOpen.ogg"));
+        doorOpen.setVolume(0.7f);
 
         mainTheme = Gdx.audio.newMusic(Gdx.files.internal("sounds/music/mainTheme.mp3"));
         song1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/music/auf-grunen-wiesen.mp3"));
@@ -128,5 +131,9 @@ public class SoundPlayer {
 
     public Music getButtonPress() {
         return buttonPress;
+    }
+
+    public Music getDoorOpen() {
+        return doorOpen;
     }
 }
