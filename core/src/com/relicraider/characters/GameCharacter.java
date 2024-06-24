@@ -138,6 +138,14 @@ public abstract class GameCharacter extends Sprite {
         return Math.sqrt(Math.pow(sprite1.getX() - sprite2.getX(), 2) + Math.pow(sprite1.getY() - sprite2.getY(), 2));
     }
 
+    public double getDistanceX(Sprite sprite1, Sprite sprite2) {
+        return Math.abs(sprite1.getX() - sprite2.getX());
+    }
+
+    public double getDistanceY(Sprite sprite1, Sprite sprite2) {
+        return Math.abs(sprite1.getY() - sprite2.getY());
+    }
+
     /**
      * Method for taking away health from character after it takes damage
      * @param damage- The amount of health the character should lose

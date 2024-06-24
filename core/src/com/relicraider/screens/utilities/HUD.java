@@ -88,7 +88,6 @@ public class HUD implements Disposable {
         table.setFillParent(true);
 
 //Fill table with stats
-        roomL = new Label (" ROOM ", labelStyle);
         roomLabel = new Label (Player.room, labelStyle);
         relicsL = new Label (" RELICS COLLECTED ", labelStyle);
         relicsLable = new Label(Player.getRelicsCollected() +  " / 6", labelStyle);

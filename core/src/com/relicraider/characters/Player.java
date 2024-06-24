@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class Player extends GameCharacter {
     public static int playerHealth = 100;
     public static String room;
+    private boolean canSprint;
     private boolean canAttack;
     private ArrayList<GameCharacter> collisions;
     private float attackCooldown;
@@ -179,27 +180,52 @@ public class Player extends GameCharacter {
 
             RelicRaider.soundPlayer.getFootsteps().play();
 
-            //set the walk frame based on the last direction the player moved in
-            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                lastPressed = "s";
-                b2dBody.setLinearVelocity(0,-speed);
-                region = forward.getKeyFrame(elapsed_time, true);
+            if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                //set the walk frame based on the last direction the player moved in
+                if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                    lastPressed = "s";
+                    b2dBody.setLinearVelocity(0,-1.5f * speed);
+                    region = forward.getKeyFrame(elapsed_time, true);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    lastPressed = "w";
+                    b2dBody.setLinearVelocity(0,1.5f * speed);
+                    region = backward.getKeyFrame(elapsed_time, true);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    lastPressed = "a";
+                    b2dBody.setLinearVelocity(-1.5f * speed,0);
+                    region = right.getKeyFrame(elapsed_time, true);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    lastPressed = "d";
+                    b2dBody.setLinearVelocity(1.5f * speed,0);
+                    region = left.getKeyFrame(elapsed_time, true);
+                }
+            } else {
+                //set the walk frame based on the last direction the player moved in
+                if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                    lastPressed = "s";
+                    b2dBody.setLinearVelocity(0,-speed);
+                    region = forward.getKeyFrame(elapsed_time, true);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    lastPressed = "w";
+                    b2dBody.setLinearVelocity(0,speed);
+                    region = backward.getKeyFrame(elapsed_time, true);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    lastPressed = "a";
+                    b2dBody.setLinearVelocity(-speed,0);
+                    region = right.getKeyFrame(elapsed_time, true);
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    lastPressed = "d";
+                    b2dBody.setLinearVelocity(speed,0);
+                    region = left.getKeyFrame(elapsed_time, true);
+                }
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                lastPressed = "w";
-                b2dBody.setLinearVelocity(0,speed);
-                region = backward.getKeyFrame(elapsed_time, true);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                lastPressed = "a";
-                b2dBody.setLinearVelocity(-speed,0);
-                region = right.getKeyFrame(elapsed_time, true);
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                lastPressed = "d";
-                b2dBody.setLinearVelocity(speed,0);
-                region = left.getKeyFrame(elapsed_time, true);
-            }
+
 
             //set the idle frame based on the last direction the player moved in
             if (!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.D)){

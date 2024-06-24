@@ -78,6 +78,7 @@ public class GameStory implements Screen {
         skipButton.getButton().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                RelicRaider.soundPlayer.getButtonPress().play();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new Room1(game, 200, 300));
             }
         });

@@ -16,26 +16,28 @@ public class SoundPlayer {
     private Music pageFlip;
     private Music buttonPress;
     private Music doorOpen;
+    private Music fireBall;
 
 
     public SoundPlayer() {
-        footsteps = Gdx.audio.newMusic(Gdx.files.internal("sounds/footsteps.ogg"));
+        footsteps = Gdx.audio.newMusic(Gdx.files.internal("Sounds/footsteps.ogg"));
         footsteps.setLooping(true);
         footsteps.setVolume(1.0f);
-        swordSwoosh = Gdx.audio.newMusic(Gdx.files.internal("sounds/swordSwoosh.ogg"));
-        daggerSwoosh = Gdx.audio.newMusic(Gdx.files.internal("sounds/daggerSwoosh.ogg"));
-        collectRelic = Gdx.audio.newMusic(Gdx.files.internal("sounds/collectRelic.ogg"));
-        pageFlip = Gdx.audio.newMusic(Gdx.files.internal("sounds/pageFlip.ogg"));
-        buttonPress = Gdx.audio.newMusic(Gdx.files.internal("sounds/buttonPress.ogg"));
-        doorOpen = Gdx.audio.newMusic(Gdx.files.internal("sounds/doorOpen.ogg"));
+        swordSwoosh = Gdx.audio.newMusic(Gdx.files.internal("Sounds/swordSwoosh.ogg"));
+        daggerSwoosh = Gdx.audio.newMusic(Gdx.files.internal("Sounds/daggerSwoosh.ogg"));
+        collectRelic = Gdx.audio.newMusic(Gdx.files.internal("Sounds/collectRelic.ogg"));
+        pageFlip = Gdx.audio.newMusic(Gdx.files.internal("Sounds/pageFlip.ogg"));
+        buttonPress = Gdx.audio.newMusic(Gdx.files.internal("Sounds/buttonPress.ogg"));
+        doorOpen = Gdx.audio.newMusic(Gdx.files.internal("Sounds/doorOpen.ogg"));
         doorOpen.setVolume(0.7f);
+        fireBall = Gdx.audio.newMusic(Gdx.files.internal("Sounds/fireBall.ogg"));
 
-        mainTheme = Gdx.audio.newMusic(Gdx.files.internal("sounds/music/mainTheme.mp3"));
-        song1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/music/auf-grunen-wiesen.mp3"));
+        mainTheme = Gdx.audio.newMusic(Gdx.files.internal("Sounds/Music/mainTheme.mp3"));
+        song1 = Gdx.audio.newMusic(Gdx.files.internal("Sounds/Music/auf-grunen-wiesen.mp3"));
         song1.setVolume(0.7f);
-        song2 = Gdx.audio.newMusic(Gdx.files.internal("sounds/music/ruins.mp3"));
+        song2 = Gdx.audio.newMusic(Gdx.files.internal("Sounds/Music/ruins.mp3"));
         song2.setVolume(0.7f);
-        song3 = Gdx.audio.newMusic(Gdx.files.internal("sounds/music/the-time-is-upon-us.mp3"));
+        song3 = Gdx.audio.newMusic(Gdx.files.internal("Sounds/Music/the-time-is-upon-us.mp3"));
         song3.setVolume(0.7f);
     }
 
@@ -135,5 +137,9 @@ public class SoundPlayer {
 
     public Music getDoorOpen() {
         return doorOpen;
+    }
+
+    public Music getFireBall() {
+        return fireBall;
     }
 }

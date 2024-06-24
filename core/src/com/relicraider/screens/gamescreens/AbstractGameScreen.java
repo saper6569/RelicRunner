@@ -30,6 +30,7 @@ import com.relicraider.SetupVariables;
 import com.relicraider.characters.GameCharacter;
 import com.relicraider.characters.Goblin;
 import com.relicraider.characters.Player;
+import com.relicraider.characters.Wizard;
 import com.relicraider.screens.GameOverScreen;
 import com.relicraider.screens.GameWinScreen;
 import com.relicraider.screens.utilities.Button;
@@ -162,13 +163,17 @@ public abstract class AbstractGameScreen implements Screen {
                     ((Goblin) fixtureB.getUserData()).setCollided(true);
                 }
 
-                //handles when a player and goblin collides
+                //handles when a player and character collides
                 if (fixtureA.getUserData() instanceof Goblin && fixtureB.getUserData() instanceof Player) {
                     ((Goblin) fixtureA.getUserData()).setAttacking(true);
                     AbstractGameScreen.player.getCollisions().add((Goblin) fixtureA.getUserData());
                 } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureB.getUserData()).setAttacking(true);
                     AbstractGameScreen.player.getCollisions().add((Goblin) fixtureB.getUserData());
+                } else if (fixtureA.getUserData() instanceof Wizard && fixtureB.getUserData() instanceof Player) {
+                    AbstractGameScreen.player.getCollisions().add((Wizard) fixtureA.getUserData());
+                } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Wizard) {
+                    AbstractGameScreen.player.getCollisions().add((Wizard) fixtureB.getUserData());
                 }
 
                 //handles when a player collides with a door
@@ -194,13 +199,17 @@ public abstract class AbstractGameScreen implements Screen {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
 
-                //handles when a player and goblin end contact
+                //handles when a player and character end contact
                 if (fixtureA.getUserData() instanceof Goblin && fixtureB.getUserData() instanceof Player) {
                     ((Goblin) fixtureA.getUserData()).setAttacking(false);
                     AbstractGameScreen.player.removeCollision(((Goblin) fixtureA.getUserData()).getCharacterID());
                 } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Goblin) {
                     ((Goblin) fixtureB.getUserData()).setAttacking(false);
                     AbstractGameScreen.player.removeCollision(((Goblin) fixtureB.getUserData()).getCharacterID());
+                } else if (fixtureA.getUserData() instanceof Wizard && fixtureB.getUserData() instanceof Player) {
+                    AbstractGameScreen.player.getCollisions().add((Wizard) fixtureA.getUserData());
+                } else if (fixtureA.getUserData() instanceof Player && fixtureB.getUserData() instanceof Wizard) {
+                    AbstractGameScreen.player.getCollisions().add((Wizard) fixtureB.getUserData());
                 }
 
                 //handles when goblin and object end contact
