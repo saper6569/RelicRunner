@@ -1,7 +1,9 @@
 package com.relicraider.characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -10,7 +12,7 @@ import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 import com.relicraider.screens.gamescreens.AbstractGameScreen;
 
-public class Wizard extends GameCharacter{
+public class Wizard extends Pathfinding {
     //attributes
     private boolean isStopped;
     private String direction;
@@ -25,7 +27,7 @@ public class Wizard extends GameCharacter{
      * @param xPos - the x position of the wizard
      * @param yPos - the y position of the wizard
      */
-    public Wizard(RelicRaider game, World world, float xPos, float yPos) {
+    public Wizard(RelicRaider game, World world, float xPos, float yPos, Player player) {
         super(game, 80, 0.15f, 5, "Sprites/wizardWalk.txt", "Sprites/wizardAttack.txt");
 
         this.world = world;
@@ -39,6 +41,9 @@ public class Wizard extends GameCharacter{
         timer = 0;
         hasChecked = false;
         isAttacking = false;
+
+        Arrive<Vector2> arrive = new Arrive<Vector2>(this, player).setArrivalTolerance(50f).setDecelerationRadius(10);
+        this.setBehavior(arrive);
     }
 
     @Override
@@ -53,6 +58,8 @@ public class Wizard extends GameCharacter{
         }
         checkHealth();
 
+        setRandomVelocity(dt);
+
         //if the wizard is not aggravated walk randomly
         if (!isAggravated) {
             setRandomVelocity(dt);
@@ -61,7 +68,10 @@ public class Wizard extends GameCharacter{
             if (isAttacking) {
                 attack(dt);
             } else {
-                walkToPlayer();
+                if (behavior != null) {
+                    behavior.calculateSteering(steeringOutput);
+                    applySteering(dt);
+                }
             }
         }
         TextureRegion frame = getFrame(dt);
@@ -174,34 +184,6 @@ public class Wizard extends GameCharacter{
         } else {
             b2dBody.setLinearVelocity(0,speed);
         }
-    }
-
-    /**
-     * method used for pathfinding to the player
-     */
-    public void walkToPlayer () {
-        //set the direction of the wizard to the horizontal placement of the wizard
-        //but stop the wizard if it is 80 away from the player
-        boolean isAligned = false;
-        if (!(getDistanceX(this, AbstractGameScreen.player) < 80) && !isAligned) {
-            if (AbstractGameScreen.player.b2dBody.getPosition().x - 2 > b2dBody.getPosition().x) {
-                direction = "right";
-                setVelocity();
-            } else if (AbstractGameScreen.player.b2dBody.getPosition().x < b2dBody.getPosition().x) {
-                direction = "left";
-                setVelocity();
-            }
-        }
-
-            //set the direction of the wizard to the vertical placement of the wizard
-            if (AbstractGameScreen.player.b2dBody.getPosition().y - 2 > b2dBody.getPosition().y) {
-                direction = "backward";
-                setVelocity();
-            } else if (AbstractGameScreen.player.b2dBody.getPosition().y < b2dBody.getPosition().y) {
-                direction = "forward";
-                setVelocity();
-            }
-
     }
 
     /**

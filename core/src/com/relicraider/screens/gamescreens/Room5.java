@@ -38,10 +38,10 @@ public class Room5 extends AbstractGameScreen {
             items.add(new HealingPotion(world, 180, 324, 5));
         }
 
-        characters.add(new Goblin(game, world, 76, 384));
-        characters.add(new Goblin(game, world, 167, 284));
-        characters.add(new Goblin(game, world, 211, 152));
-        characters.add(new Goblin(game, world, 78, 219));
+        characters.add(new Goblin(game, world, 76, 384, player));
+        characters.add(new Goblin(game, world, 167, 284, player));
+        characters.add(new Goblin(game, world, 211, 152, player));
+        characters.add(new Goblin(game, world, 78, 219, player));
 
         doors.add(new Door(game, world, "room 2", 160, 450, 112, 338));
         doors.add(new Door(game, world, "room 2", 272, 226, 320, 114));

@@ -6,7 +6,9 @@
 package com.relicraider.characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -15,7 +17,7 @@ import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 import com.relicraider.screens.gamescreens.AbstractGameScreen;
 
-public class Goblin extends GameCharacter {
+public class Goblin extends Pathfinding {
     //attributes
     private boolean isStopped;
     private boolean isCollided;
@@ -31,7 +33,7 @@ public class Goblin extends GameCharacter {
      * @param xPos - the x position of the goblin
      * @param yPos - the y position of the goblin
      */
-    public Goblin(RelicRaider game, World world, float xPos, float yPos) {
+    public Goblin(RelicRaider game, World world, float xPos, float yPos, Player player) {
         super(game, 80, 0.15f, 5, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
 
         this.world = world;
@@ -45,6 +47,12 @@ public class Goblin extends GameCharacter {
         timer = 0;
         hasChecked = false;
         isAttacking = false;
+
+        maxLinearSpeed = 35;
+        maxLinearAcceleration = 500;
+
+        Arrive<Vector2> arrive = new Arrive<Vector2>(this, player).setArrivalTolerance(5f).setDecelerationRadius(1);
+        this.setBehavior(arrive);
     }
 
     /**
@@ -56,7 +64,7 @@ public class Goblin extends GameCharacter {
         setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
 
         //if the goblin is within a radius of 60 of the player set it to be aggravated
-        if (getDistance(this, AbstractGameScreen.player) < 60) {
+        if (getDistance(this, AbstractGameScreen.player) < 40) {
             isAggravated = true;
         } else {
             isAggravated = false;
@@ -71,7 +79,8 @@ public class Goblin extends GameCharacter {
             if (isAttacking) {
                 attack(dt);
             } else {
-                walkToPlayer();
+                behavior.calculateSteering(steeringOutput);
+                applySteering(dt);
             }
         }
         TextureRegion frame = getFrame(dt);

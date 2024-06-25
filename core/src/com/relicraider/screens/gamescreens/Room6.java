@@ -30,18 +30,18 @@ public class Room6 extends AbstractGameScreen {
 
         //add all the actor to the game screen
 
-        characters.add(new Goblin(game, world, 76, 180));
-        characters.add(new Goblin(game, world, 256, 180));
-        characters.add(new Goblin(game, world, 364, 94));
-        characters.add(new Goblin(game, world, 400, 190));
-        characters.add(new Goblin(game, world, 84, 355));
-        characters.add(new Goblin(game, world, 84, 356));
-        characters.add(new Goblin(game, world, 208, 356));
-        characters.add(new Goblin(game, world, 308, 420));
-        characters.add(new Goblin(game, world, 430, 312));
-        characters.add(new Goblin(game, world, 230, 356));
-        characters.add(new Goblin(game, world, 288, 428));
-        characters.add(new Goblin(game, world, 52, 54));
+        characters.add(new Goblin(game, world, 76, 180, player));
+        characters.add(new Goblin(game, world, 256, 180, player));
+        characters.add(new Goblin(game, world, 364, 94, player));
+        characters.add(new Goblin(game, world, 400, 190, player));
+        characters.add(new Goblin(game, world, 84, 355, player));
+        characters.add(new Goblin(game, world, 84, 356, player));
+        characters.add(new Goblin(game, world, 208, 356, player));
+        characters.add(new Goblin(game, world, 308, 420, player));
+        characters.add(new Goblin(game, world, 430, 312, player));
+        characters.add(new Goblin(game, world, 230, 356, player));
+        characters.add(new Goblin(game, world, 288, 428, player));
+        characters.add(new Goblin(game, world, 52, 54, player));
 
         //if the player has already picked up a relic or healing potion don't draw it again
         if (!relicIsFound) {

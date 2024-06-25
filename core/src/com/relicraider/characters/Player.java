@@ -7,15 +7,20 @@ package com.relicraider.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.ai.steer.Steerable;
+import com.badlogic.gdx.ai.steer.SteeringAcceleration;
+import com.badlogic.gdx.ai.steer.SteeringBehavior;
+import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 
 import java.util.ArrayList;
 
-public class Player extends GameCharacter {
+public class Player extends GameCharacter implements Steerable<Vector2> {
     public static int playerHealth = 100;
     public static String room;
     private boolean canSprint;
@@ -31,6 +36,14 @@ public class Player extends GameCharacter {
     private TextureRegion blockBackward;
     private TextureRegion blockLeft;
     private TextureRegion blockRight;
+
+    boolean tagged;
+    float maxLinearSpeed, maxLinearAcceleration;
+    float maxAngularSpeed, maxAngularAcceleration;
+    float radius;
+
+    SteeringBehavior<Vector2> behavior;
+    SteeringAcceleration<Vector2> steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());;
 
     /**
      * 1st constructor for creating a player at a desired location
@@ -58,6 +71,15 @@ public class Player extends GameCharacter {
         blockBackward = new TextureRegion(blockAtlas.findRegion("backward"));
         blockLeft = new TextureRegion(blockAtlas.findRegion("left"));
         blockRight = new TextureRegion(blockAtlas.findRegion("right"));
+
+        this.radius = 10;
+
+        maxLinearSpeed = 500;
+        maxLinearAcceleration = 5000;
+        maxAngularSpeed = 30;
+        maxAngularAcceleration = 5;
+
+        this.tagged = false;
     }
 
     /**
@@ -86,6 +108,15 @@ public class Player extends GameCharacter {
         blockBackward = new TextureRegion(blockAtlas.findRegion("backward"));
         blockLeft = new TextureRegion(blockAtlas.findRegion("left"));
         blockRight = new TextureRegion(blockAtlas.findRegion("right"));
+
+        this.radius = 10;
+
+        maxLinearSpeed = 500;
+        maxLinearAcceleration = 5000;
+        maxAngularSpeed = 30;
+        maxAngularAcceleration = 5;
+
+        this.tagged = false;
     }
 
     /**
@@ -288,38 +319,6 @@ public class Player extends GameCharacter {
     }
 
     /**
-     * Method to see if player can attack
-     * @return - True - if play can attack, False - if player cant attack
-     */
-    public boolean isCanAttack() {
-        return canAttack;
-    }
-
-    /**
-     * Method to set if a player can attack
-     * @param canAttack - True - if player is set to be able to attack, False -  if player is set to not be able to attack
-     */
-    public void setCanAttack(boolean canAttack) {
-        this.canAttack = canAttack; //Set if player can attack to parameter
-    }
-
-    /**
-     * Method to get last pressed input
-     * @return - The last pressed input
-     */
-    public String getLastPressed() {
-        return lastPressed;
-    }
-
-    /**
-     * Method to set last pressed input
-     * @param lastPressed - The input that lastPressed is to be set to
-     */
-    public void setLastPressed(String lastPressed) {
-        this.lastPressed = lastPressed;
-    }
-
-    /**
      * Method to get collisions of player
      * @return - The arraylist of collisions of the player
      */
@@ -341,125 +340,6 @@ public class Player extends GameCharacter {
         }
     }
 
-    /**
-     * Method to set collisions with the player
-     * @param collisions - ArrayList containing collision id's
-     */
-    public void setCollisions(ArrayList<GameCharacter> collisions) {
-        this.collisions = collisions;
-    }
-
-    /**
-     * Method to get time of attack cooldown
-     * @return - Time of attack cooldown
-     */
-    public float getAttackCooldown() {
-        return attackCooldown;
-    }
-
-    /**
-     * Method to set time of attack cooldown
-     * @param attackCooldown - New set time of attack cooldown
-     */
-    public void setAttackCooldown(float attackCooldown) {
-        this.attackCooldown = attackCooldown;
-    }
-
-    /**
-     * Method to see if player is currently blocking
-     * @return - True - if player is blocking, False -  if player isnt blocking
-     */
-    public boolean isBlocking() {
-        return isBlocking;
-    }
-
-    /**
-     * Method to set if player is blocking
-     * @param blocking - True - if set player to be blocking, False - if set player to not be blocking
-     */
-    public void setBlocking(boolean blocking) {
-        isBlocking = blocking;
-    }
-
-    /**
-     * Method to get Block Atlas of player
-     * @return - The Block Atlas of the player
-     */
-    public TextureAtlas getBlockAtlas() {
-        return blockAtlas;
-    }
-
-    /**
-     * Method to set Block Atlas of player
-     * @param blockAtlas - The new Block Atlas of the player
-     */
-    public void setBlockAtlas(TextureAtlas blockAtlas) {
-        this.blockAtlas = blockAtlas;
-    }
-
-    /**
-     * Method to get texture region of player's forward block
-     * @return - Texture Region of players forward block
-     */
-    public TextureRegion getBlockForward() {
-        return blockForward;
-    }
-
-    /**
-     * Method to set texture region of player's forward block
-     * @param blockForward - New Texture region of player's forward block
-     */
-    public void setBlockForward(TextureRegion blockForward) {
-        this.blockForward = blockForward;
-    }
-
-    /**
-     * Method to get texture region of player's backward block
-     * @return - Texture Region of players backward block
-     */
-    public TextureRegion getBlockBackward() {
-        return blockBackward;
-    }
-
-    /**
-     * Method to set texture region of player's backward block
-     * @param blockBackward - New Texture region of player's backward block
-     */
-    public void setBlockBackward(TextureRegion blockBackward) {
-        this.blockBackward = blockBackward;
-    }
-
-    /**
-     * Method to get texture region of player's leftwards block
-     * @return - Texture Region of players leftwards block
-     */
-    public TextureRegion getBlockLeft() {
-        return blockLeft;
-    }
-
-    /**
-     * Method to set texture region of player's leftwards block
-     * @param blockLeft - New Texture region of player's leftwards block
-     */
-    public void setBlockLeft(TextureRegion blockLeft) {
-        this.blockLeft = blockLeft;
-    }
-
-    /**
-     * Method to get texture region of player's rightwards block
-     * @return - Texture Region of players rightwards block
-     */
-    public TextureRegion getBlockRight() {
-        return blockRight;
-    }
-
-    /**
-     * Method to set texture region of player's rightwards block
-     * @param blockRight - New Texture region of player's rightwards block
-     */
-    public void setBlockRight(TextureRegion blockRight) {
-        this.blockRight = blockRight;
-    }
 
     /**
      * Method to get number of relics collected by player
@@ -482,19 +362,135 @@ public class Player extends GameCharacter {
         Player.relicsCollected = 0;
     }
 
-    /**
-     * Method to get health of player
-     * @return - Health of player
-     */
-    public static int getPlayerHealth() {
-        return playerHealth;
+    public void update(float dt) {
+        if (behavior != null) {
+            behavior.calculateSteering(steeringOutput);
+            applySteering(dt);
+        }
     }
 
-    /**
-     * Method to set health of player
-     * @param playerHealth - New Health of player
-     */
-    public static void setPlayerHealth(int playerHealth) {
-        Player.playerHealth = playerHealth;
+    public void applySteering(float dt) {
+        boolean anyAccelerations = false;
+
+        if (!steeringOutput.linear.isZero()) {
+            b2dBody.applyForceToCenter(steeringOutput.linear, true);
+            anyAccelerations = true;
+        }
+
+        if (anyAccelerations) {
+            // body.activate();
+            Vector2 velocity = b2dBody.getLinearVelocity();
+            float currentSpeedSquare = velocity.len2();
+            float maxLinearSpeed = getMaxLinearSpeed();
+            if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
+                b2dBody.setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
+            }
+        }
+    }
+
+    @Override
+    public Vector2 getLinearVelocity() {
+        return b2dBody.getLinearVelocity();
+    }
+
+    @Override
+    public float getAngularVelocity() {
+        return b2dBody.getAngularVelocity();
+    }
+
+    @Override
+    public float getBoundingRadius() {
+        return radius;
+    }
+
+    @Override
+    public boolean isTagged() {
+        return tagged;
+    }
+
+    @Override
+    public void setTagged(boolean tagged) {
+        this.tagged = tagged;
+    }
+
+    @Override
+    public float getZeroLinearSpeedThreshold() {
+        return 0;
+    }
+
+    @Override
+    public void setZeroLinearSpeedThreshold(float value) {
+
+    }
+
+    @Override
+    public float getMaxLinearSpeed() {
+        return maxLinearSpeed;
+    }
+
+    @Override
+    public void setMaxLinearSpeed(float maxLinearSpeed) {
+        this.maxLinearSpeed = maxLinearSpeed;
+    }
+
+    @Override
+    public float getMaxLinearAcceleration() {
+        return maxLinearAcceleration;
+    }
+
+    @Override
+    public void setMaxLinearAcceleration(float maxLinearAcceleration) {
+        this.maxAngularAcceleration = maxLinearAcceleration;
+    }
+
+    @Override
+    public float getMaxAngularSpeed() {
+        return maxAngularSpeed;
+    }
+
+    @Override
+    public void setMaxAngularSpeed(float maxAngularSpeed) {
+        this.maxAngularSpeed = maxLinearSpeed;
+    }
+
+    @Override
+    public float getMaxAngularAcceleration() {
+        return maxAngularAcceleration;
+    }
+
+    @Override
+    public void setMaxAngularAcceleration(float maxAngularAcceleration) {
+        this.maxAngularAcceleration = maxAngularAcceleration;
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return b2dBody.getPosition();
+    }
+
+    @Override
+    public float getOrientation() {
+        return b2dBody.getAngle();
+    }
+
+    @Override
+    public void setOrientation(float orientation) {
+    }
+
+    @Override
+    public float vectorToAngle(Vector2 vector) {
+        return (float)Math.atan2(-vector.x, vector.y);
+    }
+
+    @Override
+    public Vector2 angleToVector(Vector2 outVector, float angle) {
+        outVector.x = -(float)Math.sin(angle);
+        outVector.y = (float)Math.cos(angle);
+        return outVector;
+    }
+
+    @Override
+    public Location<Vector2> newLocation() {
+        return null;
     }
 }

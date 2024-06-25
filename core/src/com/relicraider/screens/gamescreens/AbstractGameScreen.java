@@ -287,7 +287,7 @@ public abstract class AbstractGameScreen implements Screen {
             }
         }
 
-        //loop through all the characters and remove any that are dead
+        //loop through all the items and update them
         for (int i = 0; i < items.size(); i++) {
             items.get(i).update(dt);
         }
@@ -328,7 +328,7 @@ public abstract class AbstractGameScreen implements Screen {
         mapRenderer.render();
 
         //uncomment to see hitboxes
-        //debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
 
         RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
         RelicRaider.spriteBatch.begin();

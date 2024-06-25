@@ -1,5 +1,7 @@
 package com.relicraider.screens.gamescreens;
 
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.math.Vector2;
 import com.relicraider.Items.HealingPotion;
 import com.relicraider.Items.Relic;
 import com.relicraider.RelicRaider;
@@ -25,6 +27,8 @@ public class TestRoom extends AbstractGameScreen {
         Player.room = "TEST";
 
         //add all the actor to the game screen
-        characters.add(new Wizard(game, world, 110, 150));
+        Wizard wizard = new Wizard(game, world, 110, 150, player);
+        characters.add(wizard);
+
     }
 }

@@ -22,8 +22,8 @@ public class RelicRaider extends Game {
 	public void create() {
 		soundPlayer = new SoundPlayer();
 		spriteBatch = new SpriteBatch();
-		setScreen(new TestRoom(this, 200, 200));
-		//setScreen(new MainMenu(this));
+		//setScreen(new TestRoom(this, 200, 200));
+		setScreen(new MainMenu(this));
 	}
 
 	//Method to Render the screen using the render method in game class
