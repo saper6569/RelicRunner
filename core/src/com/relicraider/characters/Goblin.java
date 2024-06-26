@@ -205,51 +205,6 @@ public class Goblin extends Pathfinding {
     }
 
     /**
-     * method used for pathfinding tot the player
-     */
-    public void walkToPlayer () {
-        //set the direction of the goblin to the horizontal placement of the goblin
-        if (AbstractGameScreen.player.b2dBody.getPosition().x - 2 > b2dBody.getPosition().x) {
-            direction = "right";
-            setVelocity();
-        } else if (AbstractGameScreen.player.b2dBody.getPosition().x < b2dBody.getPosition().x) {
-            direction = "left";
-            setVelocity();
-        }
-
-        //set the direction of the goblin to the vertical placement of the goblin
-        if (AbstractGameScreen.player.b2dBody.getPosition().y - 2 > b2dBody.getPosition().y) {
-            direction = "backward";
-            setVelocity();
-        } else if (AbstractGameScreen.player.b2dBody.getPosition().y < b2dBody.getPosition().y) {
-            direction = "forward";
-            setVelocity();
-        }
-
-        String originalDirection = direction;
-
-        //set the direction of the goblin to the horizontal placement of the goblin if it is collided and if the original direction was forward or backward
-        if (isCollided && (originalDirection.equals("forward") || originalDirection.equals("backward"))) {
-            if (AbstractGameScreen.player.b2dBody.getPosition().x - 2 > b2dBody.getPosition().x) {
-                direction = "right";
-                setVelocity();
-            } else if (AbstractGameScreen.player.b2dBody.getPosition().x < b2dBody.getPosition().x) {
-                direction = "left";
-                setVelocity();
-            }
-            //set the direction of the goblin to the vertical placement of the goblin if it is collided and if the original direction was left or right
-        } else if (isCollided && (originalDirection.equals("left") || originalDirection.equals("right"))) {
-            if (AbstractGameScreen.player.b2dBody.getPosition().y - 2 > b2dBody.getPosition().y) {
-                direction = "backward";
-                setVelocity();
-            } else if (AbstractGameScreen.player.b2dBody.getPosition().y < b2dBody.getPosition().y) {
-                direction = "forward";
-                setVelocity();
-            }
-        }
-    }
-
-    /**
      * method used for when the goblin is attacking the player
      * @param dt - time since last render
      */
@@ -287,17 +242,10 @@ public class Goblin extends Pathfinding {
                 region = leftAttack.getKeyFrame(elapsed_time, false);
             }
             //if the goblin is moving find its walk frame using its direction
-        } else if (b2dBody.getLinearVelocity().x > 0) {
-            region = left.getKeyFrame(elapsed_time, true);
-        } else if (b2dBody.getLinearVelocity().x < 0) {
-            region = right.getKeyFrame(elapsed_time, true);
-        } else if (b2dBody.getLinearVelocity().y < 0) {
-            region = forward.getKeyFrame(elapsed_time, true);
-        } else if (b2dBody.getLinearVelocity().y > 0) {
-            region = backward.getKeyFrame(elapsed_time, true);
         }
+
         //if the goblin is staying still find its idle frame using its direction
-        else {
+        else if (b2dBody.getLinearVelocity().isZero()) {
             if (direction.equals("forward")) {
                 region = defForward;
             } else if (direction.equals("backward")) {
@@ -308,6 +256,26 @@ public class Goblin extends Pathfinding {
                 region = defRight;
             }
         }
+
+        else if (-5 <= vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) <= 5) {
+            region = backward.getKeyFrame(elapsed_time, true);
+        } else if (85 <= vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) <= 95) {
+            region = right.getKeyFrame(elapsed_time, true);
+        } else if (-95 <= vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) <= -85) {
+            region = left.getKeyFrame(elapsed_time, true);
+        } else if ((-175 >= vectorToAngle(b2dBody.getLinearVelocity()) && -180 <= vectorToAngle(b2dBody.getLinearVelocity())) || (vectorToAngle(b2dBody.getLinearVelocity()) >= 175 && 180 >= vectorToAngle(b2dBody.getLinearVelocity()))) {
+            region = forward.getKeyFrame(elapsed_time, true);
+        }
+        else if (-5 > vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) > -85) {
+            region = backwardRight.getKeyFrame(elapsed_time, true);
+        } else if (-95 > vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) > -175) {
+            region = forwardRight.getKeyFrame(elapsed_time, true);
+        } else if (95 < vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) < 175) {
+            region = forwardLeft.getKeyFrame(elapsed_time, true);
+        } else if (5 < vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) < 85) {
+            region = backwardLeft.getKeyFrame(elapsed_time, true);
+        }
+
         return region;
     }
 

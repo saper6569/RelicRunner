@@ -43,6 +43,10 @@ public abstract class GameCharacter extends Sprite {
     protected Animation<TextureRegion> backward;
     protected Animation<TextureRegion> left;
     protected Animation<TextureRegion> right;
+    protected Animation<TextureRegion> forwardRight;
+    protected Animation<TextureRegion> forwardLeft;
+    protected Animation<TextureRegion> backwardRight;
+    protected Animation<TextureRegion> backwardLeft;
     protected Animation<TextureRegion> forwardAttack;
     protected Animation<TextureRegion> backwardAttack;
     protected Animation<TextureRegion> leftAttack;
@@ -88,12 +92,20 @@ public abstract class GameCharacter extends Sprite {
         Array<TextureAtlas.AtlasRegion> backwardFrames = walkAtlas.findRegions("backward");
         Array<TextureAtlas.AtlasRegion> rightFrames = walkAtlas.findRegions("right");
         Array<TextureAtlas.AtlasRegion> leftFrames = walkAtlas.findRegions("left");
+        Array<TextureAtlas.AtlasRegion> forwardRightFrames = walkAtlas.findRegions("forwardRight");
+        Array<TextureAtlas.AtlasRegion> forwardLeftFrames = walkAtlas.findRegions("forwardLeft");
+        Array<TextureAtlas.AtlasRegion> backwardRightFrames = walkAtlas.findRegions("backwardRight");
+        Array<TextureAtlas.AtlasRegion> backwardLeftFrames = walkAtlas.findRegions("backwardLeft");
 
         //Set Animations for each direction of a character walking
         forward = new Animation<TextureRegion>(WALK_FRAME_DURATION, forwardFrames, Animation.PlayMode.LOOP);
         backward = new Animation<TextureRegion>(WALK_FRAME_DURATION, backwardFrames, Animation.PlayMode.LOOP);
         left = new Animation<TextureRegion>(WALK_FRAME_DURATION, rightFrames, Animation.PlayMode.LOOP);
         right = new Animation<TextureRegion>(WALK_FRAME_DURATION, leftFrames, Animation.PlayMode.LOOP);
+        forwardRight = new Animation<TextureRegion>(WALK_FRAME_DURATION, forwardRightFrames, Animation.PlayMode.LOOP);
+        forwardLeft = new Animation<TextureRegion>(WALK_FRAME_DURATION, forwardLeftFrames, Animation.PlayMode.LOOP);
+        backwardRight = new Animation<TextureRegion>(WALK_FRAME_DURATION, backwardRightFrames, Animation.PlayMode.LOOP);
+        backwardLeft = new Animation<TextureRegion>(WALK_FRAME_DURATION, backwardLeftFrames, Animation.PlayMode.LOOP);
 
         //Send all attack frames to an arraylist
         Array<TextureAtlas.AtlasRegion> forwardAttackFrames = attackAtlas.findRegions("forward");
@@ -185,38 +197,6 @@ public abstract class GameCharacter extends Sprite {
     }
 
     /**
-     * Method to Get Speed of the Character
-     * @return - The Speed of the Character
-     */
-    public float getSpeed() {
-        return speed;
-    }
-
-    /**
-     * Method to Set Speed of the Character
-     * @param speed - The New Speed of the Character
-     */
-    public void setSpeed(float speed) {
-        this.speed = speed; //The Speed of the Character = New Set Speed
-    }
-
-    /**
-     * Method to Get Strength of the Character
-     * @return - Current Strength of the Character
-     */
-    public int getStrength() {
-        return strength;
-    }
-
-    /**
-     * Method to Set Strength of the Character
-     * @param strength - New Strength of the Character
-     */
-    public void setStrength(int strength) {
-        this.strength = strength; //The Strength of the Character = New Set Strength
-    }
-
-    /**
      * Method to see if character is dead or alive
      * @return - True if character is still alive, False if the character is dead
      */
@@ -225,35 +205,11 @@ public abstract class GameCharacter extends Sprite {
     }
 
     /**
-     * Method to set if character is dead or alive
-     * @param alive - True if character is set to be alive, False if character is set to be dead
-     */
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
-
-    /**
-     * Method to get elapsed time of character life
-     * @return - Elapsed Time The Character has been alive
-     */
-    public float getElapsed_time() {
-        return elapsed_time;
-    }
-
-    /**
      * Method to get world character is currently in
      * @return - What world character is currently in
      */
     public World getWorld() {
         return world;
-    }
-
-    /**
-     * Method to get total number of character
-     * @return - Total number of characters
-     */
-    public static int getCharacterCounter() {
-        return characterCounter;
     }
 
     /**

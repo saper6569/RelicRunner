@@ -42,7 +42,10 @@ public class Wizard extends Pathfinding {
         hasChecked = false;
         isAttacking = false;
 
-        Arrive<Vector2> arrive = new Arrive<Vector2>(this, player).setArrivalTolerance(50f).setDecelerationRadius(10);
+        maxLinearSpeed = 35;
+        maxLinearAcceleration = 500;
+
+        Arrive<Vector2> arrive = new Arrive<Vector2>(this, player).setArrivalTolerance(50f).setDecelerationRadius(20);
         this.setBehavior(arrive);
     }
 
@@ -50,15 +53,13 @@ public class Wizard extends Pathfinding {
     public void updateSprite(float dt) {
         setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
 
-        //if the wizard is within a radius of 80 of the player set it to be aggravated
-        if (getDistance(this, AbstractGameScreen.player) < 100) {
+        //if the wizard is within a radius of 60 of the player set it to be aggravated
+        if (getDistance(this, AbstractGameScreen.player) < 60) {
             isAggravated = true;
         } else {
             isAggravated = false;
         }
         checkHealth();
-
-        setRandomVelocity(dt);
 
         //if the wizard is not aggravated walk randomly
         if (!isAggravated) {
@@ -223,17 +224,10 @@ public class Wizard extends Pathfinding {
                 region = leftAttack.getKeyFrame(elapsed_time, false);
             }
             //if the wizard is moving find its walk frame using its direction
-        } else if (b2dBody.getLinearVelocity().x > 0) {
-            region = left.getKeyFrame(elapsed_time, true);
-        } else if (b2dBody.getLinearVelocity().x < 0) {
-            region = right.getKeyFrame(elapsed_time, true);
-        } else if (b2dBody.getLinearVelocity().y < 0) {
-            region = forward.getKeyFrame(elapsed_time, true);
-        } else if (b2dBody.getLinearVelocity().y > 0) {
-            region = backward.getKeyFrame(elapsed_time, true);
         }
+
         //if the wizard is staying still find its idle frame using its direction
-        else {
+        else if (b2dBody.getLinearVelocity().isZero()) {
             if (direction.equals("forward")) {
                 region = defForward;
             } else if (direction.equals("backward")) {
@@ -244,6 +238,26 @@ public class Wizard extends Pathfinding {
                 region = defRight;
             }
         }
+
+        else if (-5 <= vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) <= 5) {
+            region = backward.getKeyFrame(elapsed_time, true);
+        } else if (85 <= vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) <= 95) {
+            region = right.getKeyFrame(elapsed_time, true);
+        } else if (-95 <= vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) <= -85) {
+            region = left.getKeyFrame(elapsed_time, true);
+        } else if ((-175 >= vectorToAngle(b2dBody.getLinearVelocity()) && -180 <= vectorToAngle(b2dBody.getLinearVelocity())) || (vectorToAngle(b2dBody.getLinearVelocity()) >= 175 && 180 >= vectorToAngle(b2dBody.getLinearVelocity()))) {
+            region = forward.getKeyFrame(elapsed_time, true);
+        }
+        else if (-5 > vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) > -85) {
+            region = backwardRight.getKeyFrame(elapsed_time, true);
+        } else if (-95 > vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) > -175) {
+            region = forwardRight.getKeyFrame(elapsed_time, true);
+        } else if (95 < vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) < 175) {
+            region = forwardLeft.getKeyFrame(elapsed_time, true);
+        } else if (5 < vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) < 85) {
+            region = backwardLeft.getKeyFrame(elapsed_time, true);
+        }
+
         return region;
     }
 }

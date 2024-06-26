@@ -151,7 +151,7 @@ public class Pathfinding extends GameCharacter implements Steerable<Vector2> {
 
     @Override
     public float vectorToAngle(Vector2 vector) {
-        return (float)Math.atan2(-vector.x, vector.y);
+        return (float)Math.atan2(-vector.x, vector.y) * (float)(180/Math.PI);
     }
 
     @Override
