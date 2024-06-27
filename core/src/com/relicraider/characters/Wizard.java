@@ -18,8 +18,10 @@ public class Wizard extends Pathfinding {
     private String direction;
     private boolean isAggravated;
     private boolean isAttacking;
+    private AbstractGameScreen room;
     private boolean hasChecked;
     private float timer;
+    private Player player;
 
     /**
      * constructor for creating a wizard at a desired location
@@ -27,7 +29,7 @@ public class Wizard extends Pathfinding {
      * @param xPos - the x position of the wizard
      * @param yPos - the y position of the wizard
      */
-    public Wizard(RelicRaider game, World world, float xPos, float yPos, Player player) {
+    public Wizard(RelicRaider game, World world, float xPos, float yPos, Player player, AbstractGameScreen room) {
         super(game, 80, 0.15f, 5, "Sprites/wizardWalk.txt", "Sprites/wizardAttack.txt");
 
         this.world = world;
@@ -41,6 +43,8 @@ public class Wizard extends Pathfinding {
         timer = 0;
         hasChecked = false;
         isAttacking = false;
+        this.room = room;
+        this.player = player;
 
         maxLinearSpeed = 35;
         maxLinearAcceleration = 500;
@@ -63,12 +67,15 @@ public class Wizard extends Pathfinding {
 
         //if the wizard is not aggravated walk randomly
         if (!isAggravated) {
+            isAttacking = false;
             setRandomVelocity(dt);
             //if the wizard is aggravated either set it to walk to the player or attack the player
         } else {
-            if (isAttacking) {
+            if (b2dBody.getLinearVelocity().isZero()) {
+                isAttacking = true;
                 attack(dt);
             } else {
+                isAttacking = false;
                 if (behavior != null) {
                     behavior.calculateSteering(steeringOutput);
                     applySteering(dt);
@@ -193,15 +200,20 @@ public class Wizard extends Pathfinding {
      */
     public void attack(float dt) {
         timer += dt;
-        //attack the player once every second
-        if (!hasChecked) {
-            RelicRaider.soundPlayer.getFireBall().play();
-            hasChecked = true;
-        }
-        if (timer > 3) {
+        //attack the player once every 8 second
+        if (timer > 8) {
             hasChecked = false;
             timer = 0f;
         }
+        if (!hasChecked) {
+            RelicRaider.soundPlayer.getFireBall().play();
+            summonGoblin();
+            hasChecked = true;
+        }
+    }
+
+    public void summonGoblin() {
+        room.addCharacter(new Goblin(game, world, b2dBody.getPosition().x + 5, b2dBody.getPosition().y + 5, player));
     }
 
     /**
