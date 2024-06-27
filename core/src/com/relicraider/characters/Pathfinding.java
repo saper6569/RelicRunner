@@ -31,6 +31,18 @@ public class Pathfinding extends GameCharacter implements Steerable<Vector2> {
         this.tagged = false;
     }
 
+    public Pathfinding(RelicRaider game, int health, float speed, int strength, String walkAtlasFile, float frameDuration) {
+        super(game, health, speed, strength, walkAtlasFile, frameDuration);
+        this.radius = 10;
+
+        maxLinearSpeed = 50;
+        maxLinearAcceleration = 500;
+        maxAngularSpeed = 30;
+        maxAngularAcceleration = 5;
+
+        this.tagged = false;
+    }
+
     @Override
     public void updateSprite(float dt) {
 

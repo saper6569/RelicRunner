@@ -5,15 +5,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.relicraider.Items.HealingPotion;
 import com.relicraider.Items.Relic;
 import com.relicraider.RelicRaider;
-import com.relicraider.characters.Goblin;
-import com.relicraider.characters.Player;
-import com.relicraider.characters.Wizard;
+import com.relicraider.characters.*;
 import com.relicraider.screens.utilities.Door;
+
+import java.util.ArrayList;
 
 public class TestRoom extends AbstractGameScreen {
 
     public static boolean potionIsUsed = false;
     public static boolean relicIsFound = false;
+    public static ArrayList<GameCharacter> charactersInRoom = new ArrayList<>();
 
     /**
      * constructor for creating a test room
@@ -27,8 +28,17 @@ public class TestRoom extends AbstractGameScreen {
         Player.room = "TEST";
 
         //add all the actor to the game screen
-        Wizard wizard = new Wizard(game, world, 110, 150, player);
-        characters.add(wizard);
+        Wizard wizard = new Wizard(game, world, 110, 150, player, this);
+        Slime slime = new Slime(game, world, player.getB2dBody().getPosition().x, player.getB2dBody().getPosition().y, player);
 
+        characters.add(slime);
+        characters.add(wizard);
+        characters.add(player);
+    }
+
+    @Override
+    public void addCharacter(GameCharacter character) {
+        charactersInRoom.add(character);
+        characters.add(character);
     }
 }

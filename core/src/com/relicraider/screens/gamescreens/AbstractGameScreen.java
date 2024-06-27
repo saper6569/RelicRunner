@@ -360,6 +360,8 @@ public abstract class AbstractGameScreen implements Screen {
         stepWorld();
     }
 
+    public abstract void addCharacter(GameCharacter character);
+
     /**
      * method for resizing the screen
      *

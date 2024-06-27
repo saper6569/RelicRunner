@@ -8,15 +8,18 @@ package com.relicraider.screens.gamescreens;
 import com.relicraider.Items.HealingPotion;
 import com.relicraider.Items.Relic;
 import com.relicraider.RelicRaider;
+import com.relicraider.characters.GameCharacter;
 import com.relicraider.characters.Goblin;
 import com.relicraider.characters.Player;
 import com.relicraider.screens.utilities.Door;
+
+import java.util.ArrayList;
 
 public class Room3 extends AbstractGameScreen {
 
     public static boolean potionIsUsed = false;
     public static boolean relicIsFound = false;
-    public static Goblin[] goblins = new Goblin[7];
+    public static ArrayList<GameCharacter> charactersInRoom = new ArrayList<>();
     public static boolean hasBeenLoaded = false;
 
     /**
@@ -31,24 +34,24 @@ public class Room3 extends AbstractGameScreen {
         Player.room = "Room3";
 
         if (!hasBeenLoaded) {
-            goblins[0] = new Goblin(game, world, 62, 251, player);
-            goblins[1] = new Goblin(game, world, 194, 303, player);
-            goblins[2] = new Goblin(game, world, 326, 407, player);
-            goblins[3] = new Goblin(game, world, 394, 359, player);
-            goblins[4] = new Goblin(game, world, 330, 255, player);
-            goblins[5] = new Goblin(game, world, 402, 295, player);
-            goblins[6] = new Goblin(game, world, 187, 347, player);
+            charactersInRoom.add(new Goblin(game, world, 62, 251, player));
+            charactersInRoom.add(new Goblin(game, world, 194, 303, player));
+            charactersInRoom.add(new Goblin(game, world, 326, 407, player));
+            charactersInRoom.add(new Goblin(game, world, 394, 359, player));
+            charactersInRoom.add(new Goblin(game, world, 330, 255, player));
+            charactersInRoom.add(new Goblin(game, world, 402, 295, player));
+            charactersInRoom.add(new Goblin(game, world, 187, 347, player));
             hasBeenLoaded = true;
         } else {
-            for (int i = 0; i < goblins.length; i++) {
-                goblins[i] = new Goblin(game, world, goblins[i].getB2dBody().getPosition().x, goblins[i].getB2dBody().getPosition().y, player, goblins[i].getHealth());
+            for (int i = 0; i < charactersInRoom.size(); i++) {
+                charactersInRoom.set(i, new Goblin(game, world, charactersInRoom.get(i).getB2dBody().getPosition().x, charactersInRoom.get(i).getB2dBody().getPosition().y, player, charactersInRoom.get(i).getHealth()));
             }
         }
 
         //add all the actor to the game screen
         characters.clear();
-        for (int i = 0; i < goblins.length; i++) {
-            characters.add(goblins[i]);
+        for (int i = 0; i < charactersInRoom.size(); i++) {
+            characters.add(charactersInRoom.get(i));
         }
         characters.add(player);
 
@@ -63,6 +66,12 @@ public class Room3 extends AbstractGameScreen {
         doors.add(new Door(game, world, "room 4", 368, 466, 334, 284));
         doors.add(new Door(game, world, "room 2", 64, 210, 352, 254));
         doors.add(new Door(game, world, "room 1", 192, 434, 352, 50));
+    }
+
+    @Override
+    public void addCharacter(GameCharacter character) {
+        charactersInRoom.add(character);
+        characters.add(character);
     }
 }
 

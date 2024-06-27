@@ -28,8 +28,8 @@ public abstract class GameCharacter extends Sprite {
 
     //Counters and Constants for Animations
     protected float elapsed_time;
-    private final static float WALK_FRAME_DURATION = 0.30f;
-    private final static float ATTACK_FRAME_DURATION = 0.50f;
+    protected float walkFrameDuration = 0.30f;
+    protected float attackFrameDuration = 0.50f;
 
     //Texture objects for storing frames
     protected TextureRegion region;
@@ -98,14 +98,14 @@ public abstract class GameCharacter extends Sprite {
         Array<TextureAtlas.AtlasRegion> backwardLeftFrames = walkAtlas.findRegions("backwardLeft");
 
         //Set Animations for each direction of a character walking
-        forward = new Animation<TextureRegion>(WALK_FRAME_DURATION, forwardFrames, Animation.PlayMode.LOOP);
-        backward = new Animation<TextureRegion>(WALK_FRAME_DURATION, backwardFrames, Animation.PlayMode.LOOP);
-        left = new Animation<TextureRegion>(WALK_FRAME_DURATION, rightFrames, Animation.PlayMode.LOOP);
-        right = new Animation<TextureRegion>(WALK_FRAME_DURATION, leftFrames, Animation.PlayMode.LOOP);
-        forwardRight = new Animation<TextureRegion>(WALK_FRAME_DURATION, forwardRightFrames, Animation.PlayMode.LOOP);
-        forwardLeft = new Animation<TextureRegion>(WALK_FRAME_DURATION, forwardLeftFrames, Animation.PlayMode.LOOP);
-        backwardRight = new Animation<TextureRegion>(WALK_FRAME_DURATION, backwardRightFrames, Animation.PlayMode.LOOP);
-        backwardLeft = new Animation<TextureRegion>(WALK_FRAME_DURATION, backwardLeftFrames, Animation.PlayMode.LOOP);
+        forward = new Animation<TextureRegion>(walkFrameDuration, forwardFrames, Animation.PlayMode.LOOP);
+        backward = new Animation<TextureRegion>(walkFrameDuration, backwardFrames, Animation.PlayMode.LOOP);
+        left = new Animation<TextureRegion>(walkFrameDuration, rightFrames, Animation.PlayMode.LOOP);
+        right = new Animation<TextureRegion>(walkFrameDuration, leftFrames, Animation.PlayMode.LOOP);
+        forwardRight = new Animation<TextureRegion>(walkFrameDuration, forwardRightFrames, Animation.PlayMode.LOOP);
+        forwardLeft = new Animation<TextureRegion>(walkFrameDuration, forwardLeftFrames, Animation.PlayMode.LOOP);
+        backwardRight = new Animation<TextureRegion>(walkFrameDuration, backwardRightFrames, Animation.PlayMode.LOOP);
+        backwardLeft = new Animation<TextureRegion>(walkFrameDuration, backwardLeftFrames, Animation.PlayMode.LOOP);
 
         //Send all attack frames to an arraylist
         Array<TextureAtlas.AtlasRegion> forwardAttackFrames = attackAtlas.findRegions("forward");
@@ -114,10 +114,41 @@ public abstract class GameCharacter extends Sprite {
         Array<TextureAtlas.AtlasRegion> leftAttackFrames = attackAtlas.findRegions("left");
 
         //Set Animations for each direction of a character attacking
-        forwardAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, forwardAttackFrames, Animation.PlayMode.LOOP);
-        backwardAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, backwardAttackFrames, Animation.PlayMode.LOOP);
-        leftAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, leftAttackFrames, Animation.PlayMode.LOOP);
-        rightAttack = new Animation<TextureRegion>(ATTACK_FRAME_DURATION, rightAttackFrames, Animation.PlayMode.LOOP);
+        forwardAttack = new Animation<TextureRegion>(attackFrameDuration, forwardAttackFrames, Animation.PlayMode.LOOP);
+        backwardAttack = new Animation<TextureRegion>(attackFrameDuration, backwardAttackFrames, Animation.PlayMode.LOOP);
+        leftAttack = new Animation<TextureRegion>(attackFrameDuration, leftAttackFrames, Animation.PlayMode.LOOP);
+        rightAttack = new Animation<TextureRegion>(attackFrameDuration, rightAttackFrames, Animation.PlayMode.LOOP);
+    }
+
+    /**
+     * Primary Constructor for a character with walk animations
+     * @param health - health of the character
+     * @param speed - speed of the character
+     * @param strength - amount of damage dealt per blow
+     * @param walkAtlasFile - file location of the information for the walk animation
+     */
+    public GameCharacter(RelicRaider game, int health, float speed, int strength, String walkAtlasFile, float frameDuration) {
+        this.game = game;
+        characterCounter++; //Add one to the counter for number of characters
+        characterID = characterCounter; //The ID of the character is the current counter number
+        this.health = health;
+        this.speed = speed * SetupVariables.PPM; //Characters speed is speed multiplied by 100
+        this.strength = strength;
+        isAlive = true;
+
+        elapsed_time = 0.0f;
+        region = null;
+
+        //Set all the textures using the given texture atlas
+        walkAtlas = new TextureAtlas(walkAtlasFile);
+
+        //Send all walking frames to an arraylist
+        Array<TextureAtlas.AtlasRegion> forwardFrames = walkAtlas.findRegions("forward");
+
+        //Set Animations for each direction of a character walking
+        forward = new Animation<TextureRegion>(frameDuration, forwardFrames, Animation.PlayMode.LOOP);
+
+        setRegion(forward.getKeyFrame(0, true));
     }
 
     /**
