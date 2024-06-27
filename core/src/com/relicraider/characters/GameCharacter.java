@@ -140,11 +140,18 @@ public abstract class GameCharacter extends Sprite {
         getTexture().dispose();
     }
 
+    public void resetCharacter () {
+        b2dBody.setLinearVelocity(0, 0);
+        setRegion(defForward);
+        elapsed_time = 0.0f;
+        region = null;
+    }
+
     /**
      * method for getting the distance between 2 characters (used for pathfinding and agro)
      * @param sprite1
      * @param sprite2
-     * @return
+     * @return the distance between the 2 sprites
      */
     public double getDistance(Sprite sprite1, Sprite sprite2) {
         return Math.sqrt(Math.pow(sprite1.getX() - sprite2.getX(), 2) + Math.pow(sprite1.getY() - sprite2.getY(), 2));

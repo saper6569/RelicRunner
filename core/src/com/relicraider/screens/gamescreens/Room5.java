@@ -16,6 +16,8 @@ public class Room5 extends AbstractGameScreen {
 
     public static boolean potionIsUsed = false;
     public static boolean relicIsFound = false;
+    public static Goblin[] goblins = new Goblin[4];
+    public static boolean hasBeenLoaded = false;
 
     /**
      * constructor for creating room5
@@ -28,8 +30,6 @@ public class Room5 extends AbstractGameScreen {
 
         Player.room = "Room5";
 
-        //add all the actor to the game screen
-
         //if the player has already picked up a relic or healing potion don't draw it again
         if (!relicIsFound) {
             items.add(new Relic(world, "crystal ball", 120, 236, 5));
@@ -38,10 +38,24 @@ public class Room5 extends AbstractGameScreen {
             items.add(new HealingPotion(world, 180, 324, 5));
         }
 
-        characters.add(new Goblin(game, world, 76, 384, player));
-        characters.add(new Goblin(game, world, 167, 284, player));
-        characters.add(new Goblin(game, world, 211, 152, player));
-        characters.add(new Goblin(game, world, 78, 219, player));
+        if (!hasBeenLoaded) {
+            goblins[0] = new Goblin(game, world, 76, 384, player);
+            goblins[1] = new Goblin(game, world, 167, 284, player);
+            goblins[2] = new Goblin(game, world, 211, 152, player);
+            goblins[3] = new Goblin(game, world, 78, 219, player);
+            hasBeenLoaded = true;
+        } else {
+            for (int i = 0; i < goblins.length; i++) {
+                goblins[i] = new Goblin(game, world, goblins[i].getB2dBody().getPosition().x, goblins[i].getB2dBody().getPosition().y, player, goblins[i].getHealth());
+            }
+        }
+
+        //add all the actor to the game screen
+        characters.clear();
+        for (int i = 0; i < goblins.length; i++) {
+            characters.add(goblins[i]);
+        }
+        characters.add(player);
 
         doors.add(new Door(game, world, "room 2", 160, 450, 112, 338));
         doors.add(new Door(game, world, "room 2", 272, 226, 320, 114));

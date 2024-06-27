@@ -16,6 +16,8 @@ public class Room3 extends AbstractGameScreen {
 
     public static boolean potionIsUsed = false;
     public static boolean relicIsFound = false;
+    public static Goblin[] goblins = new Goblin[7];
+    public static boolean hasBeenLoaded = false;
 
     /**
      * constructor for creating room3
@@ -28,15 +30,27 @@ public class Room3 extends AbstractGameScreen {
 
         Player.room = "Room3";
 
-        //add all the actor to the game screen
+        if (!hasBeenLoaded) {
+            goblins[0] = new Goblin(game, world, 62, 251, player);
+            goblins[1] = new Goblin(game, world, 194, 303, player);
+            goblins[2] = new Goblin(game, world, 326, 407, player);
+            goblins[3] = new Goblin(game, world, 394, 359, player);
+            goblins[4] = new Goblin(game, world, 330, 255, player);
+            goblins[5] = new Goblin(game, world, 402, 295, player);
+            goblins[6] = new Goblin(game, world, 187, 347, player);
+            hasBeenLoaded = true;
+        } else {
+            for (int i = 0; i < goblins.length; i++) {
+                goblins[i] = new Goblin(game, world, goblins[i].getB2dBody().getPosition().x, goblins[i].getB2dBody().getPosition().y, player, goblins[i].getHealth());
+            }
+        }
 
-        characters.add(new Goblin(game, world, 62, 251, player));
-        characters.add(new Goblin(game, world, 194, 303, player));
-        characters.add(new Goblin(game, world, 326, 407, player));
-        characters.add(new Goblin(game, world, 394, 359, player));
-        characters.add(new Goblin(game, world, 330, 255, player));
-        characters.add(new Goblin(game, world, 402, 295, player));
-        characters.add(new Goblin(game, world, 187, 347, player));
+        //add all the actor to the game screen
+        characters.clear();
+        for (int i = 0; i < goblins.length; i++) {
+            characters.add(goblins[i]);
+        }
+        characters.add(player);
 
         //if the player has already picked up a relic or healing potion don't draw it again
         if (!relicIsFound) {

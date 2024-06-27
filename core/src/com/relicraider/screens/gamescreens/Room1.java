@@ -16,6 +16,8 @@ public class Room1 extends AbstractGameScreen {
 
     public static boolean potionIsUsed = false;
     public static boolean relicIsFound = false;
+    public static Goblin[] goblins = new Goblin[4];
+    public static boolean hasBeenLoaded = false;
 
     /**
      * constructor for creating room1
@@ -28,11 +30,24 @@ public class Room1 extends AbstractGameScreen {
 
         Player.room = "Room1";
 
+        if (!hasBeenLoaded) {
+            goblins[0] = new Goblin(game, world, 100, 300, player);
+            goblins[1] = new Goblin(game, world, 220, 300, player);
+            goblins[2] = new Goblin(game, world, 270, 130, player);
+            goblins[3] = new Goblin(game, world, 360, 80, player);
+            hasBeenLoaded = true;
+        } else {
+            for (int i = 0; i < goblins.length; i++) {
+                goblins[i] = new Goblin(game, world, goblins[i].getB2dBody().getPosition().x, goblins[i].getB2dBody().getPosition().y, player, goblins[i].getHealth());
+            }
+        }
+
         //add all the actor to the game screen
-        characters.add(new Goblin(game, world, 100, 300, player));
-        characters.add(new Goblin(game, world, 220, 300, player));
-        characters.add(new Goblin(game, world, 270, 130, player));
-        characters.add(new Goblin(game, world, 360, 80, player));
+        characters.clear();
+        for (int i = 0; i < goblins.length; i++) {
+            characters.add(goblins[i]);
+        }
+        characters.add(player);
 
         //if the player has already picked up a relic or healing potion don't draw it again
         if (!relicIsFound) {

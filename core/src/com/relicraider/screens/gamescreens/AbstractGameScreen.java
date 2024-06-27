@@ -41,7 +41,7 @@ import java.util.ArrayList;
 
 //Abstract Game Screen implements Screen interface
 public abstract class AbstractGameScreen implements Screen {
-//VARIABLES
+    //VARIABLES
     public static Player player;
     protected ArrayList<GameCharacter> characters;
     protected ArrayList<Item> items;
@@ -71,11 +71,12 @@ public abstract class AbstractGameScreen implements Screen {
 
     /**
      * Primary Constructor for a Game Screen
-     * @param game - Relic Raider Game Object
+     *
+     * @param game        - Relic Raider Game Object
      * @param mapLocation - What room game screen should display
      * @param objectLayer - libGDX variable to create rooms
-     * @param playerX - X position of player
-     * @param playerY - Y position of player
+     * @param playerX     - X position of player
+     * @param playerY     - Y position of player
      */
     public AbstractGameScreen(RelicRaider game, String mapLocation, int objectLayer, float playerX, float playerY) {
         this.game = game;
@@ -105,7 +106,6 @@ public abstract class AbstractGameScreen implements Screen {
 
         //Create new player, add to characters list
         player = new Player(game, world, playerX, playerY, Player.playerHealth);
-        characters.add(player);
 
         //Create new hud
         hud = new HUD(game, RelicRaider.spriteBatch, player);
@@ -257,9 +257,10 @@ public abstract class AbstractGameScreen implements Screen {
 
     /**
      * update method
+     *
      * @param dt - represents the time since last render
      */
-    public void update(float dt){
+    public void update(float dt) {
         //if the player is dead change to the game over screen
         if (!player.isAlive()) {
             RelicRaider.soundPlayer.stopMusic();
@@ -313,6 +314,7 @@ public abstract class AbstractGameScreen implements Screen {
 
     /**
      * render method for the room
+     *
      * @param delta The time in seconds since the last render.
      */
     @Override
@@ -328,7 +330,7 @@ public abstract class AbstractGameScreen implements Screen {
         mapRenderer.render();
 
         //uncomment to see hitboxes
-        //debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
 
         RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
         RelicRaider.spriteBatch.begin();
@@ -360,7 +362,8 @@ public abstract class AbstractGameScreen implements Screen {
 
     /**
      * method for resizing the screen
-     * @param width - New Width of Screen
+     *
+     * @param width  - New Width of Screen
      * @param height - New Height of Screen
      */
     @Override
@@ -393,41 +396,5 @@ public abstract class AbstractGameScreen implements Screen {
         map.dispose();
         mapRenderer.dispose();
         debugRenderer.dispose();
-    }
-
-    /**
-     *
-     * @return the tmx map loader
-     */
-    public TmxMapLoader getMapLoader() {
-        return mapLoader;
-    }
-
-    public TiledMap getMap() {
-        return map;
-    }
-
-    public OrthogonalTiledMapRenderer getMapRenderer() {
-        return mapRenderer;
-    }
-
-    public OrthographicCamera getCamera() {
-        return camera;
-    }
-
-    public FitViewport getViewport() {
-        return viewport;
-    }
-
-    public Box2DDebugRenderer getDebugRenderer() {
-        return debugRenderer;
-    }
-
-    public BodyDef getBodyDef() {
-        return bodyDef;
-    }
-
-    public Stage getStage() {
-        return stage;
     }
 }

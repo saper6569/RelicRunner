@@ -162,7 +162,7 @@ public class HUD implements Disposable {
     }
 
     /**
-     * Method to show set enter button to show what room the door goes to, set screen to the new room
+     * Method to show enter button to show what room the door goes to, set screen to the new room
      */
     private void playerIsEntering() {
         if (room.equals("room 1")) {

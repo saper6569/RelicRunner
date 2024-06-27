@@ -16,6 +16,8 @@ public class Room4 extends AbstractGameScreen {
 
     public static boolean potionIsUsed = false;
     public static boolean relicIsFound = false;
+    public static Goblin[] goblins = new Goblin[5];
+    public static boolean hasBeenLoaded = false;
 
     /**
      * constructor for creating room4
@@ -38,11 +40,25 @@ public class Room4 extends AbstractGameScreen {
             items.add(new HealingPotion(world, 90, 300, 4));
         }
 
-        characters.add(new Goblin(game, world, 390, 316, player));
-        characters.add(new Goblin(game, world, 202, 336, player));
-        characters.add(new Goblin(game, world, 58, 292, player));
-        characters.add(new Goblin(game, world, 183, 256, player));
-        characters.add(new Goblin(game, world, 198, 260, player));
+        if (!hasBeenLoaded) {
+            goblins[0] = new Goblin(game, world, 390, 316, player);
+            goblins[1] = new Goblin(game, world, 202, 336, player);
+            goblins[2] = new Goblin(game, world, 58, 292, player);
+            goblins[3] = new Goblin(game, world, 183, 256, player);
+            goblins[4] = new Goblin(game, world, 198, 260, player);
+            hasBeenLoaded = true;
+        } else {
+            for (int i = 0; i < goblins.length; i++) {
+                goblins[i] = new Goblin(game, world, goblins[i].getB2dBody().getPosition().x, goblins[i].getB2dBody().getPosition().y, player, goblins[i].getHealth());
+            }
+        }
+
+        //add all the actor to the game screen
+        characters.clear();
+        for (int i = 0; i < goblins.length; i++) {
+            characters.add(goblins[i]);
+        }
+        characters.add(player);
 
         doors.add(new Door(game, world, "room 3", 336, 274, 368, 456));
         doors.add(new Door(game, world, "room 6", 176, 434, 368, 50));

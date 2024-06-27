@@ -96,21 +96,27 @@ public class GameOverScreen implements Screen {
 
         Room1.relicIsFound = false;
         Room1.potionIsUsed = false;
+        Room1.hasBeenLoaded = false;
 
         Room2.relicIsFound = false;
         Room2.potionIsUsed = false;
+        Room2.hasBeenLoaded = false;
 
         Room3.relicIsFound = false;
         Room3.potionIsUsed = false;
+        Room3.hasBeenLoaded = false;
 
         Room4.relicIsFound = false;
         Room4.potionIsUsed = false;
+        Room4.hasBeenLoaded = false;
 
         Room5.relicIsFound = false;
         Room5.potionIsUsed = false;
+        Room5.hasBeenLoaded = false;
 
         Room6.relicIsFound = false;
         Room6.potionIsUsed = false;
+        Room6.hasBeenLoaded = false;
     }
 
     public void show() {

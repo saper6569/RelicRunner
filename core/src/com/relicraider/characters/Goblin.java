@@ -56,6 +56,35 @@ public class Goblin extends Pathfinding {
     }
 
     /**
+     * constructor for creating a goblin at a desired location with desired health
+     * @param world - the physics world
+     * @param xPos - the x position of the goblin
+     * @param yPos - the y position of the goblin
+     */
+    public Goblin(RelicRaider game, World world, float xPos, float yPos, Player player, int health) {
+        super(game, 80, 0.15f, 5, "Sprites/goblinWalk.txt", "Sprites/goblinAttack.txt");
+
+        this.world = world;
+        defineBody(xPos, yPos);
+        b2dBody.setLinearDamping(10f);
+        setBounds(0, 0, 32, 32);
+
+        direction = "forward";
+        isAggravated = false;
+        isStopped = false;
+        timer = 0;
+        hasChecked = false;
+        isAttacking = false;
+        this.health = health;
+
+        maxLinearSpeed = 35;
+        maxLinearAcceleration = 500;
+
+        Arrive<Vector2> arrive = new Arrive<Vector2>(this, player).setArrivalTolerance(5f).setDecelerationRadius(1);
+        this.setBehavior(arrive);
+    }
+
+    /**
      * method for updating the goblins
      * @param dt - time since last render
      */
@@ -277,6 +306,16 @@ public class Goblin extends Pathfinding {
         }
 
         return region;
+    }
+
+    public void resetGoblin() {
+        super.resetCharacter();
+        direction = "forward";
+        isAggravated = false;
+        isStopped = false;
+        timer = 0;
+        hasChecked = false;
+        isAttacking = false;
     }
 
     /**
