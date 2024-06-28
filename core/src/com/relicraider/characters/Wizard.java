@@ -31,7 +31,7 @@ public class Wizard extends Pathfinding {
      * @param yPos - the y position of the wizard
      */
     public Wizard(RelicRaider game, World world, float xPos, float yPos, Player player, AbstractGameScreen room) {
-        super(game, 100, 0.15f, 5, "Sprites/wizardWalk.txt", "Sprites/wizardAttack.txt");
+        super(game, 150, 0.2f, 5, "Sprites/wizardWalk.txt", "Sprites/wizardAttack.txt");
 
         this.world = world;
         defineBody(xPos, yPos);
@@ -201,18 +201,18 @@ public class Wizard extends Pathfinding {
      */
     public void attack(float dt) {
         timer += dt;
-        //attack the player once every 3 second
-        if (timer > 3) {
+        //attack the player once every 2 second
+        if (timer > 2) {
             hasChecked = false;
             timer = 0f;
         }
         if (!hasChecked) {
             int random = ((int) (Math.random() * 6));
             if (random == 1) {
-                //summonGoblin();
+                summonGoblin();
             } else if (random == 2 || random == 3) {
                 summonFireBall();
-                timer = 2.5f;
+                timer = 1.5f;
             } else {
                 summonFireBall();
             }

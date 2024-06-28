@@ -92,31 +92,38 @@ public class GameOverScreen implements Screen {
     public void resetGame() {
         RelicRaider.soundPlayer.stopMusic();
         Player.playerHealth = 100;
+        AbstractGameScreen.player.setHealth(100);
         Player.resetRelicsCollected();
 
         Room1.relicIsFound = false;
         Room1.potionIsUsed = false;
         Room1.hasBeenLoaded = false;
+        Room1.charactersInRoom.clear();
 
         Room2.relicIsFound = false;
         Room2.potionIsUsed = false;
         Room2.hasBeenLoaded = false;
+        Room2.charactersInRoom.clear();
 
         Room3.relicIsFound = false;
         Room3.potionIsUsed = false;
         Room3.hasBeenLoaded = false;
+        Room3.charactersInRoom.clear();
 
         Room4.relicIsFound = false;
         Room4.potionIsUsed = false;
         Room4.hasBeenLoaded = false;
+        Room4.charactersInRoom.clear();
 
         Room5.relicIsFound = false;
         Room5.potionIsUsed = false;
         Room5.hasBeenLoaded = false;
+        Room5.charactersInRoom.clear();
 
         Room6.relicIsFound = false;
         Room6.potionIsUsed = false;
         Room6.hasBeenLoaded = false;
+        Room6.charactersInRoom.clear();
     }
 
     public void show() {

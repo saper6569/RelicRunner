@@ -46,6 +46,7 @@ public class SoundPlayer {
         song1.stop();
         song2.stop();
         song3.stop();
+        footsteps.stop();
     }
 
     public void playGameMusic () {
