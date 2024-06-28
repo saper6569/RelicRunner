@@ -227,7 +227,7 @@ public class Wizard extends Pathfinding {
     }
 
     public void summonFireBall() {
-        room.addItem(new FireBall(world, b2dBody.getPosition().x, b2dBody.getPosition().y));
+        room.addItem(new FireBall(world, b2dBody.getPosition().x, b2dBody.getPosition().y + 3));
     }
 
     /**

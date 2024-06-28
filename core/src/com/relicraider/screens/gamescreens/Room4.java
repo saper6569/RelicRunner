@@ -66,7 +66,7 @@ public class Room4 extends AbstractGameScreen {
         characters.add(player);
 
         doors.add(new Door(game, world, "room 3", 336, 274, 368, 456));
-        doors.add(new Door(game, world, "room 6", 176, 434, 368, 50));
+        doors.add(new Door(game, world, "room 6", 176, 434, 368, 60));
         doors.add(new Door(game, world, "room 1", 96, 226, 272, 168));
     }
 
