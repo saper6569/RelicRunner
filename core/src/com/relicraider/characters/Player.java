@@ -168,7 +168,7 @@ public class Player extends GameCharacter implements Steerable<Vector2> {
 
         //when the user presses the left button attack any characters that are in contact every 1 second
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            System.out.println(b2dBody.getPosition().x + ", " + b2dBody.getPosition().y);
+            //System.out.println(b2dBody.getPosition().x + ", " + b2dBody.getPosition().y);
             RelicRaider.soundPlayer.getFootsteps().pause();
             isBlocking = false;
             if (canAttack) {

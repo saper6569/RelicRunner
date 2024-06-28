@@ -17,7 +17,7 @@ public class FireBall extends Item {
         this.world = world;
         defineBody(xPos, yPos);
         setBounds(0, 0, 16, 16);
-        angle = (float) Math.atan((yPos - AbstractGameScreen.player.getPosition().y) / (xPos - AbstractGameScreen.player.getB2dBody().getPosition().x) * (float)(180/Math.PI));
+        angle = (float) Math.atan((yPos - AbstractGameScreen.player.getPosition().y) / (xPos - AbstractGameScreen.player.getB2dBody().getPosition().x)) * (float)(180/Math.PI);
         this.rotate(-angle);
         float speed = 3f;
         b2dBody.setLinearVelocity((float)-(Math.sqrt(speed) * (xPos - AbstractGameScreen.player.getPosition().x))/speed, (float)-(Math.sqrt(speed) * (yPos - AbstractGameScreen.player.getPosition().y))/speed);

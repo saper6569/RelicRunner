@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -51,6 +52,10 @@ public abstract class GameCharacter extends Sprite {
     protected Animation<TextureRegion> backwardAttack;
     protected Animation<TextureRegion> leftAttack;
     protected Animation<TextureRegion> rightAttack;
+    protected Animation<TextureRegion> forwardRightAttack;
+    protected Animation<TextureRegion> backwardRightAttack;
+    protected Animation<TextureRegion> forwardLeftAttack;
+    protected Animation<TextureRegion> backwardLeftAttack;
 
     //Physics objects
     protected World world;
@@ -112,12 +117,20 @@ public abstract class GameCharacter extends Sprite {
         Array<TextureAtlas.AtlasRegion> backwardAttackFrames = attackAtlas.findRegions("backward");
         Array<TextureAtlas.AtlasRegion> rightAttackFrames = attackAtlas.findRegions("right");
         Array<TextureAtlas.AtlasRegion> leftAttackFrames = attackAtlas.findRegions("left");
+        Array<TextureAtlas.AtlasRegion> forwardLeftAttackFrames = attackAtlas.findRegions("forwardLeft");
+        Array<TextureAtlas.AtlasRegion> backwardLeftAttackFrames = attackAtlas.findRegions("backwardLeft");
+        Array<TextureAtlas.AtlasRegion> forwardRightAttackFrames = attackAtlas.findRegions("forwardRight");
+        Array<TextureAtlas.AtlasRegion> backwardRightAttackFrames = attackAtlas.findRegions("backwardRight");
 
         //Set Animations for each direction of a character attacking
         forwardAttack = new Animation<TextureRegion>(attackFrameDuration, forwardAttackFrames, Animation.PlayMode.LOOP);
         backwardAttack = new Animation<TextureRegion>(attackFrameDuration, backwardAttackFrames, Animation.PlayMode.LOOP);
         leftAttack = new Animation<TextureRegion>(attackFrameDuration, leftAttackFrames, Animation.PlayMode.LOOP);
         rightAttack = new Animation<TextureRegion>(attackFrameDuration, rightAttackFrames, Animation.PlayMode.LOOP);
+        forwardRightAttack = new Animation<TextureRegion>(attackFrameDuration, forwardRightAttackFrames, Animation.PlayMode.LOOP);
+        backwardRightAttack = new Animation<TextureRegion>(attackFrameDuration, backwardRightAttackFrames, Animation.PlayMode.LOOP);
+        forwardLeftAttack = new Animation<TextureRegion>(attackFrameDuration, forwardLeftAttackFrames, Animation.PlayMode.LOOP);
+        backwardLeftAttack = new Animation<TextureRegion>(attackFrameDuration, backwardLeftAttackFrames, Animation.PlayMode.LOOP);
     }
 
     /**
@@ -176,6 +189,10 @@ public abstract class GameCharacter extends Sprite {
         setRegion(defForward);
         elapsed_time = 0.0f;
         region = null;
+    }
+
+    public float vectorToAngle(Vector2 vector) {
+        return (float)Math.atan2(-vector.x, vector.y) * (float)(180/Math.PI);
     }
 
     /**

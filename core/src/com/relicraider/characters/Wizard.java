@@ -72,7 +72,7 @@ public class Wizard extends Pathfinding {
             setRandomVelocity(dt);
             //if the wizard is aggravated either set it to walk to the player or attack the player
         } else {
-            if (b2dBody.getLinearVelocity().isZero()) {
+            if (b2dBody.getLinearVelocity().isZero() && isAggravated) {
                 isAttacking = true;
                 attack(dt);
             } else {
@@ -209,7 +209,7 @@ public class Wizard extends Pathfinding {
         if (!hasChecked) {
             int random = ((int) (Math.random() * 6));
             if (random == 1) {
-                summonGoblin();
+                //summonGoblin();
             } else if (random == 2 || random == 3) {
                 summonFireBall();
                 timer = 2.5f;
@@ -240,16 +240,24 @@ public class Wizard extends Pathfinding {
 
         //if the wizard is attacking find its attack frame using its direction
         if (isAttacking) {
-            if (direction.equals("forward")) {
+            float angle = (float)Math.atan2(-(b2dBody.getPosition().x - AbstractGameScreen.player.getPosition().x), b2dBody.getPosition().y - AbstractGameScreen.player.getPosition().y) * (float)(180/Math.PI);
+            if (-5 <= angle && angle <= 5) {
                 region = forwardAttack.getKeyFrame(elapsed_time, false);
-            } else if (direction.equals("backward")) {
-                region = backwardAttack.getKeyFrame(elapsed_time, false);
-            } else if (direction.equals("right")) {
+            } else if (85 <= angle && angle <= 95) {
                 region = rightAttack.getKeyFrame(elapsed_time, false);
-            } else {
+            } else if (-95 <= angle && angle <= -85) {
                 region = leftAttack.getKeyFrame(elapsed_time, false);
+            } else if (-5 > angle && angle > -85) {
+                region = forwardLeftAttack.getKeyFrame(elapsed_time, false);
+            } else if (-95 > angle && angle > -175) {
+                region = backwardLeftAttack.getKeyFrame(elapsed_time, false);
+            } else if (95 < angle && angle < 175) {
+                region = backwardRightAttack.getKeyFrame(elapsed_time, false);
+            } else if (5 < angle && angle < 85) {
+                region = forwardRightAttack.getKeyFrame(elapsed_time, false);
+            } else {
+                region = backwardAttack.getKeyFrame(elapsed_time, false);
             }
-            //if the wizard is moving find its walk frame using its direction
         }
 
         //if the wizard is staying still find its idle frame using its direction
@@ -271,10 +279,7 @@ public class Wizard extends Pathfinding {
             region = right.getKeyFrame(elapsed_time, true);
         } else if (-95 <= vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) <= -85) {
             region = left.getKeyFrame(elapsed_time, true);
-        } else if ((-175 >= vectorToAngle(b2dBody.getLinearVelocity()) && -180 <= vectorToAngle(b2dBody.getLinearVelocity())) || (vectorToAngle(b2dBody.getLinearVelocity()) >= 175 && 180 >= vectorToAngle(b2dBody.getLinearVelocity()))) {
-            region = forward.getKeyFrame(elapsed_time, true);
-        }
-        else if (-5 > vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) > -85) {
+        } else if (-5 > vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) > -85) {
             region = backwardRight.getKeyFrame(elapsed_time, true);
         } else if (-95 > vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) > -175) {
             region = forwardRight.getKeyFrame(elapsed_time, true);
@@ -282,6 +287,8 @@ public class Wizard extends Pathfinding {
             region = forwardLeft.getKeyFrame(elapsed_time, true);
         } else if (5 < vectorToAngle(b2dBody.getLinearVelocity()) && vectorToAngle(b2dBody.getLinearVelocity()) < 85) {
             region = backwardLeft.getKeyFrame(elapsed_time, true);
+        } else{
+            region = forward.getKeyFrame(elapsed_time, true);
         }
 
         return region;

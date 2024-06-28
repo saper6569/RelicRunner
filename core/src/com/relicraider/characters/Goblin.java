@@ -261,16 +261,24 @@ public class Goblin extends Pathfinding {
 
         //if the goblin is attacking find its attack frame using its direction
         if (isAttacking) {
-            if (direction.equals("forward")) {
+            float angle = (float)Math.atan2(-(b2dBody.getPosition().x - AbstractGameScreen.player.getPosition().x), b2dBody.getPosition().y - AbstractGameScreen.player.getPosition().y) * (float)(180/Math.PI);
+            if (-5 <= angle && angle <= 5) {
                 region = forwardAttack.getKeyFrame(elapsed_time, false);
-            } else if (direction.equals("backward")) {
-                region = backwardAttack.getKeyFrame(elapsed_time, false);
-            } else if (direction.equals("right")) {
+            } else if (85 <= angle && angle <= 95) {
                 region = rightAttack.getKeyFrame(elapsed_time, false);
-            } else {
+            } else if (-95 <= angle && angle <= -85) {
                 region = leftAttack.getKeyFrame(elapsed_time, false);
+            } else if (-5 > angle && angle > -85) {
+                region = forwardLeftAttack.getKeyFrame(elapsed_time, false);
+            } else if (-95 > angle && angle > -175) {
+                region = backwardLeftAttack.getKeyFrame(elapsed_time, false);
+            } else if (95 < angle && angle < 175) {
+                region = backwardRightAttack.getKeyFrame(elapsed_time, false);
+            } else if (5 < angle && angle < 85) {
+                region = forwardRightAttack.getKeyFrame(elapsed_time, false);
+            } else {
+                region = backwardAttack.getKeyFrame(elapsed_time, false);
             }
-            //if the goblin is moving find its walk frame using its direction
         }
 
         //if the goblin is staying still find its idle frame using its direction
@@ -332,5 +340,9 @@ public class Goblin extends Pathfinding {
      */
     public void setCollided(boolean collided) {
         isCollided = collided;
+    }
+
+    private float getAngle() {
+        return (float) Math.atan((b2dBody.getPosition().y - AbstractGameScreen.player.getPosition().y) / (b2dBody.getPosition().x - AbstractGameScreen.player.getB2dBody().getPosition().x)) * (float)(180/Math.PI);
     }
 }
