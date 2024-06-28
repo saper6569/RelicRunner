@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.relicraider.Items.FireBall;
 import com.relicraider.RelicRaider;
 import com.relicraider.SetupVariables;
 import com.relicraider.screens.gamescreens.AbstractGameScreen;
@@ -30,7 +31,7 @@ public class Wizard extends Pathfinding {
      * @param yPos - the y position of the wizard
      */
     public Wizard(RelicRaider game, World world, float xPos, float yPos, Player player, AbstractGameScreen room) {
-        super(game, 80, 0.15f, 5, "Sprites/wizardWalk.txt", "Sprites/wizardAttack.txt");
+        super(game, 100, 0.15f, 5, "Sprites/wizardWalk.txt", "Sprites/wizardAttack.txt");
 
         this.world = world;
         defineBody(xPos, yPos);
@@ -58,7 +59,7 @@ public class Wizard extends Pathfinding {
         setPosition(b2dBody.getPosition().x - getWidth() / 2, (b2dBody.getPosition().y - getHeight() / 2) - 3);
 
         //if the wizard is within a radius of 60 of the player set it to be aggravated
-        if (getDistance(this, AbstractGameScreen.player) < 60) {
+        if (getDistance(this, AbstractGameScreen.player) < 80) {
             isAggravated = true;
         } else {
             isAggravated = false;
@@ -200,20 +201,33 @@ public class Wizard extends Pathfinding {
      */
     public void attack(float dt) {
         timer += dt;
-        //attack the player once every 8 second
-        if (timer > 8) {
+        //attack the player once every 3 second
+        if (timer > 3) {
             hasChecked = false;
             timer = 0f;
         }
         if (!hasChecked) {
+            int random = ((int) (Math.random() * 6));
+            if (random == 1) {
+                summonGoblin();
+            } else if (random == 2 || random == 3) {
+                summonFireBall();
+                timer = 2.5f;
+            } else {
+                summonFireBall();
+            }
             RelicRaider.soundPlayer.getFireBall().play();
-            summonGoblin();
+
             hasChecked = true;
         }
     }
 
     public void summonGoblin() {
         room.addCharacter(new Goblin(game, world, b2dBody.getPosition().x + 5, b2dBody.getPosition().y + 5, player));
+    }
+
+    public void summonFireBall() {
+        room.addItem(new FireBall(world, b2dBody.getPosition().x, b2dBody.getPosition().y));
     }
 
     /**

@@ -8,9 +8,7 @@ package com.relicraider.screens.gamescreens;
 import com.relicraider.Items.HealingPotion;
 import com.relicraider.Items.Relic;
 import com.relicraider.RelicRaider;
-import com.relicraider.characters.GameCharacter;
-import com.relicraider.characters.Goblin;
-import com.relicraider.characters.Player;
+import com.relicraider.characters.*;
 import com.relicraider.screens.utilities.Door;
 
 import java.util.ArrayList;
@@ -35,9 +33,9 @@ public class Room1 extends AbstractGameScreen {
 
         if (!hasBeenLoaded) {
             charactersInRoom.add(new Goblin(game, world, 100, 300, player));
-            charactersInRoom.add(new Goblin(game, world, 220, 300, player));
             charactersInRoom.add(new Goblin(game, world, 270, 130, player));
             charactersInRoom.add(new Goblin(game, world, 360, 80, player));
+            charactersInRoom.add(new Wizard(game, world, 150, 93, player, this));
             hasBeenLoaded = true;
         } else {
             for (int i = 0; i < charactersInRoom.size(); i++) {
@@ -47,9 +45,13 @@ public class Room1 extends AbstractGameScreen {
 
         //add all the actor to the game screen
         characters.clear();
+        Slime slime = new Slime(game, world, player.getB2dBody().getPosition().x, player.getB2dBody().getPosition().y, player);
+
+        characters.add(slime);
         for (int i = 0; i < charactersInRoom.size(); i++) {
             characters.add(charactersInRoom.get(i));
         }
+
         characters.add(player);
 
         //if the player has already picked up a relic or healing potion don't draw it again

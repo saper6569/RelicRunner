@@ -136,7 +136,7 @@ public class Goblin extends Pathfinding {
 
         //set the goblin to only collide with the world and the player
         fixtureDef.filter.categoryBits = SetupVariables.BIT_WORLD;
-        fixtureDef.filter.maskBits = SetupVariables.BIT_PLAYER | SetupVariables.BIT_WORLD;
+        fixtureDef.filter.maskBits = SetupVariables.BIT_PLAYER | SetupVariables.BIT_WORLD | SetupVariables.BIT_FIREBALL;
 
         //attach the class information to the body
         b2dBody.createFixture(fixtureDef).setUserData(this);

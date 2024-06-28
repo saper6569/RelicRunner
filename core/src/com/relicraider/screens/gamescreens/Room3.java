@@ -8,9 +8,7 @@ package com.relicraider.screens.gamescreens;
 import com.relicraider.Items.HealingPotion;
 import com.relicraider.Items.Relic;
 import com.relicraider.RelicRaider;
-import com.relicraider.characters.GameCharacter;
-import com.relicraider.characters.Goblin;
-import com.relicraider.characters.Player;
+import com.relicraider.characters.*;
 import com.relicraider.screens.utilities.Door;
 
 import java.util.ArrayList;
@@ -34,10 +32,10 @@ public class Room3 extends AbstractGameScreen {
         Player.room = "Room3";
 
         if (!hasBeenLoaded) {
-            charactersInRoom.add(new Goblin(game, world, 62, 251, player));
+            charactersInRoom.add(new Wizard(game, world, 80, 270, player, this));
             charactersInRoom.add(new Goblin(game, world, 194, 303, player));
             charactersInRoom.add(new Goblin(game, world, 326, 407, player));
-            charactersInRoom.add(new Goblin(game, world, 394, 359, player));
+            charactersInRoom.add(new Wizard(game, world, 394, 359, player, this));
             charactersInRoom.add(new Goblin(game, world, 330, 255, player));
             charactersInRoom.add(new Goblin(game, world, 402, 295, player));
             charactersInRoom.add(new Goblin(game, world, 187, 347, player));
@@ -50,6 +48,9 @@ public class Room3 extends AbstractGameScreen {
 
         //add all the actor to the game screen
         characters.clear();
+        Slime slime = new Slime(game, world, player.getB2dBody().getPosition().x, player.getB2dBody().getPosition().y, player);
+
+        characters.add(slime);
         for (int i = 0; i < charactersInRoom.size(); i++) {
             characters.add(charactersInRoom.get(i));
         }

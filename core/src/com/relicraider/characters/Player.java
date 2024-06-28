@@ -132,13 +132,13 @@ public class Player extends GameCharacter implements Steerable<Vector2> {
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(6, 8);
+        polygonShape.setAsBox(7, 8);
 
         fixtureDef.shape = polygonShape;
 
         //set the player to only collide with the world, items and te doors
         fixtureDef.filter.categoryBits = SetupVariables.BIT_PLAYER;
-        fixtureDef.filter.maskBits = SetupVariables.BIT_ITEM | SetupVariables.BIT_WORLD | SetupVariables.BIT_DOOR;
+        fixtureDef.filter.maskBits = SetupVariables.BIT_ITEM | SetupVariables.BIT_WORLD | SetupVariables.BIT_DOOR | SetupVariables.BIT_FIREBALL;
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }
 
@@ -168,6 +168,7 @@ public class Player extends GameCharacter implements Steerable<Vector2> {
 
         //when the user presses the left button attack any characters that are in contact every 1 second
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            System.out.println(b2dBody.getPosition().x + ", " + b2dBody.getPosition().y);
             RelicRaider.soundPlayer.getFootsteps().pause();
             isBlocking = false;
             if (canAttack) {

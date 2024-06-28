@@ -97,12 +97,4 @@ public class HealingPotion extends Item {
         fixtureDef.filter.categoryBits = SetupVariables.BIT_ITEM;
         b2dBody.createFixture(fixtureDef).setUserData(this);
     }
-
-    /**
-     * getter for the room number
-     * @return the room that the potion is in
-     */
-    public int getRoomNumber() {
-        return roomNumber;
-    }
 }

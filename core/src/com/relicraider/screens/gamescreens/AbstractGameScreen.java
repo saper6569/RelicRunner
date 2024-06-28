@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.relicraider.Items.FireBall;
 import com.relicraider.Items.HealingPotion;
 import com.relicraider.Items.Item;
 import com.relicraider.RelicRaider;
@@ -116,7 +117,7 @@ public abstract class AbstractGameScreen implements Screen {
         PolygonShape shape = new PolygonShape();
         FixtureDef fDef = new FixtureDef();
         fDef.filter.categoryBits = SetupVariables.BIT_WORLD;
-        fDef.filter.maskBits = SetupVariables.BIT_PLAYER | SetupVariables.BIT_WORLD;
+        fDef.filter.maskBits = SetupVariables.BIT_PLAYER | SetupVariables.BIT_WORLD | SetupVariables.BIT_FIREBALL;
         Body body;
 
 //WALLS
@@ -150,10 +151,18 @@ public abstract class AbstractGameScreen implements Screen {
                 Fixture fixtureB = contact.getFixtureB();
 
                 //handles item pickups
-                if (fixtureA.getUserData() instanceof Item) {
+                if (fixtureA.getUserData() instanceof Item && fixtureB.getUserData() instanceof Player) {
                     ((Item) fixtureA.getUserData()).itemIsPickedUp();
-                } else if (fixtureB.getUserData() instanceof Item) {
+                } else if (fixtureB.getUserData() instanceof Item && fixtureA.getUserData() instanceof Player) {
                     ((Item) fixtureB.getUserData()).itemIsPickedUp();
+                } else if (fixtureA.getUserData() instanceof FireBall && fixtureB.getUserData() instanceof Goblin) {
+                    ((FireBall) fixtureA.getUserData()).collide((GameCharacter) fixtureB.getUserData());
+                } else if (fixtureB.getUserData() instanceof FireBall && fixtureA.getUserData() instanceof Goblin) {
+                    ((FireBall) fixtureB.getUserData()).collide((GameCharacter) fixtureA.getUserData());
+                } else if (fixtureA.getUserData() instanceof FireBall && !(fixtureB.getUserData() instanceof GameCharacter)) {
+                    ((FireBall) fixtureA.getUserData()).collide();
+                } else if (fixtureB.getUserData() instanceof FireBall && !(fixtureA.getUserData() instanceof GameCharacter)) {
+                    ((FireBall) fixtureB.getUserData()).collide();
                 }
 
                 //handles when a goblin collisions
@@ -330,7 +339,7 @@ public abstract class AbstractGameScreen implements Screen {
         mapRenderer.render();
 
         //uncomment to see hitboxes
-        debugRenderer.render(world, camera.combined);
+        //debugRenderer.render(world, camera.combined);
 
         RelicRaider.spriteBatch.setProjectionMatrix(camera.combined);
         RelicRaider.spriteBatch.begin();
@@ -361,6 +370,9 @@ public abstract class AbstractGameScreen implements Screen {
     }
 
     public abstract void addCharacter(GameCharacter character);
+    public void addItem (Item item) {
+        items.add(item);
+    }
 
     /**
      * method for resizing the screen

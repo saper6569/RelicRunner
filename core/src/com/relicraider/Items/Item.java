@@ -15,9 +15,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 public abstract class Item extends Sprite {
-    private static int itemCounter;
-    private int itemID;
-    String itemName;
+    protected static int itemCounter;
+    protected int itemID;
+    protected String itemName;
     boolean isPickedUp;
     protected float elapsed_time;
     private final static float FRAME_DURATION = 0.30f;
@@ -51,6 +51,22 @@ public abstract class Item extends Sprite {
         setRegion(image);
     }
 
+    public Item(String atlasFile, String atlasRegion, boolean placeHolder) {
+        this.itemName = itemName;
+        itemCounter++;
+        itemID = itemCounter;
+        isPickedUp = false;
+
+        elapsed_time = 0.0f;
+        region = null;
+
+        atlas = new TextureAtlas(atlasFile);
+        Array<TextureAtlas.AtlasRegion> region = atlas.findRegions("00");
+        animation = new Animation<TextureRegion>(FRAME_DURATION, region, Animation.PlayMode.LOOP);
+        image = new TextureRegion(animation.getKeyFrame(0));
+        setRegion(image);
+    }
+
     /**
      * constructor for an item without an animation
      * @param itemName - name of the item
@@ -80,7 +96,7 @@ public abstract class Item extends Sprite {
     public abstract void defineBody(float xPos, float yPos);
 
     /**
-     * method for getting a frame from an itme
+     * method for getting a frame from a time
      * @param dt - time since last render
      * @return the texture region of the animation that should be drawn next
      */

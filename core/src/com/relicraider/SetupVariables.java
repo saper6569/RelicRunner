@@ -18,4 +18,5 @@ public class SetupVariables extends ApplicationAdapter {
     public static final short BIT_ITEM = 2;
     public static final short BIT_WORLD = 4;
     public static final short BIT_DOOR = 16;
+    public static final short BIT_FIREBALL = 32;
 }
